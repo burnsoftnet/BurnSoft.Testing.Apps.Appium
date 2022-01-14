@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedMember.Global
@@ -12,7 +14,7 @@ namespace BurnSoft.Testing.Apps.Appium
     /// in the selenium helper library, this will be the main class in case there are other special classes that need to be created to have it work with
     /// other OS's or application types, etc.
     /// </summary>
-    public class GeneralActions
+    public class GeneralActions : IDisposable
     {
         #region "Private Variables"        
         /// <summary>
@@ -120,17 +122,11 @@ namespace BurnSoft.Testing.Apps.Appium
         public List<string> ErrorLists { get; set; }
 
         #endregion
-
         #region "Exception Error Handling"        
         /// <summary>
         /// The class location
         /// </summary>
         private static string _classLocation = "BurnSoft.Testing.Apps.Appium.GeneralActions";
-
-        public GeneralActions(WindowsDriver<WindowsElement> desktopSession)
-        {
-            DesktopSession = desktopSession;
-        }
 
         /// <summary>
         /// Errors the message for regular Exceptions
@@ -169,6 +165,101 @@ namespace BurnSoft.Testing.Apps.Appium
         private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
         #endregion
         //End Snippet
+        #region "Private init and cleanup functions"
+        private void AddError(string error)
+        {
+            if (ErrorLists == null) ErrorLists = new List<string>();
+            ErrorLists.Add(error);
+        }
+        private void StartWinAppDriver()
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(WinAppDriverPath);
+                psi.UseShellExecute = true;
+                psi.Verb = "runas"; // run as administrator
+                _winAppDriverProcess = Process.Start(psi);
+            }
+            catch (Exception e)
+            {
+                AddError(ErrorMessage("StartWinAppDriver", e));
+            }
+        }
+        private void StopWinappDriver()
+        {
+            // Stop the WinAppDriverProcess
+            if (_winAppDriverProcess != null)
+            {
+                foreach (var process in Process.GetProcessesByName("WinAppDriver"))
+                {
+                    process.Kill();
+                }
+            }
+        }
+        #endregion
+        #region "Public Initalization and cleanup function"
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
+        /// </summary>
+        /// <param name="desktopSession">The desktop session.</param>
+        public GeneralActions(WindowsDriver<WindowsElement> desktopSession)
+        {
+            DesktopSession = desktopSession;
+            ErrorLists = new List<string>();
+        }
+        public GeneralActions()
+        {
+            ErrorLists = new List<string>();
+        }
+
+        public void Dispose()
+        {
+            if (AppSession != null)
+            {
+                AppSession.Close();
+                AppSession.Quit();
+            }
+            // Close the desktopSession
+            if (DesktopSession != null)
+            {
+                DesktopSession.Close();
+                DesktopSession.Quit();
+            }
+
+            StopWinappDriver();
+        }
+
+        public void Inititalize()
+        {
+            try
+            {
+                _deviceName = Dns.GetHostName();
+                StartWinAppDriver();
+                var appiumOptions = new AppiumOptions();
+                appiumOptions.AddAdditionalCapability("app", ApplicationPath);
+                appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
+                appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", _waitForAppLaunch);
+                this.AppSession = new WindowsDriver<WindowsElement>(new Uri(_windowsApplicationDriverUrl), appiumOptions);
+
+                if (AppSession == null) throw new Exception("AppSession is null, check your settings");
+                if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
+
+                AppSession.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
+                AppiumOptions optionsDesktop = new AppiumOptions();
+                optionsDesktop.AddAdditionalCapability("app", "Root");
+                optionsDesktop.AddAdditionalCapability("deviceName", _deviceName);
+                DesktopSession = new WindowsDriver<WindowsElement>(new Uri(_windowsApplicationDriverUrl), optionsDesktop);
+
+                if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
+                _initPassed = true;
+            }
+            catch (Exception e)
+            {
+                _initPassed = false;
+                AddError(ErrorMessage("Inititalize", e));
+            }
+        }
+        #endregion
 
     }
 }
