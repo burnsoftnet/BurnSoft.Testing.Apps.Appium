@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSoft.Testing.Apps.Appium", "BurnSoft.Testing.Apps.Appium\BurnSoft.Testing.Apps.Appium.csproj", "{E68E5B58-49C2-4F7B-90C4-B262537F11EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E68E5B58-49C2-4F7B-90C4-B262537F11EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68E5B58-49C2-4F7B-90C4-B262537F11EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E68E5B58-49C2-4F7B-90C4-B262537F11EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E68E5B58-49C2-4F7B-90C4-B262537F11EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5280A34A-44A1-4426-A9C5-6625C7F8E9C5}
+	EndGlobalSection
+EndGlobal
