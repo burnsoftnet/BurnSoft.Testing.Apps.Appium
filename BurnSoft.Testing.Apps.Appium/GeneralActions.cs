@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -16,6 +19,12 @@ namespace BurnSoft.Testing.Apps.Appium
         #region "Private Variables"
         private string _windowsApplicationDriverUrl;
         private string _WinAppDriverPath;
+        private string DeviceName = "";
+        private int _WaitForAppLaunch;
+        private bool InitPassed;
+        private static Process _winAppDriverProcess;
+        public WindowsDriver<WindowsElement> AppSession { get; private set; }
+        public WindowsDriver<WindowsElement> DesktopSession { get; private set; }
         #endregion
         #region "Public Variables"
         /// <summary>
@@ -54,6 +63,22 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             set => _WinAppDriverPath = value;
         }
+
+        public int WaitForAppLaunch
+        {
+            get
+            {
+                if (_WaitForAppLaunch ==0)
+                {
+                    _WaitForAppLaunch = 5;
+                }
+
+                return _WaitForAppLaunch;
+            }
+            set => _WaitForAppLaunch = value;
+        }
+        public string ApplicationPath { get; set; }
+        public List<string> ErrorLists { get; set; }
 
         #endregion
 
