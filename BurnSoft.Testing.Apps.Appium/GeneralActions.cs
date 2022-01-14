@@ -165,12 +165,19 @@ namespace BurnSoft.Testing.Apps.Appium
         private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
         #endregion
         //End Snippet
-        #region "Private init and cleanup functions"
+        #region "Private init and cleanup functions"        
+        /// <summary>
+        /// Adds the error.
+        /// </summary>
+        /// <param name="error">The error.</param>
         private void AddError(string error)
         {
             if (ErrorLists == null) ErrorLists = new List<string>();
             ErrorLists.Add(error);
         }
+        /// <summary>
+        /// Starts the win application driver.
+        /// </summary>
         private void StartWinAppDriver()
         {
             try
@@ -185,6 +192,9 @@ namespace BurnSoft.Testing.Apps.Appium
                 AddError(ErrorMessage("StartWinAppDriver", e));
             }
         }
+        /// <summary>
+        /// Stops the winapp driver.
+        /// </summary>
         private void StopWinappDriver()
         {
             // Stop the WinAppDriverProcess
@@ -207,11 +217,16 @@ namespace BurnSoft.Testing.Apps.Appium
             DesktopSession = desktopSession;
             ErrorLists = new List<string>();
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
+        /// </summary>
         public GeneralActions()
         {
             ErrorLists = new List<string>();
         }
-
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (AppSession != null)
@@ -228,7 +243,12 @@ namespace BurnSoft.Testing.Apps.Appium
 
             StopWinappDriver();
         }
-
+        /// <summary>
+        /// Inititalizes this instance.
+        /// </summary>
+        /// <exception cref="System.Exception">AppSession is null, check your settings</exception>
+        /// <exception cref="System.Exception">AppSession.SessionId is null, check your application path</exception>
+        /// <exception cref="System.Exception">DesktopSession is null, please check your settings</exception>
         public void Inititalize()
         {
             try
