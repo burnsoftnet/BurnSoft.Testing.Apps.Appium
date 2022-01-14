@@ -16,14 +16,40 @@ namespace BurnSoft.Testing.Apps.Appium
     /// </summary>
     public class GeneralActions
     {
-        #region "Private Variables"
+        #region "Private Variables"        
+        /// <summary>
+        /// The windows application driver URL
+        /// </summary>
         private string _windowsApplicationDriverUrl;
+        /// <summary>
+        /// The win application driver path
+        /// </summary>
         private string _WinAppDriverPath;
+        /// <summary>
+        /// The device name
+        /// </summary>
         private string DeviceName = "";
+        /// <summary>
+        /// The wait for application launch
+        /// </summary>
         private int _WaitForAppLaunch;
+        /// <summary>
+        /// The initialize passed
+        /// </summary>
         private bool InitPassed;
+        /// <summary>
+        /// The win application driver process
+        /// </summary>
         private static Process _winAppDriverProcess;
+        /// <summary>
+        /// Gets the application session.
+        /// </summary>
+        /// <value>The application session.</value>
         public WindowsDriver<WindowsElement> AppSession { get; private set; }
+        /// <summary>
+        /// Gets the desktop session.
+        /// </summary>
+        /// <value>The desktop session.</value>
         public WindowsDriver<WindowsElement> DesktopSession { get; private set; }
         #endregion
         #region "Public Variables"
@@ -47,7 +73,11 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             set => _windowsApplicationDriverUrl = value;
         }
-
+        /// <summary>
+        /// Gets or sets the win application driver path. If not set, it will
+        /// default to C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe
+        /// </summary>
+        /// <value>The win application driver path.</value>
         public string WinAppDriverPath
         {
             get {
@@ -63,7 +93,10 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             set => _WinAppDriverPath = value;
         }
-
+        /// <summary>
+        /// Gets or sets the wait for application launch.
+        /// </summary>
+        /// <value>The wait for application launch.</value>
         public int WaitForAppLaunch
         {
             get
@@ -77,7 +110,15 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             set => _WaitForAppLaunch = value;
         }
+        /// <summary>
+        /// Gets or sets the application path.
+        /// </summary>
+        /// <value>The application path.</value>
         public string ApplicationPath { get; set; }
+        /// <summary>
+        /// Gets or sets the error lists.
+        /// </summary>
+        /// <value>The error lists.</value>
         public List<string> ErrorLists { get; set; }
 
         #endregion
