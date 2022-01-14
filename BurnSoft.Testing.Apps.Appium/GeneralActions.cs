@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium.Appium.Windows;
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedMember.Global
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -24,23 +22,23 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <summary>
         /// The win application driver path
         /// </summary>
-        private string _WinAppDriverPath;
+        private string _winAppDriverPath;
         /// <summary>
         /// The device name
         /// </summary>
-        private string DeviceName = "";
+        private string _deviceName = "";
         /// <summary>
         /// The wait for application launch
         /// </summary>
-        private int _WaitForAppLaunch;
+        private int _waitForAppLaunch;
         /// <summary>
         /// The initialize passed
         /// </summary>
-        private bool InitPassed;
+        private bool _initPassed;
         /// <summary>
         /// The win application driver process
         /// </summary>
-        private static Process _winAppDriverProcess;
+        private Process _winAppDriverProcess;
         /// <summary>
         /// Gets the application session.
         /// </summary>
@@ -81,17 +79,17 @@ namespace BurnSoft.Testing.Apps.Appium
         public string WinAppDriverPath
         {
             get {
-                if (_WinAppDriverPath == null) return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
-                if (_WinAppDriverPath.Length == 0)
+                if (_winAppDriverPath == null) return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
+                if (_winAppDriverPath.Length == 0)
                 {
                     return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
                 }
                 else
                 {
-                    return _WinAppDriverPath;
+                    return _winAppDriverPath;
                 }
             }
-            set => _WinAppDriverPath = value;
+            set => _winAppDriverPath = value;
         }
         /// <summary>
         /// Gets or sets the wait for application launch.
@@ -101,14 +99,14 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             get
             {
-                if (_WaitForAppLaunch ==0)
+                if (_waitForAppLaunch ==0)
                 {
-                    _WaitForAppLaunch = 5;
+                    _waitForAppLaunch = 5;
                 }
 
-                return _WaitForAppLaunch;
+                return _waitForAppLaunch;
             }
-            set => _WaitForAppLaunch = value;
+            set => _waitForAppLaunch = value;
         }
         /// <summary>
         /// Gets or sets the application path.
@@ -122,6 +120,55 @@ namespace BurnSoft.Testing.Apps.Appium
         public List<string> ErrorLists { get; set; }
 
         #endregion
+
+        #region "Exception Error Handling"        
+        /// <summary>
+        /// The class location
+        /// </summary>
+        private static string _classLocation = "BurnSoft.Testing.Apps.Appium.GeneralActions";
+
+        public GeneralActions(WindowsDriver<WindowsElement> desktopSession)
+        {
+            DesktopSession = desktopSession;
+        }
+
+        /// <summary>
+        /// Errors the message for regular Exceptions
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, Exception e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message for access violations
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, AccessViolationException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message for invalid cast exception
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, InvalidCastException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message argument exception
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, ArgumentException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message for argument null exception.
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        #endregion
+        //End Snippet
 
     }
 }
