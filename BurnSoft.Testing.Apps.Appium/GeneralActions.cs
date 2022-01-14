@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Net;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Interactions;
+
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedMember.Global
 
@@ -164,7 +166,6 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <returns>System.String.</returns>
         private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
         #endregion
-        //End Snippet
         #region "Private init and cleanup functions"        
         /// <summary>
         /// Adds the error.
@@ -281,5 +282,71 @@ namespace BurnSoft.Testing.Apps.Appium
         }
         #endregion
 
+        #region "Appinum Actions"
+        public enum AppAction
+        {
+            FindElementByAccessibilityId,
+            FindElementByName,
+            FindElementByWindowsUiAutomation,
+            FindElementByClassName,
+            FindElementByCssSelector,
+            FindElementById,
+            FindElementByImage,
+            FindElementByLinkText,
+            FindElementByPartialLinkText,
+            FindElementByTagName
+        }
+
+        private WindowsElement GetAction(WindowsDriver<WindowsElement> desktopSession,string automationId, AppAction myAction)
+        {
+            switch (myAction)
+            {
+                case AppAction.FindElementByAccessibilityId:
+                    return desktopSession.FindElementByAccessibilityId(automationId);
+                case AppAction.FindElementByName:
+                    return desktopSession.FindElementByName(automationId);
+                case AppAction.FindElementByClassName:
+                    return desktopSession.FindElementByClassName(automationId);
+                case AppAction.FindElementByCssSelector:
+                    return desktopSession.FindElementByCssSelector(automationId);
+                case AppAction.FindElementById:
+                    return desktopSession.FindElementById(automationId);
+                case AppAction.FindElementByImage:
+                    return desktopSession.FindElementByImage(automationId);
+                case AppAction.FindElementByLinkText:
+                    return desktopSession.FindElementByLinkText(automationId);
+                case AppAction.FindElementByPartialLinkText:
+                    return desktopSession.FindElementByPartialLinkText(automationId);
+                case AppAction.FindElementByTagName:
+                    return desktopSession.FindElementByTagName(automationId);
+                case AppAction.FindElementByWindowsUiAutomation:
+                    return desktopSession.FindElementByWindowsUIAutomation(automationId);
+                default:
+                    return desktopSession.FindElementByAccessibilityId(automationId);
+            }
+        }
+        private  bool DoDoubleClick(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                WindowsElement actionMenu = GetAction(desktopSession, automationId, myAction);
+                Actions action = new Actions(desktopSession);
+                action.MoveToElement(actionMenu);
+                action.DoubleClick();
+                action.Perform();
+                action.DoubleClick();
+                action.Perform();
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = $"ERROR: {e.Message}";
+            }
+            return bAns;
+        }
+
+        #endregion
     }
 }
