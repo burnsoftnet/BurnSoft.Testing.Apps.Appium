@@ -12,15 +12,34 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         [TestInitialize]
         public void Init()
         {
-            _ga = new GeneralActions();
-            _ga.ApplicationPath = "F:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
-            _ga.Inititalize();
+            try
+            {
+                _ga = new GeneralActions();
+                _ga.ApplicationPath = "F:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
+                _ga.Inititalize();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Assert.Fail(e.Message);
+            }
         }
 
+
         [TestMethod]
-        public void TestMethod1()
+        public void ClickOnFirstObjectInList()
         {
-            bool value = _ga.ClickOnElement("AR-22", out _errOut);
+            bool value = false;
+            try
+            {
+                value = _ga.ClickOnElement("AR-22", out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+            }
+            Assert.IsTrue(value);
         }
     }
 }
