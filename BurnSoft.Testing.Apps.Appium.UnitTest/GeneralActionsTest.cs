@@ -4,7 +4,7 @@ using System;
 namespace BurnSoft.Testing.Apps.Appium.UnitTest
 {
     [TestClass]
-    public class UnitTest1
+    public class GeneralActionsTest
     {
         [TestMethod]
         public void TestMethod1()
