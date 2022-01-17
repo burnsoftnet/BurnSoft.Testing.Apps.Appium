@@ -324,8 +324,8 @@ namespace BurnSoft.Testing.Apps.Appium
                 default:
                     return desktopSession.FindElementByAccessibilityId(automationId);
             }
-            }
-        public bool DoDoubleClick(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        }
+        public bool DoubleCLickElement(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
             errOut = "";
@@ -337,6 +337,46 @@ namespace BurnSoft.Testing.Apps.Appium
                 action.DoubleClick();
                 action.Perform();
                 action.DoubleClick();
+                action.Perform();
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = $"ERROR: {e.Message}";
+            }
+            return bAns;
+        }
+
+        public bool ClickOnElement(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                WindowsElement actionMenu = GetAction(desktopSession, automationId, myAction);
+                Actions action = new Actions(desktopSession);
+                action.MoveToElement(actionMenu);
+                action.Click();
+                action.Perform();
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = $"ERROR: {e.Message}";
+            }
+            return bAns;
+        }
+
+        public bool SendTextToElement(WindowsDriver<WindowsElement> desktopSession, string automationId,string value, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                WindowsElement actionMenu = GetAction(desktopSession, automationId, myAction);
+                Actions action = new Actions(desktopSession);
+                action.MoveToElement(actionMenu);
+                action.SendKeys(value);
                 action.Perform();
                 bAns = true;
             }
