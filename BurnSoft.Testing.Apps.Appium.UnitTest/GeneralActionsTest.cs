@@ -7,6 +7,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
     public class GeneralActionsTest
     {
         public TestContext TestContext { get; set; }
+        private string _errOut;
         private GeneralActions _ga;
         [TestInitialize]
         public void Init()
@@ -19,7 +20,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            bool value = _ga.ClickOnElement()
+            bool value = _ga.ClickOnElement("AR-22", out _errOut);
         }
     }
 }
