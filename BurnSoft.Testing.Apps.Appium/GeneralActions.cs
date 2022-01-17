@@ -324,8 +324,8 @@ namespace BurnSoft.Testing.Apps.Appium
                 default:
                     return desktopSession.FindElementByAccessibilityId(automationId);
             }
-        }
-        private  bool DoDoubleClick(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+            }
+        public bool DoDoubleClick(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
             errOut = "";
