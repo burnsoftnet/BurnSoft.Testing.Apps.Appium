@@ -15,7 +15,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             try
             {
                 _ga = new GeneralActions();
-                _ga.ApplicationPath = "F:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
+                _ga.ApplicationPath = "c:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
                 _ga.Inititalize();
             }
             catch (Exception e)

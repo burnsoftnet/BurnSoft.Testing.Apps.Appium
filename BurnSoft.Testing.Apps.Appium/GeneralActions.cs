@@ -259,8 +259,8 @@ namespace BurnSoft.Testing.Apps.Appium
                 var appiumOptions = new AppiumOptions();
                 appiumOptions.AddAdditionalCapability("app", ApplicationPath);
                 appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
-                appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", _waitForAppLaunch);
-                this.AppSession = new WindowsDriver<WindowsElement>(new Uri(_windowsApplicationDriverUrl), appiumOptions);
+                appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", WaitForAppLaunch);
+                this.AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
 
                 if (AppSession == null) throw new Exception("AppSession is null, check your settings");
                 if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
@@ -269,7 +269,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 AppiumOptions optionsDesktop = new AppiumOptions();
                 optionsDesktop.AddAdditionalCapability("app", "Root");
                 optionsDesktop.AddAdditionalCapability("deviceName", _deviceName);
-                DesktopSession = new WindowsDriver<WindowsElement>(new Uri(_windowsApplicationDriverUrl), optionsDesktop);
+                DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), optionsDesktop);
 
                 if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
                 _initPassed = true;
