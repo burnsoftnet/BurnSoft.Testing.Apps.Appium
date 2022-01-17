@@ -19,7 +19,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-
+            bool value = _ga.ClickOnElement()
         }
     }
 }

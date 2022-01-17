@@ -302,54 +302,52 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <summary>
         /// Gets the action.
         /// </summary>
-        /// <param name="desktopSession">The desktop session.</param>
         /// <param name="automationId">The automation identifier.</param>
         /// <param name="myAction">My action.</param>
         /// <returns>WindowsElement.</returns>
-        private WindowsElement GetAction(WindowsDriver<WindowsElement> desktopSession,string automationId, AppAction myAction)
+        private WindowsElement GetAction(string automationId, AppAction myAction)
         {
             switch (myAction)
             {
                 case AppAction.FindElementByAccessibilityId:
-                    return desktopSession.FindElementByAccessibilityId(automationId);
+                    return DesktopSession.FindElementByAccessibilityId(automationId);
                 case AppAction.FindElementByName:
-                    return desktopSession.FindElementByName(automationId);
+                    return DesktopSession.FindElementByName(automationId);
                 case AppAction.FindElementByClassName:
-                    return desktopSession.FindElementByClassName(automationId);
+                    return DesktopSession.FindElementByClassName(automationId);
                 case AppAction.FindElementByCssSelector:
-                    return desktopSession.FindElementByCssSelector(automationId);
+                    return DesktopSession.FindElementByCssSelector(automationId);
                 case AppAction.FindElementById:
-                    return desktopSession.FindElementById(automationId);
+                    return DesktopSession.FindElementById(automationId);
                 case AppAction.FindElementByImage:
-                    return desktopSession.FindElementByImage(automationId);
+                    return DesktopSession.FindElementByImage(automationId);
                 case AppAction.FindElementByLinkText:
-                    return desktopSession.FindElementByLinkText(automationId);
+                    return DesktopSession.FindElementByLinkText(automationId);
                 case AppAction.FindElementByPartialLinkText:
-                    return desktopSession.FindElementByPartialLinkText(automationId);
+                    return DesktopSession.FindElementByPartialLinkText(automationId);
                 case AppAction.FindElementByTagName:
-                    return desktopSession.FindElementByTagName(automationId);
+                    return DesktopSession.FindElementByTagName(automationId);
                 case AppAction.FindElementByWindowsUiAutomation:
-                    return desktopSession.FindElementByWindowsUIAutomation(automationId);
+                    return DesktopSession.FindElementByWindowsUIAutomation(automationId);
                 default:
-                    return desktopSession.FindElementByAccessibilityId(automationId);
+                    return DesktopSession.FindElementByAccessibilityId(automationId);
             }
         }
         /// <summary>
         /// Doubles the c lick element.
         /// </summary>
-        /// <param name="desktopSession">The desktop session.</param>
         /// <param name="automationId">The automation identifier.</param>
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool DoubleCLickElement(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public bool DoubleCLickElement( string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
             errOut = "";
             try
             {
-                WindowsElement actionMenu = GetAction(desktopSession, automationId, myAction);
-                Actions action = new Actions(desktopSession);
+                WindowsElement actionMenu = GetAction(automationId, myAction);
+                Actions action = new Actions(DesktopSession);
                 action.MoveToElement(actionMenu);
                 action.DoubleClick();
                 action.Perform();
@@ -366,19 +364,18 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <summary>
         /// Clicks the on element.
         /// </summary>
-        /// <param name="desktopSession">The desktop session.</param>
         /// <param name="automationId">The automation identifier.</param>
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool ClickOnElement(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public bool ClickOnElement(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
             errOut = "";
             try
             {
-                WindowsElement actionMenu = GetAction(desktopSession, automationId, myAction);
-                Actions action = new Actions(desktopSession);
+                WindowsElement actionMenu = GetAction(automationId, myAction);
+                Actions action = new Actions(DesktopSession);
                 action.MoveToElement(actionMenu);
                 action.Click();
                 action.Perform();
@@ -393,20 +390,19 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <summary>
         /// Sends the text to element.
         /// </summary>
-        /// <param name="desktopSession">The desktop session.</param>
         /// <param name="automationId">The automation identifier.</param>
         /// <param name="value">The value.</param>
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool SendTextToElement(WindowsDriver<WindowsElement> desktopSession, string automationId,string value, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public bool SendTextToElement(string automationId,string value, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
             errOut = "";
             try
             {
-                WindowsElement actionMenu = GetAction(desktopSession, automationId, myAction);
-                Actions action = new Actions(desktopSession);
+                WindowsElement actionMenu = GetAction(automationId, myAction);
+                Actions action = new Actions(DesktopSession);
                 action.MoveToElement(actionMenu);
                 action.SendKeys(value);
                 action.Perform();
