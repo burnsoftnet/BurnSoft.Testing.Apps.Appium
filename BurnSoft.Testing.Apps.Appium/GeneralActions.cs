@@ -282,7 +282,10 @@ namespace BurnSoft.Testing.Apps.Appium
         }
         #endregion
 
-        #region "Appinum Actions"
+        #region "Appinum Actions"        
+        /// <summary>
+        /// Enum AppAction
+        /// </summary>
         public enum AppAction
         {
             FindElementByAccessibilityId,
@@ -296,7 +299,13 @@ namespace BurnSoft.Testing.Apps.Appium
             FindElementByPartialLinkText,
             FindElementByTagName
         }
-
+        /// <summary>
+        /// Gets the action.
+        /// </summary>
+        /// <param name="desktopSession">The desktop session.</param>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns>WindowsElement.</returns>
         private WindowsElement GetAction(WindowsDriver<WindowsElement> desktopSession,string automationId, AppAction myAction)
         {
             switch (myAction)
@@ -325,6 +334,14 @@ namespace BurnSoft.Testing.Apps.Appium
                     return desktopSession.FindElementByAccessibilityId(automationId);
             }
         }
+        /// <summary>
+        /// Doubles the c lick element.
+        /// </summary>
+        /// <param name="desktopSession">The desktop session.</param>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool DoubleCLickElement(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
@@ -346,7 +363,14 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
-
+        /// <summary>
+        /// Clicks the on element.
+        /// </summary>
+        /// <param name="desktopSession">The desktop session.</param>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool ClickOnElement(WindowsDriver<WindowsElement> desktopSession, string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
@@ -366,7 +390,15 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
-
+        /// <summary>
+        /// Sends the text to element.
+        /// </summary>
+        /// <param name="desktopSession">The desktop session.</param>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool SendTextToElement(WindowsDriver<WindowsElement> desktopSession, string automationId,string value, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
