@@ -24,7 +24,11 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 Assert.Fail(e.Message);
             }
         }
-
+        [TestCleanup]
+        public void CleanUp()
+        {
+            _ga.Dispose();
+        }
 
         [TestMethod]
         public void ClickOnFirstObjectInList()
@@ -32,7 +36,22 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             bool value = false;
             try
             {
-                value = _ga.ClickOnElement("AR-22", out _errOut);
+                value = _ga.ClickOnElement("AR-22", out _errOut, GeneralActions.AppAction.FindElementByName);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+            }
+            Assert.IsTrue(value);
+        }
+        [TestMethod]
+        public void DoubleCLickElementTest()
+        {
+            bool value = false;
+            try
+            {
+                value = _ga.DoubleCLickElement("AR-22", out _errOut, GeneralActions.AppAction.FindElementByName);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
             }
             catch (Exception e)
