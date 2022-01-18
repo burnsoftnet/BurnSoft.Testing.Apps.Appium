@@ -288,15 +288,45 @@ namespace BurnSoft.Testing.Apps.Appium
         /// </summary>
         public enum AppAction
         {
+            /// <summary>
+            /// The find element by accessibility identifier
+            /// </summary>
             FindElementByAccessibilityId,
+            /// <summary>
+            /// The find element by name
+            /// </summary>
             FindElementByName,
+            /// <summary>
+            /// The find element by windows UI automation
+            /// </summary>
             FindElementByWindowsUiAutomation,
+            /// <summary>
+            /// The find element by class name
+            /// </summary>
             FindElementByClassName,
+            /// <summary>
+            /// The find element by CSS selector
+            /// </summary>
             FindElementByCssSelector,
+            /// <summary>
+            /// The find element by identifier
+            /// </summary>
             FindElementById,
+            /// <summary>
+            /// The find element by image
+            /// </summary>
             FindElementByImage,
+            /// <summary>
+            /// The find element by link text
+            /// </summary>
             FindElementByLinkText,
+            /// <summary>
+            /// The find element by partial link text
+            /// </summary>
             FindElementByPartialLinkText,
+            /// <summary>
+            /// The find element by tag name
+            /// </summary>
             FindElementByTagName
         }
         /// <summary>
