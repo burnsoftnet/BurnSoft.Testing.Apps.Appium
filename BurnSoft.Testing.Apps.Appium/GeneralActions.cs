@@ -36,13 +36,13 @@ namespace BurnSoft.Testing.Apps.Appium
         /// </summary>
         private int _waitForAppLaunch;
         /// <summary>
-        /// The initialize passed
-        /// </summary>
-        private bool _initPassed;
-        /// <summary>
         /// The win application driver process
         /// </summary>
         private Process _winAppDriverProcess;
+        /// <summary>
+        /// The sleep interval
+        /// </summary>
+        private int _sleepInterval;
         /// <summary>
         /// Gets the application session.
         /// </summary>
@@ -55,6 +55,45 @@ namespace BurnSoft.Testing.Apps.Appium
         public WindowsDriver<WindowsElement> DesktopSession { get; private set; }
         #endregion
         #region "Public Variables"
+        /// <summary>
+        /// The initialize passed
+        /// </summary>
+        public bool InitPassed;
+        /// <summary>
+        /// The test name that will mostly be used for the screen capturing exception capturing
+        /// </summary>
+        public string TestName;
+        /// <summary>
+        /// The settings screen shot location
+        /// </summary>
+        public string SettingsScreenShotLocation;
+        /// <summary>
+        /// Toggle the sleeping after a command was issue so you can see the results
+        /// </summary>
+        public bool DoSleep;
+        /// <summary>
+        /// The screen shot location/
+        /// </summary>
+        public List<string> ScreenShotLocation;
+        /// <summary>
+        /// Gets or sets the sleep interval.
+        /// </summary>
+        /// <value>The sleep interval.</value>
+        public int SleepInterval
+        {
+            get
+            {
+                if (_sleepInterval == 0)
+                {
+                    return 2000;
+                }
+                else
+                {
+                    return _sleepInterval;
+                }
+            }
+            set => _sleepInterval = value;
+        }
         /// <summary>
         /// Gets or sets the windows application driver URL. If not set, it will default to http://127.0.0.1:4723
         /// </summary>
@@ -245,12 +284,12 @@ namespace BurnSoft.Testing.Apps.Appium
             StopWinappDriver();
         }
         /// <summary>
-        /// Inititalizes this instance.
+        /// Initializes this instance.
         /// </summary>
         /// <exception cref="System.Exception">AppSession is null, check your settings</exception>
         /// <exception cref="System.Exception">AppSession.SessionId is null, check your application path</exception>
         /// <exception cref="System.Exception">DesktopSession is null, please check your settings</exception>
-        public void Inititalize()
+        public void Initialize()
         {
             try
             {
@@ -260,7 +299,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 appiumOptions.AddAdditionalCapability("app", ApplicationPath);
                 appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
                 appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", WaitForAppLaunch);
-                this.AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
+                AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
 
                 if (AppSession == null) throw new Exception("AppSession is null, check your settings");
                 if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
@@ -272,12 +311,12 @@ namespace BurnSoft.Testing.Apps.Appium
                 DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), optionsDesktop);
 
                 if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
-                _initPassed = true;
+                InitPassed = true;
             }
             catch (Exception e)
             {
-                _initPassed = false;
-                AddError(ErrorMessage("Inititalize", e));
+                InitPassed = false;
+                AddError(ErrorMessage("Initialize", e));
             }
         }
         #endregion
