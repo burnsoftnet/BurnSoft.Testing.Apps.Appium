@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
@@ -483,7 +484,29 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
+        /// <summary>
+        /// Screens the shot it.
+        /// </summary>
+        public void ScreenShotIt()
+        {
+            if (DesktopSession != null)
+            {
+                ITakesScreenshot screenShotDriver = (ITakesScreenshot)DesktopSession;
+                if (screenShotDriver.GetScreenshot() != null)
+                {
+                    if (TestName == null || TestName?.Length == 0) TestName = "UnMarked";
+                    Screenshot screenShot = screenShotDriver.GetScreenshot();
+                    string savePath = $"{SettingsScreenShotLocation}\\{TestName}-{DateTime.Now.Ticks}.png";
+                    screenShot.SaveAsFile(savePath, ScreenshotImageFormat.Png);
+                    ScreenShotLocation.Add(savePath);
+                }
+                else
+                {
+                    Debug.Print("The application is not active so we are unable to take a screen shot at this time.");
+                }
 
+            }
+        }
         #endregion
     }
 }
