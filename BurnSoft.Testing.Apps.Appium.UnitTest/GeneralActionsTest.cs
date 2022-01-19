@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Threading;
 
 namespace BurnSoft.Testing.Apps.Appium.UnitTest
@@ -16,10 +17,14 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         {
             try
             {
+                string SettingsScreenShotLocation = "ScreenShots";
+                string FullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
+                if (!Directory.Exists(FullExceptionPath)) Directory.CreateDirectory(FullExceptionPath);
                 _errOut = "";
                 _automationId = "AR-22";
                 _ga = new GeneralActions();
                 _ga.ApplicationPath = "c:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
+                _ga.SettingsScreenShotLocation = FullExceptionPath;
                 _ga.Initialize();
             }
             catch (Exception e)
@@ -90,15 +95,15 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             bool value = false;
             try
             {
-                if (_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
+                if (!_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
                     GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
                 Thread.Sleep(2000);
-                if (_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
                 
                 value = _ga.PerformAction("txtLookFor", "Glock", GeneralActions.MyAction.SendKeys, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(2000);
-                if (_ga.PerformAction("btnSearch", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                if (!_ga.PerformAction("btnSearch", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
                 Thread.Sleep(5000);
             }
             catch (Exception e)

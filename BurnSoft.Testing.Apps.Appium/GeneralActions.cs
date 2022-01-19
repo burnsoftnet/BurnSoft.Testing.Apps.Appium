@@ -553,7 +553,8 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             catch (Exception e)
             {
-                AddError(ErrorMessage("PerformAction", e));
+                errOut = $"ACTION: {action} - {ErrorMessage("PerformAction", e)}";
+                AddError(errOut);
                 ScreenShotIt();
             }
             return bAns;
