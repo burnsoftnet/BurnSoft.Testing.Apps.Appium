@@ -98,7 +98,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 if (!_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
                     GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
                 Thread.Sleep(2000);
-                if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
+                if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByAccessibilityId)) throw new Exception(_errOut);
                 
                 value = _ga.PerformAction("txtLookFor", "Glock", GeneralActions.MyAction.SendKeys, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
