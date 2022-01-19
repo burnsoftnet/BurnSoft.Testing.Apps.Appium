@@ -2,16 +2,23 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>$version$</version>
+    <version>$version$-alpha</version>
     <title>$title$</title>
     <authors>$author$</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <owners>burnsoftnet</owners>
+    <projectUrl>https://github.com/burnsoftnet/BurnSoft.Testing.Apps.Appium.git</projectUrl>
+    <repository type="git" url="https://github.com/burnsoftnet/BurnSoft.Testing.Apps.Appium.git" />
+    <iconUrl>https://avatars0.githubusercontent.com/u/24593581?s=460</iconUrl>
+    <icon>bswtsicon.png</icon>
     <license type="expression">MIT</license>
-    <!-- <icon>icon.png</icon> -->
-    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>initial release</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags>burnsoft application general main testing selenium appium</tags>
   </metadata>
+  <files>
+    <file src="bswtsicon.png" target="" />
+    <file src="bin/$configuration$/$id$.chm" target="content/$id$.chm" />
+  </files>
 </package>
