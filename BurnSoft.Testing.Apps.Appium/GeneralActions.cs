@@ -490,7 +490,15 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
-
+        /// <summary>
+        /// Performs the action to execute on the application
+        /// </summary>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool PerformAction(string automationId, string value, MyAction action, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
