@@ -83,5 +83,38 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
+
+        [TestMethod]
+        public void PerformActionSendTextElementTest()
+        {
+            bool value = false;
+            try
+            {
+                if (_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
+                    GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
+                Thread.Sleep(2000);
+                if (_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                
+                value = _ga.PerformAction("txtLookFor", "Glock", GeneralActions.MyAction.SendKeys, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+                Thread.Sleep(2000);
+                if (_ga.PerformAction("btnSearch", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                Thread.Sleep(5000);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+            }
+
+            foreach (string s in _ga.ScreenShotLocation)
+            {
+                TestContext.WriteLine($"{s}");
+            }
+            foreach (string s in _ga.ErrorLists)
+            {
+                TestContext.WriteLine($"{s}");
+            }
+            Assert.IsTrue(value);
+        }
     }
 }
