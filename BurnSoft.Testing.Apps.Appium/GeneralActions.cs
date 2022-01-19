@@ -537,35 +537,9 @@ namespace BurnSoft.Testing.Apps.Appium
             /// The nothing
             /// </summary>
             Nothing,
-            /// <summary>
-            /// The click
-            /// </summary>
             Click,
             DoubleClick,
-            /// <summary>
-            /// The send keys
-            /// </summary>
-            SendKeys,
-            /// <summary>
-            /// The send keys submit
-            /// </summary>
-            SendKeysSubmit,
-            /// <summary>
-            /// The clear
-            /// </summary>
-            Clear,
-            /// <summary>
-            /// The clear send keys
-            /// </summary>
-            ClearSendKeys,
-            /// <summary>
-            /// The submit
-            /// </summary>
-            Submit,
-            /// <summary>
-            /// The clear send keys submit
-            /// </summary>
-            ClearSendKeysSubmit,
+            SendKeys
         }
 
         /// <summary>
