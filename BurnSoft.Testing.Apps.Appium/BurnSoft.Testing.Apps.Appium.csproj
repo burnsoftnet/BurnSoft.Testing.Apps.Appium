@@ -68,6 +68,7 @@
     <Compile Include="Types\BatchCommandList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BurnSoft.Testing.Apps.Appium.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
