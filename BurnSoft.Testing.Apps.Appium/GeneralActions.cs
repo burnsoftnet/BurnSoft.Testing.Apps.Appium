@@ -559,7 +559,13 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
-
+        /// <summary>
+        /// Runs the batch commands.
+        /// </summary>
+        /// <param name="cmd">The command.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        /// <exception cref="System.Exception">Error occured and the Driver is not active!</exception>
         public List<BatchCommandList> RunBatchCommands(List<BatchCommandList> cmd, out string errOut)
         {
             List<BatchCommandList> theReturned = new List<BatchCommandList>();
