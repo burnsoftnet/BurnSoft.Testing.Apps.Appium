@@ -4,30 +4,47 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using BurnSoft.Testing.Apps.Appium.Types;
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace BurnSoft.Testing.Apps.Appium.UnitTest
 {
     [TestClass]
     public class GeneralActionsTest
     {
+        /// <summary>
+        /// Gets or sets the test context.
+        /// </summary>
+        /// <value>The test context.</value>
         public TestContext TestContext { get; set; }
+        /// <summary>
+        /// The error out
+        /// </summary>
         private string _errOut;
+        /// <summary>
+        /// The ga
+        /// </summary>
         private GeneralActions _ga;
+        /// <summary>
+        /// The automation identifier
+        /// </summary>
         private string _automationId;
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
             try
             {
                 string SettingsScreenShotLocation = "ScreenShots";
-                string FullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
-                if (!Directory.Exists(FullExceptionPath)) Directory.CreateDirectory(FullExceptionPath);
+                string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
+                if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
                 _errOut = "";
                 _automationId = "AR-22";
                 _ga = new GeneralActions();
                 _ga.TestName = "UnitTest-Init";
                 _ga.ApplicationPath = "c:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
-                _ga.SettingsScreenShotLocation = FullExceptionPath;
+                _ga.SettingsScreenShotLocation = fullExceptionPath;
                 _ga.DoSleep = true;
                 _ga.Initialize();
             }
@@ -37,14 +54,20 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 Assert.Fail(e.Message);
             }
         }
+        /// <summary>
+        /// Cleans up.
+        /// </summary>
         [TestCleanup]
         public void CleanUp()
         {
             _ga.Dispose();
         }
 
-        
 
+        /// <summary>
+        /// Defines the test method PerformActionDoubleCLickElementTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void PerformActionDoubleCLickElementTest()
         {
@@ -61,6 +84,10 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
+        /// <summary>
+        /// Defines the test method PerformActionCLickElementTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void PerformActionCLickElementTest()
         {
@@ -76,7 +103,10 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
-
+        /// <summary>
+        /// Defines the test method PerformActionVerifyElementTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void PerformActionVerifyElementTest()
         {
@@ -92,7 +122,13 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
-
+        /// <summary>
+        /// Defines the test method PerformActionSendTextElementTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
+        /// <exception cref="System.Exception"></exception>
+        /// <exception cref="System.Exception"></exception>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void PerformActionSendTextElementTest()
         {
@@ -102,7 +138,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 if (!_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
                     GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
                 Thread.Sleep(2000);
-                if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByAccessibilityId)) throw new Exception(_errOut);
+                if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
                 
                 value = _ga.PerformAction("txtLookFor", "Glock", GeneralActions.MyAction.SendKeys, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
@@ -125,7 +161,10 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
-
+        /// <summary>
+        /// Gets the commands.
+        /// </summary>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
         private List<BatchCommandList> GetCommands()
         {
             List<BatchCommandList> cmd = new List<BatchCommandList>();
@@ -160,7 +199,10 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             });
             return cmd;
         }
-
+        /// <summary>
+        /// Defines the test method BatchCommandTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void BatchCommandTest()
         {
@@ -186,6 +228,11 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             
         }
+        /// <summary>
+        /// Defines the test method GenerateResultsTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void GenerateResultsTest()
         {
