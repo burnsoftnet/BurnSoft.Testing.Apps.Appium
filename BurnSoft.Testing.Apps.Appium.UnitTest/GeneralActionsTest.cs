@@ -23,8 +23,10 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 _errOut = "";
                 _automationId = "AR-22";
                 _ga = new GeneralActions();
+                _ga.TestName = "UnitTest-Init";
                 _ga.ApplicationPath = "c:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
                 _ga.SettingsScreenShotLocation = FullExceptionPath;
+                _ga.DoSleep = true;
                 _ga.Initialize();
             }
             catch (Exception e)
