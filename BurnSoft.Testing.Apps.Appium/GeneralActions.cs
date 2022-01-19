@@ -257,6 +257,7 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             DesktopSession = desktopSession;
             ErrorLists = new List<string>();
+            ScreenShotLocation = new List<string>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralActions"/> class.
@@ -264,6 +265,7 @@ namespace BurnSoft.Testing.Apps.Appium
         public GeneralActions()
         {
             ErrorLists = new List<string>();
+            ScreenShotLocation = new List<string>();
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -427,7 +429,7 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             catch (Exception e)
             {
-                errOut = $"ERROR: {e.Message}";
+                AddError(ErrorMessage("DoubleCLickElement", e));
             }
             return bAns;
         }
@@ -453,7 +455,7 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             catch (Exception e)
             {
-                errOut = $"ERROR: {e.Message}";
+                AddError(ErrorMessage("ClickOnElement", e));
             }
             return bAns;
         }
@@ -480,10 +482,92 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             catch (Exception e)
             {
-                errOut = $"ERROR: {e.Message}";
+                AddError(ErrorMessage("SendTextToElement", e));
             }
             return bAns;
         }
+
+        public bool PerformAction(string automationId, string value, MyAction action, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                WindowsElement actionMenu = GetAction(automationId, myAction);
+
+                if (myAction.Equals(MyAction.Nothing))
+                {
+                    bAns = actionMenu.Displayed;
+                }
+                else
+                {
+                    Actions runAction = new Actions(DesktopSession);
+                    runAction.MoveToElement(actionMenu);
+
+                    switch (action)
+                    {
+                        case MyAction.Click:
+                            runAction.Click();
+                            break;
+                        case MyAction.SendKeys:
+                            runAction.SendKeys(value);
+                            break;
+                        case MyAction.DoubleClick:
+                            runAction.DoubleClick();
+                            break;
+                    }
+
+                    runAction.Perform();
+                    bAns = true;
+                }
+                
+            }
+            catch (Exception e)
+            {
+                AddError(ErrorMessage("PerformAction", e));
+            }
+            return bAns;
+        }
+        /// <summary>
+        /// Enum My Actions to do on the web page
+        /// </summary>
+        public enum MyAction
+        {
+            /// <summary>
+            /// The nothing
+            /// </summary>
+            Nothing,
+            /// <summary>
+            /// The click
+            /// </summary>
+            Click,
+            DoubleClick,
+            /// <summary>
+            /// The send keys
+            /// </summary>
+            SendKeys,
+            /// <summary>
+            /// The send keys submit
+            /// </summary>
+            SendKeysSubmit,
+            /// <summary>
+            /// The clear
+            /// </summary>
+            Clear,
+            /// <summary>
+            /// The clear send keys
+            /// </summary>
+            ClearSendKeys,
+            /// <summary>
+            /// The submit
+            /// </summary>
+            Submit,
+            /// <summary>
+            /// The clear send keys submit
+            /// </summary>
+            ClearSendKeysSubmit,
+        }
+
         /// <summary>
         /// Screens the shot it.
         /// </summary>
