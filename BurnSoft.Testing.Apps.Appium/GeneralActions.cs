@@ -581,7 +581,22 @@ namespace BurnSoft.Testing.Apps.Appium
                     {
                         if (DesktopSession == null) throw new Exception("Error occured and the Driver is not active!");
                         if (c.SendKeys != null) sendkeys = c.SendKeys;
-                        
+                        string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
+                        if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
+                        if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
+                            throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                        result = $"Was able to {msg}{Environment.NewLine}";
+
+                        //if (sendkeys?.Length == 0)
+                        //{
+                        //    switch (c.Actions)
+                        //    {
+                        //        case MyAction.Click:
+                        //            if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
+                        //                throw new Exception(errOut);
+                        //            break;
+                        //    }
+                        //}
                         if (!didpass) didpass = true;
                     }
                     catch (Exception e)
