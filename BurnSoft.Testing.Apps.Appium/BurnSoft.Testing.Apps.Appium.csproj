@@ -65,9 +65,11 @@
   <ItemGroup>
     <Compile Include="GeneralActions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\BatchCommandList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
