@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading;
 
 namespace BurnSoft.Testing.Apps.Appium.UnitTest
 {
@@ -72,6 +73,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             {
                 value = _ga.PerformAction(_automationId, "", GeneralActions.MyAction.DoubleClick,out _errOut, GeneralActions.AppAction.FindElementByName);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
+                Thread.Sleep(5000);
             }
             catch (Exception e)
             {

@@ -320,6 +320,7 @@ namespace BurnSoft.Testing.Apps.Appium
             {
                 InitPassed = false;
                 AddError(ErrorMessage("Initialize", e));
+                ScreenShotIt();
             }
         }
         #endregion
@@ -412,6 +413,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        [Obsolete("Replaced by PerformAction")]
         public bool DoubleCLickElement( string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
@@ -440,6 +442,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        [Obsolete("Replaced by PerformAction")]
         public bool ClickOnElement(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
@@ -467,6 +470,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        [Obsolete("Replaced by PerformAction")]
         public bool SendTextToElement(string automationId,string value, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
@@ -525,6 +529,7 @@ namespace BurnSoft.Testing.Apps.Appium
             catch (Exception e)
             {
                 AddError(ErrorMessage("PerformAction", e));
+                ScreenShotIt();
             }
             return bAns;
         }
