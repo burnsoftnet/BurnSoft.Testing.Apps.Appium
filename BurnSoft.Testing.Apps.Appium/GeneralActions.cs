@@ -616,7 +616,7 @@ namespace BurnSoft.Testing.Apps.Appium
                         }
 
                     }
-                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName });
+                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName});
                 }
             }
             catch (Exception e)
