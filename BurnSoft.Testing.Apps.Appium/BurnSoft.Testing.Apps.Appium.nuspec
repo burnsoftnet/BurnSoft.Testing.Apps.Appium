@@ -4,7 +4,7 @@
     <id>$id$</id>
     <version>$version$-alpha</version>
     <title>$title$</title>
-    <authors>$author$</authors>
+    <authors>burnsoftnet</authors>
     <owners>burnsoftnet</owners>
     <projectUrl>https://github.com/burnsoftnet/BurnSoft.Testing.Apps.Appium.git</projectUrl>
     <repository type="git" url="https://github.com/burnsoftnet/BurnSoft.Testing.Apps.Appium.git" />
@@ -12,7 +12,7 @@
     <icon>bswtsicon.png</icon>
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>Appium library helper, This library was designed to use appium for app Ui testing quick and easy.</description>
     <releaseNotes>initial release</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>burnsoft application general main testing selenium appium</tags>
