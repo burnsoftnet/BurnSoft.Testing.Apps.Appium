@@ -560,6 +560,53 @@ namespace BurnSoft.Testing.Apps.Appium
             return bAns;
         }
 
+        public List<BatchCommandList> RunBatchCommands(List<BatchCommandList> cmd, out string errOut)
+        {
+            List<BatchCommandList> theReturned = new List<BatchCommandList>();
+            errOut = @"";
+            try
+            {
+                foreach (BatchCommandList c in cmd)
+                {
+                    bool didpass = false;
+                    string result = @"";
+                    string sendkeys = @"";
+                    try
+                    {
+                        if (DesktopSession == null) throw new Exception("Error occured and the Driver is not active!");
+                        if (c.SendKeys != null) sendkeys = c.SendKeys;
+                        
+                        if (!didpass) didpass = true;
+                    }
+                    catch (Exception e)
+                    {
+                        didpass = false;
+                        if (ScreenShotLocation.Count > 0)
+                        {
+                            result = $"{e.Message}{Environment.NewLine}";
+                            foreach (string s in ScreenShotLocation)
+                            {
+                                result = $"{s}{Environment.NewLine}";
+                            }
+                        }
+                        else
+                        {
+                            result = e.Message;
+                        }
+
+                    }
+                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName });
+                }
+            }
+            catch (Exception e)
+            {
+                errOut = e.Message;
+            }
+
+            return theReturned;
+        }
+
+
         #endregion
     }
 }
