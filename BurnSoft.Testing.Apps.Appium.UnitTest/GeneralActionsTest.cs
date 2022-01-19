@@ -126,43 +126,47 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             Assert.IsTrue(value);
         }
 
+        private List<BatchCommandList> GetCommands()
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Search Gun Collection Button",
+                Actions = GeneralActions.MyAction.Click,
+                CommandAction = GeneralActions.AppAction.FindElementByName,
+                ElementName = "Search Gun Collection"
+            });
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Look For Textbox",
+                Actions = GeneralActions.MyAction.Click,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "txtLookFor"
+            });
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Search for word Glock",
+                Actions = GeneralActions.MyAction.SendKeys,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "txtLookFor",
+                SendKeys = "Glock"
+            });
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Start Search",
+                Actions = GeneralActions.MyAction.Click,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "btnSearch"
+            });
+            return cmd;
+        }
+
         [TestMethod]
         public void BatchCommandTest()
         {
-            
             try
             {
-                List<BatchCommandList> cmd = new List<BatchCommandList>();
-                cmd.Add(new BatchCommandList()
-                {
-                    TestName = "Search Gun Collection Button",
-                    Actions = GeneralActions.MyAction.Click,
-                    CommandAction = GeneralActions.AppAction.FindElementByName,
-                    ElementName = "Search Gun Collection"
-                });
-                cmd.Add(new BatchCommandList()
-                {
-                    TestName = "Look For Textbox",
-                    Actions = GeneralActions.MyAction.Click,
-                    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                    ElementName = "txtLookFor"
-                });
-                cmd.Add(new BatchCommandList()
-                {
-                    TestName = "Search for word Glock",
-                    Actions = GeneralActions.MyAction.SendKeys,
-                    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                    ElementName = "txtLookFor",
-                    SendKeys = "Glock"
-                });
-                cmd.Add(new BatchCommandList()
-                {
-                    TestName = "Start Search",
-                    Actions = GeneralActions.MyAction.Click,
-                    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                    ElementName = "btnSearch"
-                });
-                List<BatchCommandList> value = _ga.RunBatchCommands(cmd, out _errOut);
+                List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
 
                 int testNumber = 1;
@@ -174,10 +178,6 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                     testNumber++;
                 }
                 Assert.IsTrue(_ga.AllTestsPassed(value));
-                TestContext.WriteLine("-----------START Generate Test Results Function-------------");
-                TestContext.WriteLine(_ga.GenerateResults(value, out _errOut));
-                TestContext.WriteLine("-----------END Generate Test Results Function-------------");
-                if (_errOut.Length > 0) throw new Exception(_errOut);
             }
             catch (Exception e)
             {
@@ -185,6 +185,24 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 Assert.Fail();
             }
             
+        }
+        [TestMethod]
+        public void GenerateResultsTest()
+        {
+            try
+            {
+                List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+                TestContext.WriteLine(_ga.GenerateResults(value, out _errOut));
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+                Assert.IsTrue(value.Count > 0);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail();
+            }
+
         }
     }
 }
