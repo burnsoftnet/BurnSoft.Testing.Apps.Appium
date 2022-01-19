@@ -324,8 +324,7 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
         #endregion
-
-        #region "Appinum Actions"        
+        #region "Enumerators"
         /// <summary>
         /// Enum AppAction
         /// </summary>
@@ -373,6 +372,31 @@ namespace BurnSoft.Testing.Apps.Appium
             FindElementByTagName
         }
         /// <summary>
+        /// Enum My Actions to do on the web page
+        /// </summary>
+        public enum MyAction
+        {
+            /// <summary>
+            /// The nothing
+            /// </summary>
+            Nothing,
+            /// <summary>
+            /// The click
+            /// </summary>
+            Click,
+            /// <summary>
+            /// The double click
+            /// </summary>
+            DoubleClick,
+            /// <summary>
+            /// The send keys
+            /// </summary>
+            SendKeys
+        }
+        #endregion
+        #region "Appinum Actions"
+        #region "Private/Internal Functions"
+        /// <summary>
         /// Gets the action.
         /// </summary>
         /// <param name="automationId">The automation identifier.</param>
@@ -407,89 +431,30 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
         /// <summary>
-        /// Doubles the c lick element.
+        /// Screens the shot it.
         /// </summary>
-        /// <param name="automationId">The automation identifier.</param>
-        /// <param name="errOut">The error out.</param>
-        /// <param name="myAction">My action.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        [Obsolete("Replaced by PerformAction")]
-        public bool DoubleCLickElement( string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        internal void ScreenShotIt()
         {
-            bool bAns = false;
-            errOut = "";
-            try
+            if (DesktopSession != null)
             {
-                WindowsElement actionMenu = GetAction(automationId, myAction);
-                Actions action = new Actions(DesktopSession);
-                action.MoveToElement(actionMenu);
-                action.DoubleClick();
-                action.Perform();
-                action.DoubleClick();
-                action.Perform();
-                bAns = true;
+                ITakesScreenshot screenShotDriver = (ITakesScreenshot)DesktopSession;
+                if (screenShotDriver.GetScreenshot() != null)
+                {
+                    if (TestName == null || TestName?.Length == 0) TestName = "UnMarked";
+                    Screenshot screenShot = screenShotDriver.GetScreenshot();
+                    string savePath = $"{SettingsScreenShotLocation}\\{TestName}-{DateTime.Now.Ticks}.png";
+                    screenShot.SaveAsFile(savePath, ScreenshotImageFormat.Png);
+                    ScreenShotLocation.Add(savePath);
+                }
+                else
+                {
+                    Debug.Print("The application is not active so we are unable to take a screen shot at this time.");
+                }
+
             }
-            catch (Exception e)
-            {
-                AddError(ErrorMessage("DoubleCLickElement", e));
-            }
-            return bAns;
         }
-        /// <summary>
-        /// Clicks the on element.
-        /// </summary>
-        /// <param name="automationId">The automation identifier.</param>
-        /// <param name="errOut">The error out.</param>
-        /// <param name="myAction">My action.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        [Obsolete("Replaced by PerformAction")]
-        public bool ClickOnElement(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
-        {
-            bool bAns = false;
-            errOut = "";
-            try
-            {
-                WindowsElement actionMenu = GetAction(automationId, myAction);
-                Actions action = new Actions(DesktopSession);
-                action.MoveToElement(actionMenu);
-                action.Click();
-                action.Perform();
-                bAns = true;
-            }
-            catch (Exception e)
-            {
-                AddError(ErrorMessage("ClickOnElement", e));
-            }
-            return bAns;
-        }
-        /// <summary>
-        /// Sends the text to element.
-        /// </summary>
-        /// <param name="automationId">The automation identifier.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="errOut">The error out.</param>
-        /// <param name="myAction">My action.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        [Obsolete("Replaced by PerformAction")]
-        public bool SendTextToElement(string automationId,string value, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
-        {
-            bool bAns = false;
-            errOut = "";
-            try
-            {
-                WindowsElement actionMenu = GetAction(automationId, myAction);
-                Actions action = new Actions(DesktopSession);
-                action.MoveToElement(actionMenu);
-                action.SendKeys(value);
-                action.Perform();
-                bAns = true;
-            }
-            catch (Exception e)
-            {
-                AddError(ErrorMessage("SendTextToElement", e));
-            }
-            return bAns;
-        }
+        #endregion
+
         /// <summary>
         /// Performs the action to execute on the application
         /// </summary>
@@ -541,43 +506,7 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
-        /// <summary>
-        /// Enum My Actions to do on the web page
-        /// </summary>
-        public enum MyAction
-        {
-            /// <summary>
-            /// The nothing
-            /// </summary>
-            Nothing,
-            Click,
-            DoubleClick,
-            SendKeys
-        }
 
-        /// <summary>
-        /// Screens the shot it.
-        /// </summary>
-        public void ScreenShotIt()
-        {
-            if (DesktopSession != null)
-            {
-                ITakesScreenshot screenShotDriver = (ITakesScreenshot)DesktopSession;
-                if (screenShotDriver.GetScreenshot() != null)
-                {
-                    if (TestName == null || TestName?.Length == 0) TestName = "UnMarked";
-                    Screenshot screenShot = screenShotDriver.GetScreenshot();
-                    string savePath = $"{SettingsScreenShotLocation}\\{TestName}-{DateTime.Now.Ticks}.png";
-                    screenShot.SaveAsFile(savePath, ScreenshotImageFormat.Png);
-                    ScreenShotLocation.Add(savePath);
-                }
-                else
-                {
-                    Debug.Print("The application is not active so we are unable to take a screen shot at this time.");
-                }
-
-            }
-        }
         #endregion
     }
 }
