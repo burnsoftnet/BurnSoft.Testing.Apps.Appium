@@ -211,20 +211,20 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
                 ElementName = "cmbLookIn"
             });
-            cmd.Add(new BatchCommandList()
-            {
-                TestName = "Click on Control Combo box Look in",
-                Actions = GeneralActions.MyAction.Click,
-                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "cmbLookIn"
-            });
-            cmd.Add(new BatchCommandList()
-            {
-                TestName = "Click on Control Combo box Look in",
-                Actions = GeneralActions.MyAction.Click,
-                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "Model Name"
-            });
+            //cmd.Add(new BatchCommandList()
+            //{
+            //    TestName = "Click on Control Combo box Look in",
+            //    Actions = GeneralActions.MyAction.Click,
+            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+            //    ElementName = "cmbLookIn"
+            //});
+            //cmd.Add(new BatchCommandList()
+            //{
+            //    TestName = "Click on Control Combo box Look in",
+            //    Actions = GeneralActions.MyAction.Click,
+            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+            //    ElementName = "Model Name"
+            //});
             cmd.Add(new BatchCommandList()
             {
                 TestName = "Start Search",
