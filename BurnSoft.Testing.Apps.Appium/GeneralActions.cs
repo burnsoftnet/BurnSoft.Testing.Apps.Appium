@@ -8,6 +8,10 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
+// ReSharper disable InconsistentNaming
+// ReSharper disable RedundantCast
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable UseObjectOrCollectionInitializer
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedMember.Global
@@ -575,7 +579,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 foreach (BatchCommandList c in cmd)
                 {
                     bool didpass = false;
-                    string result = @"";
+                    string result;
                     string sendkeys = @"";
                     try
                     {
