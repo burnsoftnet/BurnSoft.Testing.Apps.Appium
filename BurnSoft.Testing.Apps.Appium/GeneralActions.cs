@@ -397,7 +397,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The send keys
             /// </summary>
-            SendKeys
+            SendKeys,
+            /// <summary>
+            /// Read the value of the control
+            /// </summary>
+            ReadValue
         }
         #endregion
         #region "Appinum Actions"
@@ -564,6 +568,30 @@ namespace BurnSoft.Testing.Apps.Appium
             return bAns;
         }
         /// <summary>
+        /// Performs the action.
+        /// </summary>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns>System.String.</returns>
+        public string PerformAction(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            string sAns = "";
+            errOut = "";
+            try
+            {
+                WindowsElement actionMenu = GetAction(automationId, myAction);
+                sAns = actionMenu.Text;
+            }
+            catch (Exception e)
+            {
+                errOut = $"ACTION: Read Value - {ErrorMessage("PerformAction", e)}";
+                AddError(errOut);
+                ScreenShotIt();
+            }
+            return sAns;
+        }
+        /// <summary>
         /// Runs the batch commands.
         /// </summary>
         /// <param name="cmd">The command.</param>
@@ -588,8 +616,18 @@ namespace BurnSoft.Testing.Apps.Appium
                         string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
                         if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
                         if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
-                        if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
-                            throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+
+                        if (c.Actions.Equals(MyAction.ReadValue))
+                        {
+                            string myValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                            if (errOut.Length > 0)
+                                throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                        }
+                        else
+                        {
+                            if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
+                                throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                        }
                         result = $"Was able to {msg}{Environment.NewLine}";
 
                         if (!didpass) didpass = true;
