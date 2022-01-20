@@ -177,6 +177,13 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             });
             cmd.Add(new BatchCommandList()
             {
+                TestName = "Verify For Textbox exists",
+                Actions = GeneralActions.MyAction.Nothing,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "txtLookFor"
+            });
+            cmd.Add(new BatchCommandList()
+            {
                 TestName = "Look For Textbox",
                 Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,

@@ -524,7 +524,7 @@ namespace BurnSoft.Testing.Apps.Appium
             {
                 WindowsElement actionMenu = GetAction(automationId, myAction);
 
-                if (myAction.Equals(MyAction.Nothing))
+                if (action.Equals(MyAction.Nothing))
                 {
                     bAns = actionMenu.Displayed;
                 }
@@ -583,6 +583,7 @@ namespace BurnSoft.Testing.Apps.Appium
                         if (c.SendKeys != null) sendkeys = c.SendKeys;
                         string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
                         if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
+                        if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
                         if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
                             throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
                         result = $"Was able to {msg}{Environment.NewLine}";
