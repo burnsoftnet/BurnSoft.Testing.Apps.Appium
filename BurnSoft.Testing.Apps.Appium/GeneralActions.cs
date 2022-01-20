@@ -588,16 +588,6 @@ namespace BurnSoft.Testing.Apps.Appium
                             throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
                         result = $"Was able to {msg}{Environment.NewLine}";
 
-                        //if (sendkeys?.Length == 0)
-                        //{
-                        //    switch (c.Actions)
-                        //    {
-                        //        case MyAction.Click:
-                        //            if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
-                        //                throw new Exception(errOut);
-                        //            break;
-                        //    }
-                        //}
                         if (!didpass) didpass = true;
                     }
                     catch (Exception e)
