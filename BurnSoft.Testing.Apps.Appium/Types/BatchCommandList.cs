@@ -39,10 +39,15 @@ namespace BurnSoft.Testing.Apps.Appium.Types
         /// <value>The returned value.</value>
         public string ReturnedValue { get; set; }
         /// <summary>
-        /// Gets or sets the expected returned value.
+        /// Gets or sets the expected returned value. This is used when you have the action set to compare
         /// </summary>
         /// <value>The expected returned value.</value>
         public string ExpectedReturnedValue { get; set; }
+        /// <summary>
+        /// Gets or sets the found returned value.
+        /// </summary>
+        /// <value>The expected returned value.</value>
+        public string ReturnedFoundValue { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether [returned value blank ok].
         /// </summary>

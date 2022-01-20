@@ -609,6 +609,7 @@ namespace BurnSoft.Testing.Apps.Appium
                     bool didpass = false;
                     string result;
                     string sendkeys = @"";
+                    string foundValue = "";
                     try
                     {
                         if (DesktopSession == null) throw new Exception("Error occured and the Driver is not active!");
@@ -619,9 +620,10 @@ namespace BurnSoft.Testing.Apps.Appium
 
                         if (c.Actions.Equals(MyAction.ReadValue))
                         {
-                            string myValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                            foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
                             if (errOut.Length > 0)
                                 throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                            msg += $"{msg}. Found value {foundValue}";
                         }
                         else
                         {
@@ -649,7 +651,9 @@ namespace BurnSoft.Testing.Apps.Appium
                         }
 
                     }
-                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName});
+                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, 
+                        Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, 
+                        PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName, ReturnedFoundValue = foundValue});
                 }
             }
             catch (Exception e)

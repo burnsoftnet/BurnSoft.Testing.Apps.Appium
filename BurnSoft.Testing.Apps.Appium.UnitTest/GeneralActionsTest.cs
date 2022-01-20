@@ -189,6 +189,21 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
                 ElementName = "txtLookFor"
             });
+            //cmbLookIn
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Verify Control Combo box Look in",
+                Actions = GeneralActions.MyAction.Nothing,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "cmbLookIn"
+            });
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Get Control Combo Value box Look in",
+                Actions = GeneralActions.MyAction.ReadValue,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "cmbLookIn"
+            });
             cmd.Add(new BatchCommandList()
             {
                 TestName = "Search for word Glock",
