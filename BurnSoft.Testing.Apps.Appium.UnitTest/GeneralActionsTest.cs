@@ -84,7 +84,10 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
-
+        /// <summary>
+        /// Defines the test method PerformActionReadElementTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [TestMethod]
         public void PerformActionReadElementTest()
         {
