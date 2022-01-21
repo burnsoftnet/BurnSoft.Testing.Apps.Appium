@@ -528,6 +528,21 @@ namespace BurnSoft.Testing.Apps.Appium
         }
 
         #endregion
+
+        public void GetElements(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            errOut = "";
+            try
+            {
+               
+                IEnumerable<AppiumWebElement> elementsOne = DesktopSession.FindElementsByAccessibilityId(automationId);
+                Thread.Sleep(1000);
+            }
+            catch (Exception e)
+            {
+                errOut = ErrorMessage("GetElements", e);
+            }
+        }
         /// <summary>
         /// Performs the action to execute on the application
         /// </summary>

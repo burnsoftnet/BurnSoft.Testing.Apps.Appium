@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="GeneralActionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScratchPad.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
