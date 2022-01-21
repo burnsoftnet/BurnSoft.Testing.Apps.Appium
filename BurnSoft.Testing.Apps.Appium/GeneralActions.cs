@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using BurnSoft.Testing.Apps.Appium.Types;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
@@ -405,7 +406,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The read and compare the text value
             /// </summary>
-            ReadAndCompare
+            ReadAndCompare,
+            /// <summary>
+            /// The sleep betwteen steps
+            /// </summary>
+            Sleep
         }
         #endregion
         #region "Appinum Actions"
@@ -644,6 +649,9 @@ namespace BurnSoft.Testing.Apps.Appium
                             {
                                 msg += $"{msg}. Found value {foundValue}, but expected {c.ExpectedReturnedValue}";
                             }
+                        } else if (c.Actions.Equals(MyAction.Sleep))
+                        {
+                            Thread.Sleep(c.SleepInterval);
                         }
                         else
                         {
