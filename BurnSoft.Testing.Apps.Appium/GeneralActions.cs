@@ -627,37 +627,38 @@ namespace BurnSoft.Testing.Apps.Appium
                         if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
                         if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
 
-                        if (c.Actions.Equals(MyAction.ReadValue))
+                        switch (c.Actions)
                         {
-                            foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
-                            if (errOut.Length > 0)
-                                throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                            msg += $"{msg}. Found value {foundValue}";
-                            if (!didpass) didpass = true;
-                        } else if (c.Actions.Equals(MyAction.ReadAndCompare))
-                        {
-                            foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
-                            if (errOut.Length > 0)
-                                throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-
-                            if (foundValue.Equals(c.ExpectedReturnedValue))
-                            {
+                            case MyAction.ReadValue:
+                                foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                msg += $"{msg}. Found value {foundValue}";
                                 if (!didpass) didpass = true;
-                                msg += $"{msg}. Found value {foundValue}, and expected {c.ExpectedReturnedValue}";
-                            }
-                            else
-                            {
-                                msg += $"{msg}. Found value {foundValue}, but expected {c.ExpectedReturnedValue}";
-                            }
-                        } else if (c.Actions.Equals(MyAction.Sleep))
-                        {
-                            Thread.Sleep(c.SleepInterval);
-                        }
-                        else
-                        {
-                            if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
-                                throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                            if (!didpass) didpass = true;
+                                break;
+                            case MyAction.ReadAndCompare:
+                                foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+
+                                if (foundValue.Equals(c.ExpectedReturnedValue))
+                                {
+                                    if (!didpass) didpass = true;
+                                    msg += $"{msg}. Found value {foundValue}, and expected {c.ExpectedReturnedValue}";
+                                }
+                                else
+                                {
+                                    msg += $"{msg}. Found value {foundValue}, but expected {c.ExpectedReturnedValue}";
+                                }
+                                break;
+                            case MyAction.Sleep:
+                                Thread.Sleep(c.SleepInterval);
+                                break;
+                            default:
+                                if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                if (!didpass) didpass = true;
+                                break;
                         }
                         result = $"Was able to {msg}{Environment.NewLine}";
 
