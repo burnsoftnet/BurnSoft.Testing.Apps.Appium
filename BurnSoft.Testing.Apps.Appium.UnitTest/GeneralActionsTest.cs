@@ -84,6 +84,26 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             }
             Assert.IsTrue(value);
         }
+
+        [TestMethod]
+        public void PerformActionReadElementTest()
+        {
+            bool value = false;
+            try
+            {
+                bool myValue = _ga.PerformAction(_automationId, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+                Thread.Sleep(5000);
+                string serial = _ga.PerformAction("txtSerial",out _errOut);
+                TestContext.WriteLine($"Serial Number: {serial}");
+                value = serial.Length > 0;
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+            }
+            Assert.IsTrue(value);
+        }
         /// <summary>
         /// Defines the test method PerformActionCLickElementTest.
         /// </summary>
