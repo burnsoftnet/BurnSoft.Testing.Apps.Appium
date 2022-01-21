@@ -8,7 +8,7 @@ of the batch test.
 ## Code Example
 
 The Code example below is from the unit test running a test against the My Gun Collection Application.
-
+<code>
 > List<BatchCommandList> cmd = new List<BatchCommandList>();
 >             cmd.Add(new BatchCommandList()
 >             {
@@ -83,7 +83,7 @@ The Code example below is from the unit test running a test against the My Gun C
 >                TestContext.WriteLine($"ERROR: {e.Message}");
 >                Assert.Fail();
 >            }
-
+</code>
 
 ### Passing Results Example
 
