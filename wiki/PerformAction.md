@@ -13,7 +13,7 @@ The order for them goes by the AutomationId/name/xpath/ etc, the value to send t
 
 Code was taken from the unit test  Since it is true or false return, there is not results posted in the test if it passes.
 
-'''
+```
 
 bool value = false;
             try
@@ -28,14 +28,14 @@ bool value = false;
             }
             Assert.IsTrue(value);
 
-'''
+```
 
 
 ## Code Example String
 
 Code was taken from the unit test.
 
-'''
+```
 
  bool value = false;
             try
@@ -53,11 +53,10 @@ Code was taken from the unit test.
             }
             Assert.IsTrue(value);
 
-
-'''
+```
 
 ### Result from string return
 
-'''
+```
 Serial Number: DS37241
-'''
+```

@@ -9,7 +9,7 @@ This is why in the batch command example contained a TestName field, this way yo
 
 this code example is from the unit test
 
-'''
+```
 try
             {
                 List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
@@ -24,13 +24,13 @@ try
                 Assert.Fail();
             }
 
-'''
+```
 
 ## Results
 
 This is the results from the unit test code above.
 
-'''
+```
 1.)  PASSED! Search Gun Collection Button  Was able to Click on Search Gun Collection using FindElementByName
 
 2.)  PASSED! Look For Textbox  Was able to Click on txtLookFor using FindElementByAccessibilityId
@@ -39,4 +39,4 @@ This is the results from the unit test code above.
 
 4.)  PASSED! Start Search  Was able to Click on btnSearch using FindElementByAccessibilityId
 
-'''
+```
