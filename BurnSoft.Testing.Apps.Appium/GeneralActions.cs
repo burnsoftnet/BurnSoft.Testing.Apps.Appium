@@ -401,7 +401,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// Read the value of the control
             /// </summary>
-            ReadValue
+            ReadValue,
+            /// <summary>
+            /// The read and compare the text value
+            /// </summary>
+            ReadAndCompare
         }
         #endregion
         #region "Appinum Actions"
@@ -624,15 +628,31 @@ namespace BurnSoft.Testing.Apps.Appium
                             if (errOut.Length > 0)
                                 throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
                             msg += $"{msg}. Found value {foundValue}";
+                            if (!didpass) didpass = true;
+                        } else if (c.Actions.Equals(MyAction.ReadAndCompare))
+                        {
+                            foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                            if (errOut.Length > 0)
+                                throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+
+                            if (foundValue.Equals(c.ExpectedReturnedValue))
+                            {
+                                if (!didpass) didpass = true;
+                                msg += $"{msg}. Found value {foundValue}, and expected {c.ExpectedReturnedValue}";
+                            }
+                            else
+                            {
+                                msg += $"{msg}. Found value {foundValue}, but expected {c.ExpectedReturnedValue}";
+                            }
                         }
                         else
                         {
                             if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
                                 throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                            if (!didpass) didpass = true;
                         }
                         result = $"Was able to {msg}{Environment.NewLine}";
 
-                        if (!didpass) didpass = true;
                     }
                     catch (Exception e)
                     {
