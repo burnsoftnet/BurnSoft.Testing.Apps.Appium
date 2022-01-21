@@ -400,6 +400,10 @@ namespace BurnSoft.Testing.Apps.Appium
             /// </summary>
             SendKeys,
             /// <summary>
+            /// The clear and send keys
+            /// </summary>
+            ClearAndSendKeys,
+            /// <summary>
             /// Read the value of the control
             /// </summary>
             ReadValue,
@@ -556,6 +560,10 @@ namespace BurnSoft.Testing.Apps.Appium
                             runAction.Click();
                             break;
                         case MyAction.SendKeys:
+                            runAction.SendKeys(value);
+                            break;
+                        case MyAction.ClearAndSendKeys:
+                            actionMenu.Clear();
                             runAction.SendKeys(value);
                             break;
                         case MyAction.DoubleClick:
