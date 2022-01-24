@@ -142,6 +142,8 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             set => _winAppDriverPath = value;
         }
+
+
         /// <summary>
         /// Gets or sets the wait for application launch.
         /// </summary>
@@ -169,6 +171,11 @@ namespace BurnSoft.Testing.Apps.Appium
         /// </summary>
         /// <value>The error lists.</value>
         public List<string> ErrorLists { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether to run the test in admin mode.
+        /// </summary>
+        /// <value><c>true</c> if [run in admin mode]; otherwise, <c>false</c>.</value>
+        public bool RunInAdminMode { get; set; }
 
         #endregion
         #region "Exception Error Handling"        
@@ -232,7 +239,7 @@ namespace BurnSoft.Testing.Apps.Appium
             {
                 ProcessStartInfo psi = new ProcessStartInfo(WinAppDriverPath);
                 psi.UseShellExecute = true;
-                psi.Verb = "runas"; // run as administrator
+                if (RunInAdminMode) psi.Verb = "runas"; // run as administrator
                 _winAppDriverProcess = Process.Start(psi);
             }
             catch (Exception e)
@@ -263,16 +270,32 @@ namespace BurnSoft.Testing.Apps.Appium
         public GeneralActions(WindowsDriver<WindowsElement> desktopSession)
         {
             DesktopSession = desktopSession;
-            ErrorLists = new List<string>();
-            ScreenShotLocation = new List<string>();
+            GeneralActionsInit();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralActions"/> class.
         /// </summary>
         public GeneralActions()
         {
+            GeneralActionsInit();
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
+        /// </summary>
+        /// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
+        public GeneralActions(bool runInAdminMode)
+        {
+            GeneralActionsInit(runInAdminMode);
+        }
+        /// <summary>
+        /// Generals the actions initialize.
+        /// </summary>
+        /// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
+        private void GeneralActionsInit(bool runInAdminMode = false) 
+        {
             ErrorLists = new List<string>();
             ScreenShotLocation = new List<string>();
+            RunInAdminMode = runInAdminMode;
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
