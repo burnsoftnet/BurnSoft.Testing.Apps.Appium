@@ -654,6 +654,106 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <returns>List&lt;BatchCommandList&gt;.</returns>
         /// <exception cref="System.Exception">Error occured and the Driver is not active!</exception>
+        /// <example>
+        /// private List&lt;BatchCommandList&gt; GetCommands() <br/>
+        /// { <br/>
+        /// List&lt;BatchCommandList&gt; cmd = new List&lt;BatchCommandList&gt;(); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Search Gun Collection Button", <br/>
+        /// Actions = GeneralActions.MyAction.Click, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByName, <br/>
+        /// ElementName = "Search Gun Collection" <br/>
+        /// }); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Verify For Textbox exists", <br/>
+        /// Actions = GeneralActions.MyAction.Nothing, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// ElementName = "txtLookFor" <br/>
+        /// }); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Look For Textbox", <br/>
+        /// Actions = GeneralActions.MyAction.Click, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// ElementName = "txtLookFor" <br/>
+        /// }); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Search for word Glock", <br/>
+        /// Actions = GeneralActions.MyAction.SendKeys, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// ElementName = "txtLookFor", <br/>
+        /// SendKeys = "Glock" <br/>
+        /// }); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Verify Control Combo box Look in", <br/>
+        /// Actions = GeneralActions.MyAction.Nothing, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// ElementName = "cmbLookIn" <br/>
+        /// }); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Get Control Combo Value box Look in", <br/>
+        /// Actions = GeneralActions.MyAction.ReadValue, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// ElementName = "cmbLookIn" <br/>
+        /// }); <br/>
+        /// //cmd.Add(new BatchCommandList() <br/>
+        /// //{ <br/>
+        /// //    TestName = "Click on Control Combo box Look in", <br/>
+        /// //    Actions = GeneralActions.MyAction.Click, <br/>
+        /// //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// //    ElementName = "cmbLookIn" <br/>
+        /// //}); <br/>
+        /// //cmd.Add(new BatchCommandList() <br/>
+        /// //{ <br/>
+        /// //    TestName = "Click on Control Combo box Look in", <br/>
+        /// //    Actions = GeneralActions.MyAction.Click, <br/>
+        /// //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// //    ElementName = "Model Name" <br/>
+        /// //}); <br/>
+        /// cmd.Add(new BatchCommandList() <br/>
+        /// { <br/>
+        /// TestName = "Start Search", <br/>
+        /// Actions = GeneralActions.MyAction.Click, <br/>
+        /// CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId, <br/>
+        /// ElementName = "btnSearch" <br/>
+        /// }); <br/>
+        /// return cmd; <br/>
+        /// } <br/>
+        /// /// &lt;summary&gt; <br/>
+        /// /// Defines the test method BatchCommandTest. <br/>
+        /// /// &lt;/summary&gt; <br/>
+        /// /// &lt;exception cref="System.Exception"&gt;&lt;/exception&gt; <br/>
+        /// [TestMethod] <br/>
+        /// public void BatchCommandTest() <br/>
+        /// { <br/>
+        /// try <br/>
+        /// { <br/>
+        /// List&lt;BatchCommandList&gt; value = _ga.RunBatchCommands(GetCommands(), out _errOut); <br/>
+        /// if (_errOut.Length &gt; 0) throw new Exception(_errOut); <br/>
+        ///  <br/>
+        /// int testNumber = 1; <br/>
+        /// foreach (BatchCommandList v in value) <br/>
+        /// { <br/>
+        /// string passfailed = v.PassedFailed ? "PASSED" : "FAILED"; <br/>
+        /// TestContext.WriteLine($"{testNumber}.) {passfailed} - {v.TestName}"); <br/>
+        /// TestContext.WriteLine(v.ReturnedValue); <br/>
+        /// testNumber++; <br/>
+        /// } <br/>
+        /// Assert.IsTrue(_ga.AllTestsPassed(value)); <br/>
+        /// } <br/>
+        /// catch (Exception e) <br/>
+        /// { <br/>
+        /// TestContext.WriteLine($"ERROR: {e.Message}"); <br/>
+        /// Assert.Fail(); <br/>
+        /// } <br/>
+        ///  <br/>
+        /// } <br/>
+        /// </example>
         public List<BatchCommandList> RunBatchCommands(List<BatchCommandList> cmd, out string errOut)
         {
             List<BatchCommandList> theReturned = new List<BatchCommandList>();
