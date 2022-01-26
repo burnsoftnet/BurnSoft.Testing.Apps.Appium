@@ -559,6 +559,7 @@ namespace BurnSoft.Testing.Apps.Appium
             {
                
                 IEnumerable<AppiumWebElement> elementsOne = DesktopSession.FindElementsByAccessibilityId(automationId).ToList();
+                var test = DesktopSession.FindElements(By.Id(automationId));
                 Thread.Sleep(1000);
             }
             catch (Exception e)
