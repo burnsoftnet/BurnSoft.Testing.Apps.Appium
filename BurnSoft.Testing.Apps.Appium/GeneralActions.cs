@@ -608,6 +608,9 @@ namespace BurnSoft.Testing.Apps.Appium
                         case MyAction.DoubleClick:
                             runAction.DoubleClick();
                             break;
+                        case MyAction.Sleep:
+                            Thread.Sleep(Convert.ToInt32(value));
+                            break;
                     }
 
                     runAction.Perform();
@@ -800,6 +803,8 @@ namespace BurnSoft.Testing.Apps.Appium
                                 break;
                             case MyAction.Sleep:
                                 Thread.Sleep(c.SleepInterval);
+                                msg += $"Was able to Sleep for {c.SleepInterval} ms.";
+                                if (!didpass) didpass = true;
                                 break;
                             default:
                                 if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
