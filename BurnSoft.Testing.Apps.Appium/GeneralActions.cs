@@ -399,7 +399,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The find element by tag name
             /// </summary>
-            FindElementByTagName
+            FindElementByTagName,
+            /// <summary>
+            /// The nothing
+            /// </summary>
+            Nothing
         }
         /// <summary>
         /// Enum My Actions to do on the web page
