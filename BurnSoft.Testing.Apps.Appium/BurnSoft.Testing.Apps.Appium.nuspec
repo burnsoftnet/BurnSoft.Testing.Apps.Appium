@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0.3-beta</version>
+    <version>$version$-beta</version>
     <title>$title$</title>
     <authors>burnsoftnet</authors>
     <owners>burnsoftnet</owners>
