@@ -555,7 +555,13 @@ namespace BurnSoft.Testing.Apps.Appium
         }
 
         #endregion
-
+        /// <summary>
+        /// Get Elemtns from item test
+        /// </summary>
+        /// <remarks>Might be able to delete later is not needed</remarks>
+        /// <param name="automationId"></param>
+        /// <param name="errOut"></param>
+        /// <param name="myAction"></param>
         public void GetElements(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             errOut = "";
