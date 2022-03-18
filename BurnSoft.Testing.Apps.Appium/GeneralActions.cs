@@ -611,7 +611,6 @@ namespace BurnSoft.Testing.Apps.Appium
                 {
                     Actions runAction = new Actions(DesktopSession);
                     runAction.MoveToElement(actionMenu);
-                    runAction.KeyDown(Keys.Tab);
                     switch (action)
                     {
                         case MyAction.Click:
