@@ -13,6 +13,7 @@ using OpenQA.Selenium.Interactions;
 // ReSharper disable RedundantCast
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable UseObjectOrCollectionInitializer
+// ReSharper disable UnusedVariable
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedMember.Global
@@ -441,7 +442,15 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The sleep betwteen steps
             /// </summary>
-            Sleep
+            Sleep,
+            /// <summary>
+            /// The key down action
+            /// </summary>
+            KeyDown,
+            /// <summary>
+            /// The key up action
+            /// </summary>
+            KeyUp
         }
         #endregion
         #region "Appinum Actions"
@@ -602,7 +611,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 {
                     Actions runAction = new Actions(DesktopSession);
                     runAction.MoveToElement(actionMenu);
-
+                    runAction.KeyDown(Keys.Tab);
                     switch (action)
                     {
                         case MyAction.Click:
@@ -617,6 +626,12 @@ namespace BurnSoft.Testing.Apps.Appium
                             break;
                         case MyAction.DoubleClick:
                             runAction.DoubleClick();
+                            break;
+                        case MyAction.KeyDown:
+                            runAction.KeyDown(value);
+                            break;
+                        case MyAction.KeyUp:
+                            runAction.KeyUp(value);
                             break;
                         case MyAction.Sleep:
                             Thread.Sleep(Convert.ToInt32(value));
