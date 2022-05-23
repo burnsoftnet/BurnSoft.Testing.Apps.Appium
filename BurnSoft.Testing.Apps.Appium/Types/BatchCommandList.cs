@@ -58,7 +58,11 @@ namespace BurnSoft.Testing.Apps.Appium.Types
         /// </summary>
         /// <value>The sleep interval.</value>
         public int SleepInterval { get; set; }
-
+        /// <summary>
+        /// Gets or sets the tab count. This is used for Action ClickOnElementAndTabOver
+        /// </summary>
+        /// <value>The tab count.</value>
+        public int TabCount { get; set; }
 
     }
 }

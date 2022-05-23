@@ -450,7 +450,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The key up action
             /// </summary>
-            KeyUp
+            KeyUp,
+            /// <summary>
+            /// The click on element and tab over
+            /// </summary>
+            ClickOnElementAndTabOver
         }
         #endregion
         #region "Appinum Actions"
@@ -587,6 +591,58 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
         /// <summary>
+        /// Performs the tab select, it will start at the automation id that you selected, then you have the option to tab over x many times
+        /// to another item then it will send a space key press to activate the final element.
+        /// </summary>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <param name="tabCount">The tab count.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <param name="myAction">My action.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        public bool PerformTabSelect(string automationId, int tabCount, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                if (tabCount == 0) tabCount = 1;
+                WindowsElement element = GetAction(automationId, myAction);
+
+                Actions action = new Actions(DesktopSession);
+                action.MoveToElement(element);
+                action.Perform();
+                action.Click();
+                action.Perform();
+
+                if (tabCount > 1)
+                {
+                    for (int i = 1; i > tabCount; i++)
+                    {
+                        element.SendKeys(Keys.Tab);
+                        Thread.Sleep(500);
+                    }
+                }
+                else
+                {
+                    element.SendKeys(Keys.Tab);
+                    Thread.Sleep(500);
+                }
+                element.SendKeys(Keys.Enter);
+                Thread.Sleep(500);
+
+
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = $"{ErrorMessage("PerformAction", e)}";
+                AddError(errOut);
+                ScreenShotIt();
+            }
+            return bAns;
+        }
+        
+        /// <summary>
         /// Performs the action to execute on the application
         /// </summary>
         /// <param name="automationId">The automation identifier.</param>
@@ -650,6 +706,7 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
+
         /// <summary>
         /// Performs the action.
         /// </summary>
@@ -829,6 +886,13 @@ namespace BurnSoft.Testing.Apps.Appium
                                 Thread.Sleep(c.SleepInterval);
                                 msg += $"Was able to Sleep for {c.SleepInterval} ms.";
                                 if (!didpass) didpass = true;
+                                break;
+                            case MyAction.ClickOnElementAndTabOver:
+                                didpass = PerformTabSelect(c.ElementName, c.TabCount, out errOut, c.CommandAction);
+                                string actionMsg = didpass ? "Was" : "Was Not";
+                                msg += $"{actionMsg} to click on {c.ElementName} and tab over {c.TabCount} to select element at tab.";
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
                                 break;
                             default:
                                 if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
