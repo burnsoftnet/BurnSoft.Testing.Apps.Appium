@@ -616,7 +616,7 @@ namespace BurnSoft.Testing.Apps.Appium
 
                 if (tabCount > 1)
                 {
-                    for (int i = 1; i > tabCount; i++)
+                    for (int i = 1; i < tabCount; i++)
                     {
                         element.SendKeys(Keys.Tab);
                         Thread.Sleep(500);
