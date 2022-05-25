@@ -844,6 +844,7 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = @"";
             try
             {
+                int testNumber = 1;
                 foreach (BatchCommandList c in cmd)
                 {
                     bool didpass = false;
@@ -922,7 +923,9 @@ namespace BurnSoft.Testing.Apps.Appium
                     }
                     theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, 
                         Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, 
-                        PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName, ReturnedFoundValue = foundValue});
+                        PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName, ReturnedFoundValue = foundValue, TestNumber = testNumber
+                    });
+                    testNumber++;
                 }
             }
             catch (Exception e)

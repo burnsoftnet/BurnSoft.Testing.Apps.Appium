@@ -63,6 +63,11 @@ namespace BurnSoft.Testing.Apps.Appium.Types
         /// </summary>
         /// <value>The tab count.</value>
         public int TabCount { get; set; }
+        /// <summary>
+        /// Gets or sets the test number automatically as the results run.
+        /// </summary>
+        /// <value>The test number.</value>
+        public int TestNumber { get; set; }
 
     }
 }
