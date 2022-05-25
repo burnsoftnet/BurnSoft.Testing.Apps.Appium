@@ -516,6 +516,62 @@ namespace BurnSoft.Testing.Apps.Appium
 
             }
         }
+
+        private string GetStringFromStep(List<BatchCommandList> lst, string testName, out string errOut)
+        {
+            string sAns = "";
+            errOut = "";
+            try
+            {
+                List<BatchCommandList> myResults = lst.Where(r => r.TestName.Equals(testName)).ToList();
+                foreach (BatchCommandList m in myResults)
+                {
+                    if (m.ReturnedFoundValue != null)
+                    {
+                        sAns = m.ReturnedFoundValue;
+                    }
+
+                    if (m.ReturnedValue != null)
+                    {
+                        sAns = m.ReturnedValue;
+                    }
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                errOut = ErrorMessage("GetStringFromStep", e);
+            }
+            return sAns;
+        }
+
+        private string GetStringFromStep(List<BatchCommandList> lst, int testNumber, out string errOut)
+        {
+            string sAns = "";
+            errOut = "";
+            try
+            {
+                List<BatchCommandList> myResults = lst.Where(r => r.TestNumber.Equals(testNumber)).ToList();
+                foreach (BatchCommandList m in myResults)
+                {
+                    if (m.ReturnedFoundValue != null)
+                    {
+                        sAns = m.ReturnedFoundValue;
+                    }
+
+                    if (m.ReturnedValue != null)
+                    {
+                        sAns = m.ReturnedValue;
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                errOut = ErrorMessage("GetStringFromStep", e);
+            }
+            return sAns;
+        }
         #endregion
         #region "Reporting"
         /// <summary>
@@ -935,6 +991,7 @@ namespace BurnSoft.Testing.Apps.Appium
 
             return theReturned;
         }
+
 
 
         #endregion
