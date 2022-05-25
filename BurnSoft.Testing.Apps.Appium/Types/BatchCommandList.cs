@@ -68,6 +68,11 @@ namespace BurnSoft.Testing.Apps.Appium.Types
         /// </summary>
         /// <value>The test number.</value>
         public int TestNumber { get; set; }
+        /// <summary>
+        /// Gets or sets the test name look up.
+        /// </summary>
+        /// <value>The test name look up.</value>
+        public string TestNameLookUp { get; set; }
 
     }
 }

@@ -454,7 +454,15 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The click on element and tab over
             /// </summary>
-            ClickOnElementAndTabOver
+            ClickOnElementAndTabOver,
+            /// <summary>
+            /// The get value from previous test and compare value using test name to look up
+            /// </summary>
+            GetValueFromPreviousTestAndCompareByTestName,
+            /// <summary>
+            /// The get value from previous test and compare by test number
+            /// </summary>
+            GetValueFromPreviousTestAndCompareByTestNumber
         }
         #endregion
         #region "Appinum Actions"
@@ -516,7 +524,13 @@ namespace BurnSoft.Testing.Apps.Appium
 
             }
         }
-
+        /// <summary>
+        /// Gets the string from step.
+        /// </summary>
+        /// <param name="lst">The LST.</param>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns>System.String.</returns>
         private string GetStringFromStep(List<BatchCommandList> lst, string testName, out string errOut)
         {
             string sAns = "";
@@ -544,7 +558,13 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return sAns;
         }
-
+        /// <summary>
+        /// Gets the string from step.
+        /// </summary>
+        /// <param name="lst">The LST.</param>
+        /// <param name="testNumber">The test number.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns>System.String.</returns>
         private string GetStringFromStep(List<BatchCommandList> lst, int testNumber, out string errOut)
         {
             string sAns = "";
@@ -950,6 +970,42 @@ namespace BurnSoft.Testing.Apps.Appium
                                 msg += $"{actionMsg} to click on {c.ElementName} and tab over {c.TabCount} to select element at tab.";
                                 if (errOut.Length > 0)
                                     throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                break;
+                            case MyAction.GetValueFromPreviousTestAndCompareByTestName:
+                                string ExpectedReturnedValue = GetStringFromStep(theReturned, c.TestNameLookUp, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+
+                                if (foundValue.Equals(ExpectedReturnedValue))
+                                {
+                                    if (!didpass) didpass = true;
+                                    msg += $"{msg}. Found value {foundValue}, and expected {ExpectedReturnedValue}";
+                                }
+                                else
+                                {
+                                    msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValue}";
+                                }
+                                break;
+                            case MyAction.GetValueFromPreviousTestAndCompareByTestNumber:
+                                string ExpectedReturnedValueNum = GetStringFromStep(theReturned, c.TestNumber, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                foundValue = PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+
+                                if (foundValue.Equals(ExpectedReturnedValueNum))
+                                {
+                                    if (!didpass) didpass = true;
+                                    msg += $"{msg}. Found value {foundValue}, and expected {ExpectedReturnedValueNum}";
+                                }
+                                else
+                                {
+                                    msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValueNum}";
+                                }
                                 break;
                             default:
                                 if (!PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
