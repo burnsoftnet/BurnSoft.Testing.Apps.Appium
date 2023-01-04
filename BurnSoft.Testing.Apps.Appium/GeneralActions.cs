@@ -305,14 +305,16 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             if (AppSession != null)
             {
-                AppSession.Close();
-                AppSession.Quit();
+                AppSession.CloseApp();
+                //AppSession.Close();
+                //AppSession.Quit();
             }
             // Close the desktopSession
             if (DesktopSession != null)
             {
-                DesktopSession.Close();
-                DesktopSession.Quit();
+                DesktopSession.CloseApp();
+                //DesktopSession.Close();
+                //DesktopSession.Quit();
             }
 
             StopWinappDriver();
