@@ -1,5 +1,7 @@
 # BurnSoft.Testing.Apps.Appium
 
+![](https://img.shields.io/badge/license-MIT-blue.svg?maxAge=3600) 
+
 The BurnSoft.Testing.Apps.Appium Library was created to help simplify the Appium library functions to help build tests for your applications quick and easy.
 Currently this project is IN PROGRESS, and as soon as it starts coming together, more documentation will be presented.
 
