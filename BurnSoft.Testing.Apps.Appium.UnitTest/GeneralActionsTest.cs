@@ -76,7 +76,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             {
                 value = _ga.PerformAction(_automationId, "", GeneralActions.MyAction.DoubleClick,out _errOut, GeneralActions.AppAction.FindElementByName);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                Thread.Sleep(5000);
+                Thread.Sleep(500);
             }
             catch (Exception e)
             {
@@ -96,7 +96,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             {
                 bool myValue = _ga.PerformAction(_automationId, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                Thread.Sleep(5000);
+                Thread.Sleep(500);
                 string serial = _ga.PerformAction("txtSerial",out _errOut);
                 TestContext.WriteLine($"Serial Number: {serial}");
                 value = serial.Length > 0;
@@ -160,14 +160,14 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
             {
                 if (!_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
                     GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
                 
                 value = _ga.PerformAction("txtLookFor", "Glock", GeneralActions.MyAction.SendKeys, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 if (!_ga.PerformAction("btnSearch", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
-                Thread.Sleep(5000);
+                Thread.Sleep(500);
             }
             catch (Exception e)
             {

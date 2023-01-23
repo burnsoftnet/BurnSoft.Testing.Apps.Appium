@@ -305,14 +305,16 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             if (AppSession != null)
             {
-                AppSession.Close();
-                AppSession.Quit();
+                AppSession.CloseApp();
+                //AppSession.Close();
+                //AppSession.Quit();
             }
             // Close the desktopSession
             if (DesktopSession != null)
             {
-                DesktopSession.Close();
-                DesktopSession.Quit();
+                DesktopSession.CloseApp();
+                //DesktopSession.Close();
+                //DesktopSession.Quit();
             }
 
             StopWinappDriver();
@@ -659,7 +661,7 @@ namespace BurnSoft.Testing.Apps.Appium
                
                 IEnumerable<AppiumWebElement> elementsOne = DesktopSession.FindElementsByAccessibilityId(automationId).ToList();
                 var test = DesktopSession.FindElements(By.Id(automationId));
-                Thread.Sleep(1000);
+                Thread.Sleep(200);
             }
             catch (Exception e)
             {
@@ -695,16 +697,16 @@ namespace BurnSoft.Testing.Apps.Appium
                     for (int i = 1; i < tabCount + 1; i++)
                     {
                         element.SendKeys(Keys.Tab);
-                        Thread.Sleep(500);
+                        Thread.Sleep(200);
                     }
                 }
                 else
                 {
                     element.SendKeys(Keys.Tab);
-                    Thread.Sleep(500);
+                    Thread.Sleep(200);
                 }
                 element.SendKeys(Keys.Enter);
-                Thread.Sleep(500);
+                Thread.Sleep(200);
 
 
                 bAns = true;
