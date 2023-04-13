@@ -40,7 +40,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
                 string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
                 if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
                 _errOut = "";
-                _automationId = "AR-22";
+                _automationId = "Glock G17";
                 _ga = new GeneralActions();
                 _ga.TestName = "UnitTest-Init";
                 _ga.ApplicationPath = "c:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";

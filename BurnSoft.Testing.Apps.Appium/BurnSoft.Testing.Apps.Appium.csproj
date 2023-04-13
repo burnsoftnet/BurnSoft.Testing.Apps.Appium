@@ -35,8 +35,8 @@
     <DocumentationFile>bin\Release\BurnSoft.Testing.Apps.Appium.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Appium.Net, Version=4.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Appium.WebDriver.4.4.0\lib\net45\Appium.Net.dll</HintPath>
+    <Reference Include="Appium.Net, Version=4.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Appium.WebDriver.4.3.1\lib\net45\Appium.Net.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.5.1.1\lib\net462\Castle.Core.dll</HintPath>
