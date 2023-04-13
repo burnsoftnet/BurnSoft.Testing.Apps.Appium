@@ -65,7 +65,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         {
             _ga.Dispose();
         }
-        [TestMethod]
+        [TestMethod, TestCategory("Indvidual Actions - Find Element")]
         public void FindElementsTest()
         {
             _ga.GetElements("ListBox1", out _errOut);

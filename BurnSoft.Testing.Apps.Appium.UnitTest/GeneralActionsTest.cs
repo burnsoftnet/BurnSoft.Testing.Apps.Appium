@@ -68,7 +68,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// Defines the test method PerformActionDoubleCLickElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Indvidual Actions - Double CLick")]
         public void PerformActionDoubleCLickElementTest()
         {
             bool value = false;
@@ -88,7 +88,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// Defines the test method PerformActionReadElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Indvidual Actions - Element Test")]
         public void PerformActionReadElementTest()
         {
             bool value = false;
@@ -111,7 +111,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// Defines the test method PerformActionCLickElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Indvidual Actions - Click")]
         public void PerformActionCLickElementTest()
         {
             bool value = false;
@@ -130,7 +130,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// Defines the test method PerformActionVerifyElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Indvidual Actions - Verify")]
         public void PerformActionVerifyElementTest()
         {
             bool value = false;
@@ -152,7 +152,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Indvidual Actions - Send Text")]
         public void PerformActionSendTextElementTest()
         {
             bool value = false;
@@ -261,7 +261,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// Defines the test method BatchCommandTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Run Batch Command")]
         public void BatchCommandTest()
         {
             try
@@ -291,7 +291,7 @@ namespace BurnSoft.Testing.Apps.Appium.UnitTest
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
-        [TestMethod]
+        [TestMethod, TestCategory("Reporting - Generate Results")]
         public void GenerateResultsTest()
         {
             try
