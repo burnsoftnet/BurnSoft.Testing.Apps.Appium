@@ -22,6 +22,11 @@ Currently this project is IN PROGRESS, and as soon as it starts coming together,
 
 ## Release Log
 
+### v2.1.0.22-beta
+
+* Updated to use .net framework 4.8
+* Changed Unit Test to NUnit
+
 ### v1.x
 
 - Initial Release
