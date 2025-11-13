@@ -88,9 +88,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 bool myValue = _ga.PerformAction(_automationId, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
-                string serial = _ga.PerformAction("txtSerial", out _errOut);
-                TestContext.WriteLine($"Serial Number: {serial}");
-                value = serial.Length > 0;
+                string status = _ga.PerformAction("lblClickStatus", out _errOut);
+                TestContext.WriteLine($"Status Label: {status}");
+                value = status.Length > 0;
+                value = _ga.PerformAction(_automationId, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+                status = _ga.PerformAction("lblClickStatus", out _errOut);
+                TestContext.WriteLine($"Status Label: {status}");
+                value = status.Length > 0;
             }
             catch (Exception e)
             {
