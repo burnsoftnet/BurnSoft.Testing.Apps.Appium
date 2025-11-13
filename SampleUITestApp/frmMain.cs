@@ -16,5 +16,10 @@ namespace SampleUITestApp
         {
             InitializeComponent();
         }
+
+        private void btnClickTest_Click(object sender, EventArgs e)
+        {
+            lblClickStatus.Text = "Clicked";
+        }
     }
 }

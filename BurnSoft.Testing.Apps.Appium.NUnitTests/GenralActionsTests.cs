@@ -38,10 +38,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
                 if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
                 _errOut = "";
-                _automationId = "AR-22";
+                _automationId = "btnClickTest";
                 _ga = new GeneralActions();
                 _ga.TestName = "UnitTest-Init";
-                _ga.ApplicationPath = "c:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
+                _ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
                 _ga.SettingsScreenShotLocation = fullExceptionPath;
                 _ga.DoSleep = true;
                 _ga.Initialize();

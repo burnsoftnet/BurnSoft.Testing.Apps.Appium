@@ -119,6 +119,7 @@
             this.btnClickTest.TabIndex = 0;
             this.btnClickTest.Text = "Click Test";
             this.btnClickTest.UseVisualStyleBackColor = true;
+            this.btnClickTest.Click += new System.EventHandler(this.btnClickTest_Click);
             // 
             // lblClickStatus
             // 
