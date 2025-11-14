@@ -729,7 +729,8 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool PerformAction(string automationId, string value, MyAction action, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public bool PerformAction(string automationId, string value, MyAction action, out string errOut, 
+            AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             bool bAns = false;
             errOut = "";
@@ -792,7 +793,8 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns>System.String.</returns>
-        public string PerformAction(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public string PerformAction(string automationId, out string errOut, 
+            AppAction myAction = AppAction.FindElementByAccessibilityId)
         {
             string sAns = "";
             errOut = "";
