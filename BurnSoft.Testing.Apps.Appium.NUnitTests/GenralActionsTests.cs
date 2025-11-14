@@ -84,7 +84,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test, Category("General Function Test")]
-        public void PerformActionReadElementTextboxTesExpectFailt()
+        public void PerformActionReadElementTextboxTest()
         {
             bool value = false;
             try
@@ -100,7 +100,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 status = _ga.PerformAction(_automationIdTextbox, out _errOut);
                 TestContext.WriteLine($"Status Textbox: {status}");
                 value = status.Length > 0;
-                if (!value || status.Equals("Clicked"))
+                if (!value || !status.Equals("Clicked"))
                 {
                     throw new Exception("Value read is not what is expected");
                 }
@@ -118,7 +118,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test, Category("General Function Test")]
-        public void PerformActionReadElementLabelTest()
+        public void PerformActionReadElementLabelTest_expectFail()
         {
             bool value = false;
             try
@@ -134,7 +134,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 status = _ga.PerformAction(_automationIdLabel, out _errOut);
                 TestContext.WriteLine($"Status Label: {status}");
                 value = status.Length > 0;
-                if (!value || !status.Equals("Clicked"))
+                if (!value || status.Equals("Clicked"))
                 {
                     throw new Exception("Value read is not what is expected");
                 }
@@ -243,12 +243,12 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// <returns>List&lt;BatchCommandList&gt;.</returns>
         private List<BatchCommandList> GetCommands()
         {
-            string UseTab = "tabOther";
+            string UseTab = "Other";
             string txt1 = "txtDatabaseServer";
             string txt2 = "txtUserName";
             string txt3 = "txtPassword";
             string saveBtn = "btnSave";
-            string nextTab = "tabMain";
+            string nextTab = "Main";
 
             List<BatchCommandList> cmd = new List<BatchCommandList>();
             cmd.Add(new BatchCommandList()
@@ -287,7 +287,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestName = "Set Username",
                 Actions = GeneralActions.MyAction.ClearAndSendKeys,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = txt1,
+                ElementName = txt2,
                 SendKeys = "superman"
             });
 
@@ -346,6 +346,22 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Actions = GeneralActions.MyAction.ReadValue,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
                 ElementName = _automationIdLabel
+            });
+
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Click File",
+                Actions = GeneralActions.MyAction.Click,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "mnuFile"
+            });
+
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Click Exit",
+                Actions = GeneralActions.MyAction.Click,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = "mnuExit"
             });
 
             return cmd;

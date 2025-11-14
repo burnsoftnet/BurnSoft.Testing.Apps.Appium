@@ -22,5 +22,10 @@ namespace SampleUITestApp
             lblClickStatus.Text = "Clicked";
             txtClickStatus.Text = "Clicked";
         }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

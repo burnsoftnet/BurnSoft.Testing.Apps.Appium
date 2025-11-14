@@ -145,8 +145,9 @@
             // 
             this.mnuExit.AccessibleName = "mnuExit";
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(98, 22);
+            this.mnuExit.Size = new System.Drawing.Size(180, 22);
             this.mnuExit.Text = "&Exit";
+            this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // txtClickStatus
             // 
