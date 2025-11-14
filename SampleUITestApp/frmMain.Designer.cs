@@ -38,8 +38,16 @@
             this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.txtClickStatus = new System.Windows.Forms.TextBox();
+            this.lblDatabaseServer = new System.Windows.Forms.Label();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.txtDatabaseServer = new System.Windows.Forms.TextBox();
+            this.txtUserName = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
+            this.tabOther.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,6 +99,13 @@
             // tabOther
             // 
             this.tabOther.AccessibleName = "tabOther";
+            this.tabOther.Controls.Add(this.btnSave);
+            this.tabOther.Controls.Add(this.txtPassword);
+            this.tabOther.Controls.Add(this.txtUserName);
+            this.tabOther.Controls.Add(this.txtDatabaseServer);
+            this.tabOther.Controls.Add(this.lblPassword);
+            this.tabOther.Controls.Add(this.lblUserName);
+            this.tabOther.Controls.Add(this.lblDatabaseServer);
             this.tabOther.Location = new System.Drawing.Point(4, 22);
             this.tabOther.Name = "tabOther";
             this.tabOther.Padding = new System.Windows.Forms.Padding(3);
@@ -142,6 +157,70 @@
             this.txtClickStatus.TabIndex = 2;
             this.txtClickStatus.Text = "Not Clicked";
             // 
+            // lblDatabaseServer
+            // 
+            this.lblDatabaseServer.AccessibleName = "lblDatabaseServer";
+            this.lblDatabaseServer.AutoSize = true;
+            this.lblDatabaseServer.Location = new System.Drawing.Point(8, 23);
+            this.lblDatabaseServer.Name = "lblDatabaseServer";
+            this.lblDatabaseServer.Size = new System.Drawing.Size(90, 13);
+            this.lblDatabaseServer.TabIndex = 0;
+            this.lblDatabaseServer.Text = "Database Server:";
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.AccessibleName = "lblUserName";
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Location = new System.Drawing.Point(8, 49);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(60, 13);
+            this.lblUserName.TabIndex = 1;
+            this.lblUserName.Text = "User Name";
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AccessibleName = "lblPassword";
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(12, 77);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(56, 13);
+            this.lblPassword.TabIndex = 2;
+            this.lblPassword.Text = "Password:";
+            // 
+            // txtDatabaseServer
+            // 
+            this.txtDatabaseServer.AccessibleName = "txtDatabaseServer";
+            this.txtDatabaseServer.Location = new System.Drawing.Point(104, 20);
+            this.txtDatabaseServer.Name = "txtDatabaseServer";
+            this.txtDatabaseServer.Size = new System.Drawing.Size(140, 20);
+            this.txtDatabaseServer.TabIndex = 3;
+            // 
+            // txtUserName
+            // 
+            this.txtUserName.AccessibleName = "txtUserName";
+            this.txtUserName.Location = new System.Drawing.Point(104, 49);
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.Size = new System.Drawing.Size(140, 20);
+            this.txtUserName.TabIndex = 4;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.AccessibleName = "txtPassword";
+            this.txtPassword.Location = new System.Drawing.Point(104, 77);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(140, 20);
+            this.txtPassword.TabIndex = 5;
+            // 
+            // btnSave
+            // 
+            this.btnSave.AccessibleName = "btnSave";
+            this.btnSave.Location = new System.Drawing.Point(15, 118);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,6 +234,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabMain.PerformLayout();
+            this.tabOther.ResumeLayout(false);
+            this.tabOther.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -174,6 +255,13 @@
         private System.Windows.Forms.Label lblClickStatus;
         private System.Windows.Forms.Button btnClickTest;
         private System.Windows.Forms.TextBox txtClickStatus;
+        private System.Windows.Forms.Label lblUserName;
+        private System.Windows.Forms.Label lblDatabaseServer;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtUserName;
+        private System.Windows.Forms.TextBox txtDatabaseServer;
+        private System.Windows.Forms.Label lblPassword;
     }
 }
 

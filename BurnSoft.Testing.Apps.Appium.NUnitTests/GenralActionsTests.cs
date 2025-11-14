@@ -84,7 +84,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         [Test, Category("General Function Test")]
-        public void PerformActionReadElementTextboxTest()
+        public void PerformActionReadElementTextboxTesExpectFailt()
         {
             bool value = false;
             try
@@ -134,7 +134,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 status = _ga.PerformAction(_automationIdLabel, out _errOut);
                 TestContext.WriteLine($"Status Label: {status}");
                 value = status.Length > 0;
-                if (!value || status.Equals("Clicked"))
+                if (!value || !status.Equals("Clicked"))
                 {
                     throw new Exception("Value read is not what is expected");
                 }
@@ -197,15 +197,29 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             bool value = false;
             try
             {
-                if (!_ga.PerformAction("Search Gun Collection", "", GeneralActions.MyAction.Click, out _errOut,
+                string UseTab = "tabOther";
+                string txt1 = "txtDatabaseServer";
+                string txt2 = "txtUserName";
+                string txt3 = "txtPassword";
+                string saveBtn = "btnSave";
+                if (!_ga.PerformAction(UseTab, "", GeneralActions.MyAction.Click, out _errOut,
                     GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
                 Thread.Sleep(1000);
-                if (!_ga.PerformAction("txtLookFor", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
 
-                value = _ga.PerformAction("txtLookFor", "Glock", GeneralActions.MyAction.SendKeys, out _errOut);
+                if (!_ga.PerformAction(txt1, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                value = _ga.PerformAction(txt1, "11.1.1.90", GeneralActions.MyAction.SendKeys, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                if (!_ga.PerformAction(txt2, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                value = _ga.PerformAction(txt2, "superuser", GeneralActions.MyAction.SendKeys, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                if (!_ga.PerformAction(txt3, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                value = _ga.PerformAction(txt3, "supersecret", GeneralActions.MyAction.SendKeys, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
                 Thread.Sleep(1000);
-                if (!_ga.PerformAction("btnSearch", "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
+                if (!_ga.PerformAction(saveBtn, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
                 Thread.Sleep(500);
             }
             catch (Exception e)
@@ -229,71 +243,111 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// <returns>List&lt;BatchCommandList&gt;.</returns>
         private List<BatchCommandList> GetCommands()
         {
+            string UseTab = "tabOther";
+            string txt1 = "txtDatabaseServer";
+            string txt2 = "txtUserName";
+            string txt3 = "txtPassword";
+            string saveBtn = "btnSave";
+            string nextTab = "tabMain";
+
             List<BatchCommandList> cmd = new List<BatchCommandList>();
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Search Gun Collection Button",
+                TestName = "Click On Tab",
                 Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByName,
-                ElementName = "Search Gun Collection"
+                ElementName = UseTab
             });
+
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Verify For Textbox exists",
+                TestName = "Verify Database Server Textbox exists",
                 Actions = GeneralActions.MyAction.Nothing,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "txtLookFor"
+                ElementName = txt1
             });
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Look For Textbox",
+                TestName = "Set Database Server",
+                Actions = GeneralActions.MyAction.ClearAndSendKeys,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = txt1,
+                SendKeys = "11.2.3.4"
+            });
+
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Verify Username Textbox exists",
+                Actions = GeneralActions.MyAction.Nothing,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = txt2
+            });
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Set Username",
+                Actions = GeneralActions.MyAction.ClearAndSendKeys,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = txt1,
+                SendKeys = "superman"
+            });
+
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Verify password Textbox exists",
+                Actions = GeneralActions.MyAction.Nothing,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = txt3
+            });
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Set Password",
+                Actions = GeneralActions.MyAction.ClearAndSendKeys,
+                CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
+                ElementName = txt3,
+                SendKeys = "superangry"
+            });
+
+
+            cmd.Add(new BatchCommandList()
+            {
+                TestName = "Click Save Button",
                 Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "txtLookFor"
+                ElementName = saveBtn
             });
+
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Search for word Glock",
-                Actions = GeneralActions.MyAction.SendKeys,
+                TestName = "Click on Main Tab",
+                Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "txtLookFor",
-                SendKeys = "Glock"
+                ElementName = nextTab
             });
+
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Verify Control Combo box Look in",
-                Actions = GeneralActions.MyAction.Nothing,
+                TestName = "Click Button",
+                Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "cmbLookIn"
+                ElementName = _automationIdButton
             });
+
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Get Control Combo Value box Look in",
+                TestName = "Read Textbox in Main after Click",
                 Actions = GeneralActions.MyAction.ReadValue,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "cmbLookIn"
+                ElementName = _automationIdTextbox
             });
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click on Control Combo box Look in",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = "cmbLookIn"
-            //});
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click on Control Combo box Look in",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = "Model Name"
-            //});
+
             cmd.Add(new BatchCommandList()
             {
-                TestName = "Start Search",
-                Actions = GeneralActions.MyAction.Click,
+                TestName = "Read Label in Main after Click",
+                Actions = GeneralActions.MyAction.ReadValue,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "btnSearch"
+                ElementName = _automationIdLabel
             });
+
             return cmd;
         }
         /// <summary>
