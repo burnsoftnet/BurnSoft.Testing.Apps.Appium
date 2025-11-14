@@ -8,6 +8,7 @@ using BurnSoft.Testing.Apps.Appium.Types;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Interactions;
 // ReSharper disable InconsistentNaming
 // ReSharper disable RedundantCast
@@ -56,12 +57,12 @@ namespace BurnSoft.Testing.Apps.Appium
         /// Gets the application session.
         /// </summary>
         /// <value>The application session.</value>
-        public WindowsDriver<WindowsElement> AppSession { get; private set; }
+        public WindowsDriver AppSession { get; private set; }
         /// <summary>
         /// Gets the desktop session.
         /// </summary>
         /// <value>The desktop session.</value>
-        public WindowsDriver<WindowsElement> DesktopSession { get; private set; }
+        public WindowsDriver DesktopSession { get; private set; }
         #endregion
         #region "Public Variables"
         /// <summary>
@@ -128,6 +129,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// default to C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe
         /// </summary>
         /// <value>The win application driver path.</value>
+        [Obsolete("Method1 is deprecated, please remove.")]
         public string WinAppDriverPath
         {
             get {
@@ -268,7 +270,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// Initializes a new instance of the <see cref="GeneralActions"/> class.
         /// </summary>
         /// <param name="desktopSession">The desktop session.</param>
-        public GeneralActions(WindowsDriver<WindowsElement> desktopSession)
+        public GeneralActions(WindowsDriver desktopSession)
         {
             DesktopSession = desktopSession;
             GeneralActionsInit();
