@@ -66,6 +66,20 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <value>The desktop session.</value>
         public WindowsDriver DesktopSession { get; private set; }
         #endregion
+        #region "Event Handlers"        
+        /// <summary>
+        /// Occurs when En exception is caught 
+        /// </summary>
+        public event EventHandler<string> ErrorCatcher;
+        /// <summary>
+        /// Sends the error the the event handler
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected virtual void SendError(string message)
+        {
+            ErrorCatcher?.Invoke(this, message);
+        }
+        #endregion
         #region "Public Variables"
         /// <summary>
         /// The initialize passed
@@ -110,6 +124,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// Gets or sets the windows application driver URL. If not set, it will default to http://127.0.0.1:4723
         /// </summary>
         /// <value>The windows application driver URL.</value>
+        /// [Obsolete("Method is deprecated, please remove.")]
         public string WindowsApplicationDriverUrl
         {
             get
@@ -131,7 +146,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// default to C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe
         /// </summary>
         /// <value>The win application driver path.</value>
-        [Obsolete("Method1 is deprecated, please remove.")]
+        [Obsolete("Method is deprecated, please remove.")]
         public string WinAppDriverPath
         {
             get {
@@ -232,6 +247,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="error">The error.</param>
         private void AddError(string error)
         {
+            SendError(error);
             if (ErrorLists == null) ErrorLists = new List<string>();
             ErrorLists.Add(error);
         }

@@ -48,6 +48,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 _ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
                 _ga.SettingsScreenShotLocation = fullExceptionPath;
                 _ga.DoSleep = true;
+                _ga.ErrorCatcher += (ss, ee) =>
+                {
+                    TestContext.WriteLine(ee);
+                };
                 _ga.Initialize();
             }
             catch (Exception e)
