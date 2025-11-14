@@ -162,6 +162,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             catch (Exception e)
             {
                 TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail(e.Message);
             }
             //Assert.IsTrue(value);
         }
@@ -181,6 +182,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             catch (Exception e)
             {
                 TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail(e.Message);
             }
             //Assert.IsTrue(value);
         }
@@ -225,6 +227,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             catch (Exception e)
             {
                 TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail(e.Message);
             }
 
             foreach (string s in _ga.ScreenShotLocation)
@@ -414,7 +417,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             catch (Exception e)
             {
                 TestContext.WriteLine($"ERROR: {e.Message}");
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
 
         }
