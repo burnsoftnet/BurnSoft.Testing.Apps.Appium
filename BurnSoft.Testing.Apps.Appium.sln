@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSoft.Testing.Apps.Appium", "BurnSoft.Testing.Apps.Appium\BurnSoft.Testing.Apps.Appium.csproj", "{E68E5B58-49C2-4F7B-90C4-B262537F11EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurnSoft.Testing.Apps.Appium.NUnitTests", "BurnSoft.Testing.Apps.Appium.NUnitTests\BurnSoft.Testing.Apps.Appium.NUnitTests.csproj", "{9E65806B-3F24-43F6-882E-1E7FFA56CD8E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8B2C313B-7F02-4140-8D81-799D1D1E06D6} = {8B2C313B-7F02-4140-8D81-799D1D1E06D6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleUITestApp", "SampleUITestApp\SampleUITestApp.csproj", "{8B2C313B-7F02-4140-8D81-799D1D1E06D6}"
 EndProject

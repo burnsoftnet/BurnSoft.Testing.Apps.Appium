@@ -20,6 +20,7 @@ namespace SampleUITestApp
         private void btnClickTest_Click(object sender, EventArgs e)
         {
             lblClickStatus.Text = "Clicked";
+            txtClickStatus.Text = "Clicked";
         }
     }
 }

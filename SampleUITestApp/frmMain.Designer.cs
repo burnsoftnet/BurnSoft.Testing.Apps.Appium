@@ -30,13 +30,14 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
+            this.lblClickStatus = new System.Windows.Forms.Label();
+            this.btnClickTest = new System.Windows.Forms.Button();
             this.tabOther = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnClickTest = new System.Windows.Forms.Button();
-            this.lblClickStatus = new System.Windows.Forms.Label();
+            this.txtClickStatus = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -55,6 +56,7 @@
             // tabMain
             // 
             this.tabMain.AccessibleName = "tabMain";
+            this.tabMain.Controls.Add(this.txtClickStatus);
             this.tabMain.Controls.Add(this.lblClickStatus);
             this.tabMain.Controls.Add(this.btnClickTest);
             this.tabMain.Location = new System.Drawing.Point(4, 22);
@@ -64,6 +66,27 @@
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             this.tabMain.UseVisualStyleBackColor = true;
+            // 
+            // lblClickStatus
+            // 
+            this.lblClickStatus.AccessibleName = "lblClickStatus";
+            this.lblClickStatus.AutoSize = true;
+            this.lblClickStatus.Location = new System.Drawing.Point(22, 50);
+            this.lblClickStatus.Name = "lblClickStatus";
+            this.lblClickStatus.Size = new System.Drawing.Size(62, 13);
+            this.lblClickStatus.TabIndex = 1;
+            this.lblClickStatus.Text = "Not Clicked";
+            // 
+            // btnClickTest
+            // 
+            this.btnClickTest.AccessibleName = "btnClickTest";
+            this.btnClickTest.Location = new System.Drawing.Point(22, 20);
+            this.btnClickTest.Name = "btnClickTest";
+            this.btnClickTest.Size = new System.Drawing.Size(75, 23);
+            this.btnClickTest.TabIndex = 0;
+            this.btnClickTest.Text = "Click Test";
+            this.btnClickTest.UseVisualStyleBackColor = true;
+            this.btnClickTest.Click += new System.EventHandler(this.btnClickTest_Click);
             // 
             // tabOther
             // 
@@ -100,36 +123,24 @@
             // 
             this.mnuSave.AccessibleName = "mnuSave";
             this.mnuSave.Name = "mnuSave";
-            this.mnuSave.Size = new System.Drawing.Size(180, 22);
+            this.mnuSave.Size = new System.Drawing.Size(98, 22);
             this.mnuSave.Text = "&Save";
             // 
             // mnuExit
             // 
             this.mnuExit.AccessibleName = "mnuExit";
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuExit.Size = new System.Drawing.Size(98, 22);
             this.mnuExit.Text = "&Exit";
             // 
-            // btnClickTest
+            // txtClickStatus
             // 
-            this.btnClickTest.AccessibleName = "btnClickTest";
-            this.btnClickTest.Location = new System.Drawing.Point(22, 20);
-            this.btnClickTest.Name = "btnClickTest";
-            this.btnClickTest.Size = new System.Drawing.Size(75, 23);
-            this.btnClickTest.TabIndex = 0;
-            this.btnClickTest.Text = "Click Test";
-            this.btnClickTest.UseVisualStyleBackColor = true;
-            this.btnClickTest.Click += new System.EventHandler(this.btnClickTest_Click);
-            // 
-            // lblClickStatus
-            // 
-            this.lblClickStatus.AccessibleName = "lblClickStatus";
-            this.lblClickStatus.AutoSize = true;
-            this.lblClickStatus.Location = new System.Drawing.Point(22, 50);
-            this.lblClickStatus.Name = "lblClickStatus";
-            this.lblClickStatus.Size = new System.Drawing.Size(59, 13);
-            this.lblClickStatus.TabIndex = 1;
-            this.lblClickStatus.Text = "No Clicked";
+            this.txtClickStatus.AccessibleName = "txtClickStatus";
+            this.txtClickStatus.Location = new System.Drawing.Point(25, 75);
+            this.txtClickStatus.Name = "txtClickStatus";
+            this.txtClickStatus.Size = new System.Drawing.Size(100, 20);
+            this.txtClickStatus.TabIndex = 2;
+            this.txtClickStatus.Text = "Not Clicked";
             // 
             // frmMain
             // 
@@ -162,6 +173,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuExit;
         private System.Windows.Forms.Label lblClickStatus;
         private System.Windows.Forms.Button btnClickTest;
+        private System.Windows.Forms.TextBox txtClickStatus;
     }
 }
 
