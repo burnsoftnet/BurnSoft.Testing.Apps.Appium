@@ -51,6 +51,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 _ga.ErrorCatcher += (ss, ee) =>
                 {
                     TestContext.WriteLine(ee);
+                    throw new Exception(ee);
                 };
                 _ga.Initialize();
             }

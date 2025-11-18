@@ -2,14 +2,18 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Enums;
+using OpenQA.Selenium.Appium.Service;
+
 //using OpenQA.Selenium.Remote;
 //using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Configuration;
 using System.Threading;
 ////using OpenQA.Selenium.Interactions;
 // ReSharper disable InconsistentNaming
@@ -377,6 +381,22 @@ namespace BurnSoft.Testing.Apps.Appium
 
                 if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
                 InitPassed = true;
+                var builder = new AppiumServiceBuilder();
+
+                // Configure the service builder
+                builder.WithIPAddress("127.0.0.1") // Specify IP address
+                       .UsingPort(4723)          // Specify port
+                       .UsingDriverExecutable(new FileInfo(@"C:\nvm4w\nodejs\node.exe")) // Path to Node.js
+                       .WithAppiumJS(new FileInfo(@"C:\Users\BurnSoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js")) // Path to Appium's main.js
+                       .WithLogFile(new FileInfo("appium_logs.txt")); // Log file for Appium output
+                       //.WithArgument(GeneralServerFlag.SessionOverride) // Allow session override
+                       //.WithArgument(GeneralServerFlag.LogTimestamp); // Add timestamps to logs
+
+                // Build the service
+                var appiumLocalService = builder.Build();
+
+                // Start the service
+                appiumLocalService.Start();
             }
             catch (Exception e)
             {
@@ -385,6 +405,8 @@ namespace BurnSoft.Testing.Apps.Appium
                 ScreenShotIt();
             }
         }
+
+
         #endregion
         #region "Enumerators"
         /// <summary>
