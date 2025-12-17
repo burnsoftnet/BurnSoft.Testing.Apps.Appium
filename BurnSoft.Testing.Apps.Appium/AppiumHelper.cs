@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Appium.Service;
+﻿using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.Service;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -64,13 +65,38 @@ namespace BurnSoft.Testing.Apps.Appium
         }
         private string _appiumApp;
         private bool _buggerme;
+        private AppiumOptions _options;
         public AppiumLocalService AppiumDriver;
-        public AppiumHelper(string appiumApp, bool debugMode) 
+        public AppiumHelper(string appiumApp, bool debugMode = false) 
         { 
             _appiumApp = appiumApp;
             _buggerme = debugMode;
             AppiumDriver = AppiumLocalService.BuildDefaultService();
         }
+
+        public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, string testAppParameters = "", bool fullReset = true)
+        {
+            _appiumApp = appiumApp;
+            _buggerme = debugMode;
+            AppiumDriver = AppiumLocalService.BuildDefaultService();
+            _options = SetDesiredCapabilities(testApp, testAppParameters, fullReset);
+        }
+
+        public AppiumOptions SetDesiredCapabilities(string testApp, string testAppParameters = "", bool fullReset = true)
+        {
+            AppiumOptions options = new AppiumOptions();
+            options.AddAdditionalAppiumOption("platform", "Windows");
+            options.AddAdditionalAppiumOption("automationName", "Windows");
+            options.AddAdditionalAppiumOption("appium:app", testApp);
+            options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName);
+            options.AddAdditionalAppiumOption("appium:fullReset", "");
+            if (testAppParameters.Length > 0)
+            {
+                options.AddAdditionalAppiumOption("appium:appArguments", testAppParameters);
+            }
+            return options;
+        }
+
         private bool StartAppium(string ip = "localhost", int port = 4723)
         {
             bool bAns = false;
