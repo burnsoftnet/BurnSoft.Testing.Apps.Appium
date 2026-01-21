@@ -70,18 +70,18 @@ namespace BurnSoft.Testing.Apps.Appium
         private AppiumOptions _options;
         public AppiumLocalService AppiumDriver;
         private AppiumLocalService appiumServer;
-        public AppiumHelper(string appiumApp, bool debugMode = false) 
-        { 
+        public AppiumHelper(string appiumApp, bool debugMode = false)
+        {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
-            AppiumDriver = AppiumLocalService.BuildDefaultService();
+            //AppiumDriver = AppiumLocalService.BuildDefaultService();
         }
 
         public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, string testAppParameters = "", bool fullReset = true)
         {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
-            AppiumDriver = AppiumLocalService.BuildDefaultService();
+            //AppiumDriver = AppiumLocalService.BuildDefaultService();
             _options = SetDesiredCapabilities(testApp, testAppParameters, fullReset);
         }
 
@@ -100,19 +100,19 @@ namespace BurnSoft.Testing.Apps.Appium
             return options;
         }
 
-        private bool StartAppium(string ip = "127.0.0.1", int port = 4723)
+        public bool StartAppium(string ip = "127.0.0.1", int port = 4723)
         {
             bool bAns = false;
             try
             {
-                var appiumExe = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\appium");
+                var appiumExe = new FileInfo(_appiumApp);
                 appiumServer = new AppiumServiceBuilder()
                     .WithIPAddress(ip)
                     .UsingAnyFreePort() // Use any available port
                     .UsingDriverExecutable(appiumExe)
                     .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
                     .Build();
-               appiumServer.Start();
+                appiumServer.Start();
                 bAns = true;
             }
             catch (Exception ex)
@@ -122,16 +122,26 @@ namespace BurnSoft.Testing.Apps.Appium
             return bAns;
         }
 
-        public void StopAppiumServer()
+        public bool StopAppiumServer()
         {
-            if (appiumServer != null && appiumServer.IsRunning)
+            bool bAns = false;
+            try
             {
-                appiumServer.Dispose();
-                Console.WriteLine("Appium server stopped.");
+                if (appiumServer != null && appiumServer.IsRunning)
+                {
+                    appiumServer.Dispose();
+                    Console.WriteLine("Appium server stopped.");
+                }
+                bAns = true;
             }
+            catch (Exception ex)
+            {
+                SendError(ErrorMessage("StopAppiumServer", ex));
+            }
+            return bAns;
         }
 
-        public bool StartDriverConnection(AppiumOptions options, string ip = "127.0.0.1", 
+        public bool StartDriverConnection(AppiumOptions options, string ip = "127.0.0.1",
             int port = 4723, int wait = 10, string httpProtocol = "http")
         {
             bool bAns = false;
@@ -148,4 +158,5 @@ namespace BurnSoft.Testing.Apps.Appium
             return bAns;
 
         }
+    }
 }
