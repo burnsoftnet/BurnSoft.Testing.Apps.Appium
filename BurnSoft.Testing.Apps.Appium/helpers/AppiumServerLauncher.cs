@@ -57,7 +57,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
             {
                 Console.WriteLine("Stopping Appium server...");
                 appiumServerProcess.Kill();
-                appiumServerProcess.WaitForExit();
+                appiumServerProcess.WaitForExit(5000);
                 Console.WriteLine("Appium server stopped.");
             }
         }

@@ -388,7 +388,7 @@ namespace BurnSoft.Testing.Apps.Appium
                        .UsingPort(4723)          // Specify port
                        .UsingDriverExecutable(new FileInfo(@"C:\nvm4w\nodejs\node.exe")) // Path to Node.js
                        .WithAppiumJS(new FileInfo(@"C:\Users\BurnSoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js")) // Path to Appium's main.js
-                       .WithLogFile(new FileInfo("appium_logs.txt")); // Log file for Appium output
+                       .WithLogFile(new FileInfo("C:\\Users\\BurnSoft\\appium_logs.txt")); // Log file for Appium output
                        //.WithArgument(GeneralServerFlag.SessionOverride) // Allow session override
                        //.WithArgument(GeneralServerFlag.LogTimestamp); // Add timestamps to logs
 
