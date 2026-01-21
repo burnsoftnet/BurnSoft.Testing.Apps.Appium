@@ -3,6 +3,7 @@ using OpenQA.Selenium.Appium.Service;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,6 +68,7 @@ namespace BurnSoft.Testing.Apps.Appium
         private bool _buggerme;
         private AppiumOptions _options;
         public AppiumLocalService AppiumDriver;
+        private AppiumLocalService appiumServer;
         public AppiumHelper(string appiumApp, bool debugMode = false) 
         { 
             _appiumApp = appiumApp;
@@ -102,7 +104,14 @@ namespace BurnSoft.Testing.Apps.Appium
             bool bAns = false;
             try
             {
-
+                var appiumExe = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\appium");
+                appiumServer = new AppiumServiceBuilder()
+                    .WithIPAddress("127.0.0.1")
+                    .UsingAnyFreePort() // Use any available port
+                    .UsingDriverExecutable(appiumExe)
+                    .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
+                    .Build();
+               appiumServer.Start();
                 bAns = true;
             }
             catch (Exception ex)
@@ -110,6 +119,15 @@ namespace BurnSoft.Testing.Apps.Appium
                 SendError(ErrorMessage("StartAppium", ex));
             }
             return bAns;
+        }
+
+        public void StopAppiumServer()
+        {
+            if (appiumServer != null && appiumServer.IsRunning)
+            {
+                appiumServer.Dispose();
+                Console.WriteLine("Appium server stopped.");
+            }
         }
 
     }
