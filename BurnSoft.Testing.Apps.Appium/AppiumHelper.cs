@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
 using System;
 using System.Collections.Generic;
@@ -99,14 +100,14 @@ namespace BurnSoft.Testing.Apps.Appium
             return options;
         }
 
-        private bool StartAppium(string ip = "localhost", int port = 4723)
+        private bool StartAppium(string ip = "127.0.0.1", int port = 4723)
         {
             bool bAns = false;
             try
             {
                 var appiumExe = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\appium");
                 appiumServer = new AppiumServiceBuilder()
-                    .WithIPAddress("127.0.0.1")
+                    .WithIPAddress(ip)
                     .UsingAnyFreePort() // Use any available port
                     .UsingDriverExecutable(appiumExe)
                     .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
@@ -130,5 +131,21 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
 
-    }
+        public bool StartDriverConnection(AppiumOptions options, string ip = "127.0.0.1", 
+            int port = 4723, int wait = 10, string httpProtocol = "http")
+        {
+            bool bAns = false;
+            try
+            {
+                if (!StartAppium(ip, port)) throw new Exception("Error Starting Appium");
+
+                bAns = true;
+            }
+            catch (Exception ex)
+            {
+                SendError(ErrorMessage("StartAppium", ex));
+            }
+            return bAns;
+
+        }
 }
