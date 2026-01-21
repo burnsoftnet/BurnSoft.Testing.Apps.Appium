@@ -105,11 +105,17 @@ namespace BurnSoft.Testing.Apps.Appium
             bool bAns = false;
             try
             {
-                var appiumExe = new FileInfo(_appiumApp);
+                var nodeExecutable = new FileInfo(@"C:\nvm4w\nodejs\node.exe");
+                var appiumMainJs = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js");
+
+                //var appiumExe = new FileInfo(_appiumApp);
                 appiumServer = new AppiumServiceBuilder()
                     .WithIPAddress(ip)
                     .UsingAnyFreePort() // Use any available port
-                    .UsingDriverExecutable(appiumExe)
+                                        //.UsingDriverExecutable(appiumExe)
+                                        // .UsingPort(4723)         // Or use a specific port
+                    .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
+                    .WithAppiumJS(appiumMainJs)
                     .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
                     .Build();
                 appiumServer.Start();
