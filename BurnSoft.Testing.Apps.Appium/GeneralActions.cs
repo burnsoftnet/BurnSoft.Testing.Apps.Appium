@@ -35,26 +35,26 @@ namespace BurnSoft.Testing.Apps.Appium
     public class GeneralActions : IDisposable
     {
         #region "Private Variables"        
-        /// <summary>
-        /// The windows application driver URL
-        /// </summary>
-        private string _windowsApplicationDriverUrl;
-        /// <summary>
-        /// The win application driver path
-        /// </summary>
-        private string _winAppDriverPath;
-        /// <summary>
-        /// The device name
-        /// </summary>
-        private string _deviceName = "";
+        ///// <summary>
+        ///// The windows application driver URL
+        ///// </summary>
+        //private string _windowsApplicationDriverUrl;
+        ///// <summary>
+        ///// The win application driver path
+        ///// </summary>
+        //private string _winAppDriverPath;
+        ///// <summary>
+        ///// The device name
+        ///// </summary>
+        //private string _deviceName = "";
         /// <summary>
         /// The wait for application launch
         /// </summary>
         private int _waitForAppLaunch;
-        /// <summary>
-        /// The win application driver process
-        /// </summary>
-        private Process _winAppDriverProcess;
+        ///// <summary>
+        ///// The win application driver process
+        ///// </summary>
+        //private Process _winAppDriverProcess;
         /// <summary>
         /// The sleep interval
         /// </summary>
@@ -124,48 +124,48 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             set => _sleepInterval = value;
         }
-        /// <summary>
-        /// Gets or sets the windows application driver URL. If not set, it will default to http://127.0.0.1:4723
-        /// </summary>
-        /// <value>The windows application driver URL.</value>
-        /// [Obsolete("Method is deprecated, please remove.")]
-        public string WindowsApplicationDriverUrl
-        {
-            get
-            {
-                if (_windowsApplicationDriverUrl == null) return "http://127.0.0.1:4723";
-                if (_windowsApplicationDriverUrl.Length == 0)
-                {
-                    return "http://127.0.0.1:4723";
-                }
-                else
-                {
-                    return _windowsApplicationDriverUrl;
-                }
-            }
-            set => _windowsApplicationDriverUrl = value;
-        }
-        /// <summary>
-        /// Gets or sets the win application driver path. If not set, it will
-        /// default to C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe
-        /// </summary>
-        /// <value>The win application driver path.</value>
-        [Obsolete("Method is deprecated, please remove.")]
-        public string WinAppDriverPath
-        {
-            get {
-                if (_winAppDriverPath == null) return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
-                if (_winAppDriverPath.Length == 0)
-                {
-                    return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
-                }
-                else
-                {
-                    return _winAppDriverPath;
-                }
-            }
-            set => _winAppDriverPath = value;
-        }
+        ///// <summary>
+        ///// Gets or sets the windows application driver URL. If not set, it will default to http://127.0.0.1:4723
+        ///// </summary>
+        ///// <value>The windows application driver URL.</value>
+        ///// [Obsolete("Method is deprecated, please remove.")]
+        //public string WindowsApplicationDriverUrl
+        //{
+        //    get
+        //    {
+        //        if (_windowsApplicationDriverUrl == null) return "http://127.0.0.1:4723";
+        //        if (_windowsApplicationDriverUrl.Length == 0)
+        //        {
+        //            return "http://127.0.0.1:4723";
+        //        }
+        //        else
+        //        {
+        //            return _windowsApplicationDriverUrl;
+        //        }
+        //    }
+        //    set => _windowsApplicationDriverUrl = value;
+        //}
+        ///// <summary>
+        ///// Gets or sets the win application driver path. If not set, it will
+        ///// default to C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe
+        ///// </summary>
+        ///// <value>The win application driver path.</value>
+        //[Obsolete("Method is deprecated, please remove.")]
+        //public string WinAppDriverPath
+        //{
+        //    get {
+        //        if (_winAppDriverPath == null) return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
+        //        if (_winAppDriverPath.Length == 0)
+        //        {
+        //            return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
+        //        }
+        //        else
+        //        {
+        //            return _winAppDriverPath;
+        //        }
+        //    }
+        //    set => _winAppDriverPath = value;
+        //}
 
 
         /// <summary>
@@ -255,75 +255,75 @@ namespace BurnSoft.Testing.Apps.Appium
             if (ErrorLists == null) ErrorLists = new List<string>();
             ErrorLists.Add(error);
         }
-        /// <summary>
-        /// Starts the win application driver.
-        /// </summary>
-        [Obsolete("Method is deprecated, please remove.")]
-        private void StartWinAppDriver()
-        {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo(WinAppDriverPath);
-                psi.UseShellExecute = true;
-                if (RunInAdminMode) psi.Verb = "runas"; // run as administrator
-                _winAppDriverProcess = Process.Start(psi);
-            }
-            catch (Exception e)
-            {
-                AddError(ErrorMessage("StartWinAppDriver", e));
-            }
-        }
-        /// <summary>
-        /// Stops the winapp driver.
-        /// </summary>
-        [Obsolete("Method is deprecated, please remove.")]
-        private void StopWinappDriver()
-        {
-            // Stop the WinAppDriverProcess
-            if (_winAppDriverProcess != null)
-            {
-                foreach (var process in Process.GetProcessesByName("WinAppDriver"))
-                {
-                    process.Kill();
-                }
-            }
-        }
+        ///// <summary>
+        ///// Starts the win application driver.
+        ///// </summary>
+        //[Obsolete("Method is deprecated, please remove.")]
+        //private void StartWinAppDriver()
+        //{
+        //    try
+        //    {
+        //        ProcessStartInfo psi = new ProcessStartInfo(WinAppDriverPath);
+        //        psi.UseShellExecute = true;
+        //        if (RunInAdminMode) psi.Verb = "runas"; // run as administrator
+        //        _winAppDriverProcess = Process.Start(psi);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        AddError(ErrorMessage("StartWinAppDriver", e));
+        //    }
+        //}
+        ///// <summary>
+        ///// Stops the winapp driver.
+        ///// </summary>
+        //[Obsolete("Method is deprecated, please remove.")]
+        //private void StopWinappDriver()
+        //{
+        //    // Stop the WinAppDriverProcess
+        //    if (_winAppDriverProcess != null)
+        //    {
+        //        foreach (var process in Process.GetProcessesByName("WinAppDriver"))
+        //        {
+        //            process.Kill();
+        //        }
+        //    }
+        //}
         #endregion
         #region "Public Initalization and cleanup function"
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
-        /// </summary>
-        /// <param name="desktopSession">The desktop session.</param>
-        public GeneralActions(WindowsDriver desktopSession)
-        {
-            DesktopSession = desktopSession;
-            GeneralActionsInit();
-        }
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="GeneralActions"/> class.
+        ///// </summary>
+        ///// <param name="desktopSession">The desktop session.</param>
+        //public GeneralActions(WindowsDriver desktopSession)
+        //{
+        //    DesktopSession = desktopSession;
+        //    GeneralActionsInit();
+        //}
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralActions"/> class.
         /// </summary>
         public GeneralActions()
         {
-            GeneralActionsInit();
+            //GeneralActionsInit();
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
-        /// </summary>
-        /// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
-        public GeneralActions(bool runInAdminMode)
-        {
-            GeneralActionsInit(runInAdminMode);
-        }
-        /// <summary>
-        /// Generals the actions initialize.
-        /// </summary>
-        /// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
-        private void GeneralActionsInit(bool runInAdminMode = false) 
-        {
-            ErrorLists = new List<string>();
-            ScreenShotLocation = new List<string>();
-            RunInAdminMode = runInAdminMode;
-        }
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="GeneralActions"/> class.
+        ///// </summary>
+        ///// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
+        //public GeneralActions(bool runInAdminMode)
+        //{
+        //    GeneralActionsInit(runInAdminMode);
+        //}
+        ///// <summary>
+        ///// Generals the actions initialize.
+        ///// </summary>
+        ///// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
+        //private void GeneralActionsInit(bool runInAdminMode = false) 
+        //{
+        //    ErrorLists = new List<string>();
+        //    ScreenShotLocation = new List<string>();
+        //    RunInAdminMode = runInAdminMode;
+        //}
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
