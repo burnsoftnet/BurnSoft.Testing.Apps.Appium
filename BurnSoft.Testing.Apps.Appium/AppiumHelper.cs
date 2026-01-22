@@ -78,7 +78,7 @@ namespace BurnSoft.Testing.Apps.Appium
         private AppiumLocalService appiumServer;
         private FileInfo _nodeExecutable;
         private FileInfo _appiumMainJs;
-        private WindowsDriver _driver;
+        public WindowsDriver driver;
 
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(180); /* Change this to a more reasonable value */
         private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
@@ -119,8 +119,7 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             AppiumOptions options = new AppiumOptions();
             options.AddAdditionalAppiumOption("platform", "Windows");
-            options.AddAdditionalAppiumOption("AutomationName", "Windows");
-            //options.AddAdditionalAppiumOption("appium:app", testApp); 
+            options.AddAdditionalAppiumOption("AutomationName ", "Windows");
             options.AddAdditionalAppiumOption("Application", testApp);
             //options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName); 
             options.AddAdditionalAppiumOption("DeviceName", Environment.MachineName);
@@ -204,7 +203,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 if (AppSession == null) throw new Exception("AppSession is null, check your settings");
                 if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
 
-                _driver = AppSession;
+                driver = AppSession;
                 // Build the service
                 //var appiumLocalService = builder.Build();
 
@@ -214,6 +213,7 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 SendError(ErrorMessage("StartDriverConnection", ex));
             }
             return bAns;
