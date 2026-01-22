@@ -8,6 +8,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         private string _nodeEXE;
         private string _appiumNpm;
         private string _appiumEXE;
+        private string _aut;
 
         [SetUp]
         public void Setup()
@@ -15,13 +16,13 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _nodeEXE = @"C:\nvm4w\nodejs\node.exe";
             _appiumNpm = @"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js";
             _appiumEXE = @"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium";
+            _aut = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
         }
 
         [Test, Category("AppiumHelper Function Test")]
         public void StartAppiumTest()
         {
 
-            //AppiumHelper obj = new AppiumHelper(@"C:\Users\burnsoft\AppData\Roaming\npm\appium.cmd");
             AppiumHelper obj = new AppiumHelper(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
 
             if (obj.StartAppium())
@@ -34,6 +35,15 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
             }
             
+        }
+
+        [Test, Category("AppiumHelper Function Test")]
+        public void StartApplicationUnderTest()
+        {
+            AppiumHelper obj = new AppiumHelper(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
+            var options = obj.SetDesiredCapabilities(_aut);
+            if (!obj.StartDriverConnection(options)) 
+                Assert.Fail();
         }
     }
 }
