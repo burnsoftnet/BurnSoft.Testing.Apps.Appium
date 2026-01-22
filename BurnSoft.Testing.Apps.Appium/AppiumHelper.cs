@@ -114,12 +114,27 @@ namespace BurnSoft.Testing.Apps.Appium
             _options = SetDesiredCapabilities(testApp, testAppParameters, fullReset);
         }
         #endregion
-        #region "Startup, Close and Set Desired Capabilities"
+        #region "Startup, Close and Set Desired Capabilities"        
+        /// <summary>
+        /// "Capabilities" is the name given to the set of parameters used to start an Appium session. The information 
+        /// in the set is used to describe what sort of "capabilities" you want your session to have, for example, a 
+        /// certain mobile operating system or a certain version of a device. When you start your Appium session, 
+        /// your Appium client will include the set of capabilities you've defined as an object in the 
+        /// JSON-formatted body of the request. Capabilities are represented as key-value pairs, with values 
+        /// allowed to be any valid JSON type, including other objects. Appium will then examine the capabilities 
+        /// and make sure that it can satisfy them before proceeding to start the session and return an ID 
+        /// representing the session to your client library.
+        /// See Guide at  https://appium.io/docs/en/3.1/guides/caps/
+        /// </summary>
+        /// <param name="testApp">The Application Under Test</param>
+        /// <param name="testAppParameters">The test application parameters.</param>
+        /// <param name="fullReset">if set to <c>true</c> [full reset].</param>
+        /// <returns>AppiumOptions.</returns>
         public AppiumOptions SetDesiredCapabilities(string testApp, string testAppParameters = "", bool fullReset = true)
         {
             AppiumOptions options = new AppiumOptions();
             options.AddAdditionalAppiumOption("platform", "Windows");
-            options.AddAdditionalAppiumOption("appium:automationName ", "Windows");
+            options.AddAdditionalAppiumOption("appium:automationName", "Windows");
             options.AddAdditionalAppiumOption("Application", testApp);
             //options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName); 
             options.AddAdditionalAppiumOption("DeviceName", Environment.MachineName);
