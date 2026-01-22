@@ -17,4 +17,16 @@
     <ProjectReference Include="..\BurnSoft.Testing.Apps.Appium\BurnSoft.Testing.Apps.Appium.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestApp\SampleUITestApp.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestApp\SampleUITestApp.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestApp\SampleUITestApp.pdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

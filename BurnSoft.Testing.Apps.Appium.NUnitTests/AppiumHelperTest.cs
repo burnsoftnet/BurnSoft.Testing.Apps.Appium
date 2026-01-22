@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.IO;
+using BurnSoft.Testing.Apps.Appium.NUnitTests.Settings;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
 {
@@ -15,15 +16,15 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         [SetUp]
         public void Setup()
         {
-            _aut = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
+            _aut = Settings.Settings.ApplicationUnderTest;
         }
 
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            _nodeEXE = @"C:\nvm4w\nodejs\node.exe";
-            _appiumNpm = @"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js";
-            _appiumEXE = @"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium";
+            _nodeEXE = Settings.Settings.NodeExe;
+            _appiumNpm = Settings.Settings.AppiumNpm;
+            _appiumEXE = Settings.Settings.AppiumServerExe;
             appiumServer = new AppiumHelper(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
         }
 
@@ -36,6 +37,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         [Test, Category("AppiumHelper Function Test")]
         public void StartAppiumTest()
         {
+            appiumServer.Errors += (ss, ee) =>
+            {
+                Console.WriteLine($"ERROR: {ee}");
+            };
             if (appiumServer.StartAppium())
             {
                 Assert.Pass();

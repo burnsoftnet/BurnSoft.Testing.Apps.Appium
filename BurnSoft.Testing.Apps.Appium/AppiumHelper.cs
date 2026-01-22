@@ -139,16 +139,20 @@ namespace BurnSoft.Testing.Apps.Appium
                 string platform = "Windows";
                 string automationName = platform;
 
-                options.AddAdditionalOption("app", testApp);
-                options.AddAdditionalOption("deviceName", deivceName);
-                options.AddAdditionalOption("platformName", "Windows");
-                options.AddAdditionalOption("automationName", automationName);
+                options.App = testApp;
+                options.DeviceName = deivceName;
+                options.AutomationName = automationName;
+                options.PlatformName = platform;
+                //options.AddAdditionalOption("app", testApp);
+                //options.AddAdditionalOption("deviceName", deivceName);
+                //options.AddAdditionalOption("platformName", platform);
+                ////options.AddAdditionalOption("automationName", automationName);
 
-                options.AddAdditionalAppiumOption("platform", "Windows");
-                options.AddAdditionalAppiumOption("AutomationName", automationName);
-                options.AddAdditionalAppiumOption("app", testApp);
-                options.AddAdditionalAppiumOption("deviceName", deivceName); 
-                options.AddAdditionalAppiumOption("fullReset", fullReset);
+                //options.AddAdditionalAppiumOption("platform", platform);
+                //options.AddAdditionalAppiumOption("AutomationName", automationName);
+                //options.AddAdditionalAppiumOption("app", testApp);
+                //options.AddAdditionalAppiumOption("deviceName", deivceName); 
+                //options.AddAdditionalAppiumOption("fullReset", fullReset);
 
                 if (testAppParameters.Length > 0)
                 {
