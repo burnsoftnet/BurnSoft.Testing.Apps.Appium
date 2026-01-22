@@ -1,13 +1,17 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
+using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -55,6 +59,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <returns>System.String.</returns>
         private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
         #endregion
+        #region "Event Handler"
         public event EventHandler<string> Errors;
         public event EventHandler<string> JunkErrors;
         protected virtual void SendError(string value)
@@ -65,33 +70,59 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             JunkErrors?.Invoke(this, value);
         }
+        #endregion
         private string _appiumApp;
         private bool _buggerme;
         private AppiumOptions _options;
         public AppiumLocalService AppiumDriver;
         private AppiumLocalService appiumServer;
+        private FileInfo _nodeExecutable;
+        private FileInfo _appiumMainJs;
+        public WindowsDriver driver;
+
+        private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(180); /* Change this to a more reasonable value */
+        private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
+
+        #region "AppiumHelper Init"
         public AppiumHelper(string appiumApp, bool debugMode = false)
         {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
-            //AppiumDriver = AppiumLocalService.BuildDefaultService();
         }
 
-        public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, string testAppParameters = "", bool fullReset = true)
+        public AppiumHelper(string nodeExecutable, string appiumMainJs,  
+            bool debugMode = false)
+        {
+            _nodeExecutable = new FileInfo(nodeExecutable);
+            _appiumMainJs = new FileInfo(appiumMainJs);
+            _buggerme = debugMode;
+        }
+
+        public AppiumHelper(FileInfo nodeExecutable, FileInfo appiumMainJs,
+            bool debugMode = false)
+        {
+            _nodeExecutable = nodeExecutable;
+            _appiumMainJs = appiumMainJs;
+            _buggerme = debugMode;
+        }
+
+        public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, 
+            string testAppParameters = "", bool fullReset = true)
         {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
-            //AppiumDriver = AppiumLocalService.BuildDefaultService();
             _options = SetDesiredCapabilities(testApp, testAppParameters, fullReset);
         }
-
+        #endregion
+        #region "Startup, Close and Set Desired Capabilities"
         public AppiumOptions SetDesiredCapabilities(string testApp, string testAppParameters = "", bool fullReset = true)
         {
             AppiumOptions options = new AppiumOptions();
             options.AddAdditionalAppiumOption("platform", "Windows");
-            options.AddAdditionalAppiumOption("automationName", "Windows");
-            options.AddAdditionalAppiumOption("appium:app", testApp);
-            options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName);
+            options.AddAdditionalAppiumOption("appium:automationName ", "Windows");
+            options.AddAdditionalAppiumOption("Application", testApp);
+            //options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName); 
+            options.AddAdditionalAppiumOption("DeviceName", Environment.MachineName);
             options.AddAdditionalAppiumOption("appium:fullReset", "");
             if (testAppParameters.Length > 0)
             {
@@ -100,25 +131,34 @@ namespace BurnSoft.Testing.Apps.Appium
             return options;
         }
 
-        public bool StartAppium(string ip = "127.0.0.1", int port = 4723)
+        public bool StartAppium(string ip = "127.0.0.1", int port = 4723, int startup_wait = 2)
         {
             bool bAns = false;
             try
             {
-                var nodeExecutable = new FileInfo(@"C:\nvm4w\nodejs\node.exe");
-                var appiumMainJs = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js");
-
-                //var appiumExe = new FileInfo(_appiumApp);
-                appiumServer = new AppiumServiceBuilder()
+                var nodeExecutable = _nodeExecutable;
+                var appiumMainJs = _appiumMainJs;
+                if (port == 0)
+                {
+                    appiumServer = new AppiumServiceBuilder()
                     .WithIPAddress(ip)
                     .UsingAnyFreePort() // Use any available port
-                                        //.UsingDriverExecutable(appiumExe)
-                                        // .UsingPort(4723)         // Or use a specific port
                     .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
                     .WithAppiumJS(appiumMainJs)
                     .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
                     .Build();
-                appiumServer.Start();
+                } else
+                {
+                    appiumServer = new AppiumServiceBuilder()
+                    .WithIPAddress(ip)
+                    .UsingPort(port) // Use any available port
+                    .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
+                    .WithAppiumJS(appiumMainJs)
+                    .WithStartUpTimeOut(TimeSpan.FromMinutes(startup_wait))
+                    .Build();
+                }
+
+                    appiumServer.Start();
                 bAns = true;
             }
             catch (Exception ex)
@@ -146,20 +186,35 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return bAns;
         }
+        #endregion
 
         public bool StartDriverConnection(AppiumOptions options, string ip = "127.0.0.1",
-            int port = 4723, int wait = 10, string httpProtocol = "http")
+            int port = 4723, int wait = 2, string httpProtocol = "http")
         {
             bool bAns = false;
+            //AppiumDriver<IWebElement> driver = null;
             try
             {
-                if (!StartAppium(ip, port)) throw new Exception("Error Starting Appium");
+                if (!StartAppium(ip, port, startup_wait: wait)) throw new Exception("Error Starting Appium");
+                string url = $"{httpProtocol}://{ip}:{port}";
+                WindowsDriver AppSession = new WindowsDriver(new Uri(url), options);
+                //AppiumDriver driver = appiumDriver;
+                AppSession.Manage().Timeouts().ImplicitWait = IMPLICIT_TIMEOUT_SEC;
+                if (AppSession == null) throw new Exception("AppSession is null, check your settings");
+                if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
 
+                driver = AppSession;
+                // Build the service
+                //var appiumLocalService = builder.Build();
+
+                // Start the service
+                //appiumLocalService.Start();
                 bAns = true;
             }
             catch (Exception ex)
             {
-                SendError(ErrorMessage("StartAppium", ex));
+                Console.WriteLine(ex);
+                SendError(ErrorMessage("StartDriverConnection", ex));
             }
             return bAns;
 
