@@ -29,6 +29,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         private string _automationIdButton;
         private string _automationIdLabel;
         private string _automationIdTextbox;
+        private string _aut;
         /// <summary>
         /// Initializes this instance.
         /// </summary>
@@ -37,6 +38,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         {
             try
             {
+                _aut = Settings.Settings.ApplicationUnderTest;
                 string SettingsScreenShotLocation = "ScreenShots";
                 string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
                 if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
@@ -54,7 +56,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     TestContext.WriteLine(ee);
                     throw new Exception(ee);
                 };
-                _ga.Initialize();
+                _ga.Initialize(_aut);
             }
             catch (Exception e)
             {

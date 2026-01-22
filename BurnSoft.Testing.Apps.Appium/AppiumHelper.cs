@@ -1,12 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using System;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Appium.Windows;
+using System.IO;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,6 +15,10 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
+    /// <summary>
+    /// Class AppiumHelper class that contains functions to help start up and 
+    /// communicate with the appium 3.x.x server
+    /// </summary>
     public class AppiumHelper
     {
         #region "Exception Error Handling"        
@@ -71,17 +75,44 @@ namespace BurnSoft.Testing.Apps.Appium
             JunkErrors?.Invoke(this, value);
         }
         #endregion
+        #region "Private Variables and constants"        
+        /// <summary>
+        /// The appium application direct
+        /// </summary>
         private string _appiumApp;
+        /// <summary>
+        /// The buggerme Debugging options
+        /// </summary>
         private bool _buggerme;
-        private AppiumOptions _options;
-        public AppiumLocalService AppiumDriver;
+        /// <summary>
+        /// The private internal options for the application under test
+        /// </summary>
+        private AppiumOptions _options;       
+        /// <summary>
+        /// The appium server that uses the AppiumServiceBuilder To set 
+        /// the server parameters and start the process
+        /// </summary>
         private AppiumLocalService appiumServer;
+        /// <summary>
+        /// The node executable file name and path
+        /// </summary>
         private FileInfo _nodeExecutable;
+        /// <summary>
+        /// The appium main js file name and path
+        /// </summary>
         private FileInfo _appiumMainJs;
+        /// <summary>
+        /// The implicit timeout sec. Change this to a more reasonable value
+        /// </summary>
+        private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10);
+        #endregion
+        #region "Public Variables"        
+        /// <summary>
+        /// The driver once the appium server is up and running and the 
+        /// StartDriverConnection has been called and set
+        /// </summary>
         public WindowsDriver driver;
-
-        private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(180); /* Change this to a more reasonable value */
-        private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
+        #endregion
 
         #region "AppiumHelper Init"
         public AppiumHelper(string appiumApp, bool debugMode = false)
@@ -115,6 +146,75 @@ namespace BurnSoft.Testing.Apps.Appium
         }
         #endregion
         #region "Startup, Close and Set Desired Capabilities"        
+        /// <summary>
+        /// Starts the appium process using the AppiumServiceBuilder class to help determin if the process is already running
+        /// if not then spin an instance to start it up
+        /// </summary>
+        /// <param name="ip">The ip of the appium server.</param>
+        /// <param name="port">The port of the appium server.</param>
+        /// <param name="startup_wait">The startup wait time for the process to come up.</param>
+        /// <returns><c>true</c> if true, process is running or was already running, <c>false</c> if error occured.</returns>
+        public bool StartAppium(string ip = "127.0.0.1", int port = 4723, int startup_wait = 2)
+        {
+            bool bAns = false;
+            try
+            {
+                var nodeExecutable = _nodeExecutable;
+                var appiumMainJs = _appiumMainJs;
+                if (port == 0)
+                {
+                    appiumServer = new AppiumServiceBuilder()
+                    .WithIPAddress(ip)
+                    .UsingAnyFreePort() // Use any available port
+                    .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
+                    .WithAppiumJS(appiumMainJs)
+                    .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
+                    .Build();
+                } else
+                {
+                    appiumServer = new AppiumServiceBuilder()
+                    .WithIPAddress(ip)
+                    .UsingPort(port) // Use any available port
+                    .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
+                    .WithAppiumJS(appiumMainJs)
+                    .WithStartUpTimeOut(TimeSpan.FromMinutes(startup_wait))
+                    .Build();
+                }
+
+                    appiumServer.Start();
+                bAns = true;
+            }
+            catch (Exception ex)
+            {
+                SendError(ErrorMessage("StartAppium", ex));
+            }
+            return bAns;
+        }
+        /// <summary>
+        /// Stops the appium server.
+        /// </summary>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        public bool StopAppiumServer()
+        {
+            bool bAns = false;
+            try
+            {
+                if (appiumServer != null && appiumServer.IsRunning)
+                {
+                    appiumServer.Dispose();
+                    driver = null;
+                    Console.WriteLine("Appium server stopped.");
+                }
+                bAns = true;
+            }
+            catch (Exception ex)
+            {
+                SendError(ErrorMessage("StopAppiumServer", ex));
+            }
+            return bAns;
+        }
+        #endregion
+        #region "Application Under Test Handling COnfig and Startup"
         /// <summary>
         /// "Capabilities" is the name given to the set of parameters used to start an Appium session. The information 
         /// in the set is used to describe what sort of "capabilities" you want your session to have, for example, a 
@@ -165,63 +265,11 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return options;
         }
-
-        public bool StartAppium(string ip = "127.0.0.1", int port = 4723, int startup_wait = 2)
+        public bool StartDriverConnection(string ip = "127.0.0.1",
+           int port = 4723, int wait = 2, string httpProtocol = "http")
         {
-            bool bAns = false;
-            try
-            {
-                var nodeExecutable = _nodeExecutable;
-                var appiumMainJs = _appiumMainJs;
-                if (port == 0)
-                {
-                    appiumServer = new AppiumServiceBuilder()
-                    .WithIPAddress(ip)
-                    .UsingAnyFreePort() // Use any available port
-                    .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
-                    .WithAppiumJS(appiumMainJs)
-                    .WithStartUpTimeOut(TimeSpan.FromMinutes(2))
-                    .Build();
-                } else
-                {
-                    appiumServer = new AppiumServiceBuilder()
-                    .WithIPAddress(ip)
-                    .UsingPort(port) // Use any available port
-                    .UsingDriverExecutable(nodeExecutable) // Specify Node.js path
-                    .WithAppiumJS(appiumMainJs)
-                    .WithStartUpTimeOut(TimeSpan.FromMinutes(startup_wait))
-                    .Build();
-                }
-
-                    appiumServer.Start();
-                bAns = true;
-            }
-            catch (Exception ex)
-            {
-                SendError(ErrorMessage("StartAppium", ex));
-            }
-            return bAns;
+            return StartDriverConnection(_options, ip, port, wait, httpProtocol);
         }
-
-        public bool StopAppiumServer()
-        {
-            bool bAns = false;
-            try
-            {
-                if (appiumServer != null && appiumServer.IsRunning)
-                {
-                    appiumServer.Dispose();
-                    Console.WriteLine("Appium server stopped.");
-                }
-                bAns = true;
-            }
-            catch (Exception ex)
-            {
-                SendError(ErrorMessage("StopAppiumServer", ex));
-            }
-            return bAns;
-        }
-        #endregion
 
         public bool StartDriverConnection(AppiumOptions options, string ip = "127.0.0.1",
             int port = 4723, int wait = 2, string httpProtocol = "http")
@@ -254,5 +302,6 @@ namespace BurnSoft.Testing.Apps.Appium
             return bAns;
 
         }
+        #endregion
     }
 }

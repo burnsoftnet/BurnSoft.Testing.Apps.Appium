@@ -351,52 +351,53 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <exception cref="System.Exception">AppSession is null, check your settings</exception>
         /// <exception cref="System.Exception">AppSession.SessionId is null, check your application path</exception>
         /// <exception cref="System.Exception">DesktopSession is null, please check your settings</exception>
-        public void Initialize()
+        public void Initialize(string appUnderTest)
         {
             try
             {
-                _deviceName = Dns.GetHostName();
-                //StartWinAppDriver();
-                //var appiumOptions = new AppiumOptions();
-                //appiumOptions.AddAdditionalCapability("app", ApplicationPath);
-                //appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
-                //appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", WaitForAppLaunch);
-                //AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
+                //_deviceName = Dns.GetHostName();
+                ////StartWinAppDriver();
+                ////var appiumOptions = new AppiumOptions();
+                ////appiumOptions.AddAdditionalCapability("app", ApplicationPath);
+                ////appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
+                ////appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", WaitForAppLaunch);
+                ////AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
 
-                var options = new AppiumOptions();
-                options.DeviceName = _deviceName;
-                options.App = ApplicationPath;
-                //options.AddAdditionalOption("ms:waitForAppLaunch", WaitForAppLaunch);
-                AppSession = new WindowsDriver(options);
-                DesktopSession = AppSession;
+                //var options = new AppiumOptions();
+                //options.DeviceName = _deviceName;
+                //options.App = ApplicationPath;
+                ////options.AddAdditionalOption("ms:waitForAppLaunch", WaitForAppLaunch);
+                //AppSession = new WindowsDriver(options);
+                //DesktopSession = AppSession;
 
-                if (AppSession == null) throw new Exception("AppSession is null, check your settings");
-                if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
+                //if (AppSession == null) throw new Exception("AppSession is null, check your settings");
+                //if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
 
-                AppSession.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
-                //AppiumOptions optionsDesktop = new AppiumOptions();
-                //optionsDesktop.AddAdditionalCapability("app", "Root");
-                //optionsDesktop.AddAdditionalCapability("deviceName", _deviceName);
-                //DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), optionsDesktop);
+                //AppSession.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
+                ////AppiumOptions optionsDesktop = new AppiumOptions();
+                ////optionsDesktop.AddAdditionalCapability("app", "Root");
+                ////optionsDesktop.AddAdditionalCapability("deviceName", _deviceName);
+                ////DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), optionsDesktop);
 
-                if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
-                InitPassed = true;
-                var builder = new AppiumServiceBuilder();
+                //if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
+                //InitPassed = true;
+                //var builder = new AppiumServiceBuilder();
 
-                // Configure the service builder
-                builder.WithIPAddress("127.0.0.1") // Specify IP address
-                       .UsingPort(4723)          // Specify port
-                       .UsingDriverExecutable(new FileInfo(@"C:\nvm4w\nodejs\node.exe")) // Path to Node.js
-                       .WithAppiumJS(new FileInfo(@"C:\Users\BurnSoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js")) // Path to Appium's main.js
-                       .WithLogFile(new FileInfo("C:\\Users\\BurnSoft\\appium_logs.txt")); // Log file for Appium output
-                       //.WithArgument(GeneralServerFlag.SessionOverride) // Allow session override
-                       //.WithArgument(GeneralServerFlag.LogTimestamp); // Add timestamps to logs
+                //// Configure the service builder
+                //builder.WithIPAddress("127.0.0.1") // Specify IP address
+                //       .UsingPort(4723)          // Specify port
+                //       .UsingDriverExecutable(new FileInfo(@"C:\nvm4w\nodejs\node.exe")) // Path to Node.js
+                //       .WithAppiumJS(new FileInfo(@"C:\Users\BurnSoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js")) // Path to Appium's main.js
+                //       .WithLogFile(new FileInfo("C:\\Users\\BurnSoft\\appium_logs.txt")); // Log file for Appium output
+                //       //.WithArgument(GeneralServerFlag.SessionOverride) // Allow session override
+                //       //.WithArgument(GeneralServerFlag.LogTimestamp); // Add timestamps to logs
 
-                // Build the service
-                var appiumLocalService = builder.Build();
+                //// Build the service
+                //var appiumLocalService = builder.Build();
 
-                // Start the service
-                appiumLocalService.Start();
+                //// Start the service
+                //appiumLocalService.Start();
+
             }
             catch (Exception e)
             {
