@@ -70,18 +70,36 @@ namespace BurnSoft.Testing.Apps.Appium
         private AppiumOptions _options;
         public AppiumLocalService AppiumDriver;
         private AppiumLocalService appiumServer;
+        private FileInfo _nodeExecutable;
+        private FileInfo _appiumMainJs;
+
         public AppiumHelper(string appiumApp, bool debugMode = false)
         {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
-            //AppiumDriver = AppiumLocalService.BuildDefaultService();
         }
 
-        public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, string testAppParameters = "", bool fullReset = true)
+        public AppiumHelper(string nodeExecutable, string appiumMainJs,  
+            bool debugMode = false)
+        {
+            _nodeExecutable = new FileInfo(nodeExecutable);
+            _appiumMainJs = new FileInfo(appiumMainJs);
+            _buggerme = debugMode;
+        }
+
+        public AppiumHelper(FileInfo nodeExecutable, FileInfo appiumMainJs,
+            bool debugMode = false)
+        {
+            _nodeExecutable = nodeExecutable;
+            _appiumMainJs = appiumMainJs;
+            _buggerme = debugMode;
+        }
+
+        public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, 
+            string testAppParameters = "", bool fullReset = true)
         {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
-            //AppiumDriver = AppiumLocalService.BuildDefaultService();
             _options = SetDesiredCapabilities(testApp, testAppParameters, fullReset);
         }
 
@@ -105,9 +123,10 @@ namespace BurnSoft.Testing.Apps.Appium
             bool bAns = false;
             try
             {
-                var nodeExecutable = new FileInfo(@"C:\nvm4w\nodejs\node.exe");
-                var appiumMainJs = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js");
-
+                //var nodeExecutable = new FileInfo(@"C:\nvm4w\nodejs\node.exe");
+                //var appiumMainJs = new FileInfo(@"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js");
+                var nodeExecutable = _nodeExecutable;
+                var appiumMainJs = _appiumMainJs;
                 //var appiumExe = new FileInfo(_appiumApp);
                 appiumServer = new AppiumServiceBuilder()
                     .WithIPAddress(ip)
