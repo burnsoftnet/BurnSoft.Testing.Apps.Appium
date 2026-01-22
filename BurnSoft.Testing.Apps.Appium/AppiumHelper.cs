@@ -133,15 +133,31 @@ namespace BurnSoft.Testing.Apps.Appium
         public AppiumOptions SetDesiredCapabilities(string testApp, string testAppParameters = "", bool fullReset = true)
         {
             AppiumOptions options = new AppiumOptions();
-            options.AddAdditionalAppiumOption("platform", "Windows");
-            options.AddAdditionalAppiumOption("appium:automationName", "Windows");
-            options.AddAdditionalAppiumOption("Application", testApp);
-            //options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName); 
-            options.AddAdditionalAppiumOption("DeviceName", Environment.MachineName);
-            options.AddAdditionalAppiumOption("appium:fullReset", "");
-            if (testAppParameters.Length > 0)
+            try
             {
-                options.AddAdditionalAppiumOption("appium:appArguments", testAppParameters);
+                string deivceName = Environment.MachineName;
+                string platform = "Windows";
+                string automationName = platform;
+
+                options.AddAdditionalOption("app", testApp);
+                options.AddAdditionalOption("deviceName", deivceName);
+                options.AddAdditionalOption("platformName", "Windows");
+                options.AddAdditionalOption("automationName", automationName);
+
+                options.AddAdditionalAppiumOption("platform", "Windows");
+                options.AddAdditionalAppiumOption("AutomationName", automationName);
+                options.AddAdditionalAppiumOption("app", testApp);
+                options.AddAdditionalAppiumOption("deviceName", deivceName); 
+                options.AddAdditionalAppiumOption("fullReset", fullReset);
+
+                if (testAppParameters.Length > 0)
+                {
+                    options.AddAdditionalAppiumOption("appium:appArguments", testAppParameters);
+                }
+            }
+            catch (Exception ex)
+            {
+                SendError(ErrorMessage("SetDesiredCapabilities", ex));
             }
             return options;
         }
