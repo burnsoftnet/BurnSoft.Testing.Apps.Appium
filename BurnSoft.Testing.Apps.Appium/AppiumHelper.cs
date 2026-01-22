@@ -119,7 +119,7 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             AppiumOptions options = new AppiumOptions();
             options.AddAdditionalAppiumOption("platform", "Windows");
-            options.AddAdditionalAppiumOption("AutomationName ", "Windows");
+            options.AddAdditionalAppiumOption("appium:automationName ", "Windows");
             options.AddAdditionalAppiumOption("Application", testApp);
             //options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName); 
             options.AddAdditionalAppiumOption("DeviceName", Environment.MachineName);

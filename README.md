@@ -5,6 +5,12 @@
 The BurnSoft.Testing.Apps.Appium Library was created to help simplify the Appium library functions to help build tests for your applications quick and easy.
 Currently this project is IN PROGRESS, and as soon as it starts coming together, more documentation will be presented.
 
+## Older WinDriver Source
+
+The Older WinDriver ( pre appium ) test library can still be found in the [release/v1.0.0.12](https://github.com/burnsoftnet/BurnSoft.Testing.Apps.Appium/tree/release/v1.0.0.12) branch.
+The Master Branch was merged with an updated, ( STILL WORKING ON ) appium version with updated libraries to get rid of the dependabot pull requests and complaints that the library was not up to date
+So if you are looking for the WinDriver Version visit the release branch listed above.
+
 
 ## Resources
 - [BurnSoft.Universal](https://github.com/burnsoftnet/BurnSoft.Universal)
