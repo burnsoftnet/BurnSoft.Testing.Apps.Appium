@@ -437,7 +437,10 @@ namespace BurnSoft.Testing.Apps.Appium
                     Screenshot screenShot = screenShotDriver.GetScreenshot();
                     string savePath = $"{SettingsScreenShotLocation}\\{TestName}-{DateTime.Now.Ticks}.png";
                     screenShot.SaveAsFile(savePath);
-                    ScreenShotLocation.Add(savePath);
+                    if (ScreenShotLocation != null)
+                    {
+                        ScreenShotLocation.Add(savePath);
+                    }
                 }
                 else
                 {
@@ -609,7 +612,9 @@ namespace BurnSoft.Testing.Apps.Appium
             {
                 //AppiumElement actionMenu = GetAction(automationId, myAction);
                 //AppiumElement actionMenu = DesktopSession.FindElement(By.Name(automationId));
-                DesktopSession.FindElement(by: MobileBy.Id(automationId)).Click();
+                //AppiumElement actionMenu = DesktopSession.FindElement(by: MobileBy.Id(automationId));
+                AppiumElement actionMenu = DesktopSession.FindElement(by: By.Id(automationId));
+                actionMenu.Click();
                 //actionMenu.Click();
                 //if (action.Equals(MyAction.Nothing))
                 //{
