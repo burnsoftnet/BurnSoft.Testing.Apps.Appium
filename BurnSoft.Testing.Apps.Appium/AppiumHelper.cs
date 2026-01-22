@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -119,8 +120,10 @@ namespace BurnSoft.Testing.Apps.Appium
             AppiumOptions options = new AppiumOptions();
             options.AddAdditionalAppiumOption("platform", "Windows");
             options.AddAdditionalAppiumOption("AutomationName", "Windows");
-            options.AddAdditionalAppiumOption("appium:app", testApp);
-            options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName);
+            //options.AddAdditionalAppiumOption("appium:app", testApp); 
+            options.AddAdditionalAppiumOption("Application", testApp);
+            //options.AddAdditionalAppiumOption("appium:deviceName", Environment.MachineName); 
+            options.AddAdditionalAppiumOption("DeviceName", Environment.MachineName);
             options.AddAdditionalAppiumOption("appium:fullReset", "");
             if (testAppParameters.Length > 0)
             {
