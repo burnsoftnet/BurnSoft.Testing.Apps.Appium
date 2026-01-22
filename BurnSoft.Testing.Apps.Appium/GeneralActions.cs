@@ -58,6 +58,20 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             ErrorCatcher?.Invoke(this, message);
         }
+        /// <summary>
+        /// Occurs when [debug log].
+        /// </summary>
+        public event EventHandler<string> DebugLog;
+        /// <summary>
+        /// Sends the debug messages only when the debug 
+        /// flag is set to true
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>virtualvoid.</returns>
+        protected virtual void SendDebug(string message)
+        {
+            if (DebugMode) DebugLog?.Invoke(this, message);
+        }
         #endregion
         #region "Public Variables"
         /// <summary>
@@ -127,11 +141,20 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <value>The error lists.</value>
         public List<string> ErrorLists { get; set; }
         /// <summary>
-        /// Gets or sets a value indicating whether to run the test in admin mode.
+        /// Gets or sets the node executable.
         /// </summary>
-        /// <value><c>true</c> if [run in admin mode]; otherwise, <c>false</c>.</value>
-        public bool RunInAdminMode { get; set; }
-
+        /// <value>The node executable.</value>
+        public string NodeExecutable { get; set; }
+        /// <summary>
+        /// Gets or sets the appium main js.
+        /// </summary>
+        /// <value>The appium main js.</value>
+        public string AppiumMainJs { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether [debug mode].
+        /// </summary>
+        /// <value><c>true</c> if [debug mode]; otherwise, <c>false</c>.</value>
+        private bool DebugMode { get; set; }
         #endregion
         #region "Exception Error Handling"        
         /// <summary>
@@ -195,6 +218,14 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             //GeneralActionsInit();
         }
+
+        public GeneralActions(string nodeExecutable, string appiumMainJs,
+            bool debugMode = false)
+        {
+            NodeExecutable = nodeExecutable;
+            AppiumMainJs = appiumMainJs;
+            DebugMode = debugMode;
+        }
         public void Dispose()
         {
             if (AppSession != null)
@@ -223,49 +254,15 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             try
             {
-                //_deviceName = Dns.GetHostName();
-                ////StartWinAppDriver();
-                ////var appiumOptions = new AppiumOptions();
-                ////appiumOptions.AddAdditionalCapability("app", ApplicationPath);
-                ////appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
-                ////appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", WaitForAppLaunch);
-                ////AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
-
-                //var options = new AppiumOptions();
-                //options.DeviceName = _deviceName;
-                //options.App = ApplicationPath;
-                ////options.AddAdditionalOption("ms:waitForAppLaunch", WaitForAppLaunch);
-                //AppSession = new WindowsDriver(options);
-                //DesktopSession = AppSession;
-
-                //if (AppSession == null) throw new Exception("AppSession is null, check your settings");
-                //if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
-
-                //AppSession.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
-                ////AppiumOptions optionsDesktop = new AppiumOptions();
-                ////optionsDesktop.AddAdditionalCapability("app", "Root");
-                ////optionsDesktop.AddAdditionalCapability("deviceName", _deviceName);
-                ////DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), optionsDesktop);
-
-                //if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
-                //InitPassed = true;
-                //var builder = new AppiumServiceBuilder();
-
-                //// Configure the service builder
-                //builder.WithIPAddress("127.0.0.1") // Specify IP address
-                //       .UsingPort(4723)          // Specify port
-                //       .UsingDriverExecutable(new FileInfo(@"C:\nvm4w\nodejs\node.exe")) // Path to Node.js
-                //       .WithAppiumJS(new FileInfo(@"C:\Users\BurnSoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js")) // Path to Appium's main.js
-                //       .WithLogFile(new FileInfo("C:\\Users\\BurnSoft\\appium_logs.txt")); // Log file for Appium output
-                //       //.WithArgument(GeneralServerFlag.SessionOverride) // Allow session override
-                //       //.WithArgument(GeneralServerFlag.LogTimestamp); // Add timestamps to logs
-
-                //// Build the service
-                //var appiumLocalService = builder.Build();
-
-                //// Start the service
-                //appiumLocalService.Start();
-
+                AppiumHelper appiumServer = new AppiumHelper(nodeExecutable: NodeExecutable, appiumMainJs: AppiumMainJs);
+                appiumServer.Errors += (ss, ee) =>
+                {
+                    SendError(ee);
+                };
+                var options = appiumServer.SetDesiredCapabilities(appUnderTest);
+                if (!appiumServer.StartDriverConnection(options)) throw new Exception("Error Starting Connection!");
+                DesktopSession = appiumServer.driver;
+                AppSession = DesktopSession;
             }
             catch (Exception e)
             {
