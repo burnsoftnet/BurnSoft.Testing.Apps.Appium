@@ -48,7 +48,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 _automationIdTextbox = "txtClickStatus";
                 _ga = new GeneralActions();
                 _ga.TestName = "UnitTest-Init";
-                _ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
+                //_ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
                 _ga.SettingsScreenShotLocation = fullExceptionPath;
                 _ga.DoSleep = true;
                 _ga.ErrorCatcher += (ss, ee) =>

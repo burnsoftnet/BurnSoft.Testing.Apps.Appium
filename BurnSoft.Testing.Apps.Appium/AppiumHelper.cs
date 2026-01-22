@@ -114,13 +114,23 @@ namespace BurnSoft.Testing.Apps.Appium
         public WindowsDriver driver;
         #endregion
 
-        #region "AppiumHelper Init"
+        #region "AppiumHelper Init"        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppiumHelper"/> class.
+        /// </summary>
+        /// <param name="appiumApp">The appium application.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
         public AppiumHelper(string appiumApp, bool debugMode = false)
         {
             _appiumApp = appiumApp;
             _buggerme = debugMode;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppiumHelper"/> class.
+        /// </summary>
+        /// <param name="nodeExecutable">The node executable.</param>
+        /// <param name="appiumMainJs">The appium main js.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
         public AppiumHelper(string nodeExecutable, string appiumMainJs,  
             bool debugMode = false)
         {
@@ -128,7 +138,12 @@ namespace BurnSoft.Testing.Apps.Appium
             _appiumMainJs = new FileInfo(appiumMainJs);
             _buggerme = debugMode;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppiumHelper"/> class.
+        /// </summary>
+        /// <param name="nodeExecutable">The node executable.</param>
+        /// <param name="appiumMainJs">The appium main js.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
         public AppiumHelper(FileInfo nodeExecutable, FileInfo appiumMainJs,
             bool debugMode = false)
         {
@@ -136,7 +151,14 @@ namespace BurnSoft.Testing.Apps.Appium
             _appiumMainJs = appiumMainJs;
             _buggerme = debugMode;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppiumHelper"/> class.
+        /// </summary>
+        /// <param name="appiumApp">The appium application.</param>
+        /// <param name="testApp">The test application.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
+        /// <param name="testAppParameters">The test application parameters.</param>
+        /// <param name="fullReset">if set to <c>true</c> [full reset].</param>
         public AppiumHelper(string appiumApp, string testApp, bool debugMode = false, 
             string testAppParameters = "", bool fullReset = true)
         {

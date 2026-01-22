@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("www.burnsoft.net")]
 [assembly: AssemblyProduct("BurnSoft.Testing.Apps.Appium")]
-[assembly: AssemblyCopyright("Copyright ©www.burnsoft.net  2022-2025")]
+[assembly: AssemblyCopyright("Copyright ©www.burnsoft.net  2022-2026")]
 [assembly: AssemblyTrademark("www.burnsoft.net")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.2.23")]
-[assembly: AssemblyFileVersion("2.0.2.23")]
+[assembly: AssemblyVersion("2.1.3.33")]
+[assembly: AssemblyFileVersion("2.1.3.33")]
