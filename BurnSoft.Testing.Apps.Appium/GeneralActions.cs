@@ -3,7 +3,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Appium.Service;
-
 //using OpenQA.Selenium.Remote;
 //using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
@@ -44,6 +43,10 @@ namespace BurnSoft.Testing.Apps.Appium
         /// </summary>
         /// <value>The desktop session.</value>
         public WindowsDriver DesktopSession { get; private set; }
+        /// <summary>
+        /// The appium server
+        /// </summary>
+        private AppiumHelper appiumServer;
         #endregion
         #region "Event Handlers"        
         /// <summary>
@@ -241,7 +244,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 DesktopSession.Close();
                 //DesktopSession.Quit();
             }
-
+            appiumServer.StopAppiumServer();
             //StopWinappDriver();
         }
         /// <summary>
@@ -254,7 +257,7 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             try
             {
-                AppiumHelper appiumServer = new AppiumHelper(nodeExecutable: NodeExecutable, appiumMainJs: AppiumMainJs);
+                appiumServer = new AppiumHelper(nodeExecutable: NodeExecutable, appiumMainJs: AppiumMainJs);
                 appiumServer.Errors += (ss, ee) =>
                 {
                     SendError(ee);
@@ -604,46 +607,48 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = "";
             try
             {
-                AppiumElement actionMenu = GetAction(automationId, myAction);
+                //AppiumElement actionMenu = GetAction(automationId, myAction);
+                //AppiumElement actionMenu = DesktopSession.FindElement(By.Name(automationId));
+                DesktopSession.FindElement(by: MobileBy.Id(automationId)).Click();
+                //actionMenu.Click();
+                //if (action.Equals(MyAction.Nothing))
+                //{
+                //    bAns = actionMenu.Displayed;
+                //}
+                //else
+                //{
+                //    OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
+                //    runAction.MoveToElement(actionMenu);
+                //    switch (action)
+                //    {
+                //        case MyAction.Click:
+                //            runAction.Click();
+                //            break;
+                //        case MyAction.SendKeys:
+                //            runAction.SendKeys(value);
+                //            break;
+                //        case MyAction.ClearAndSendKeys:
+                //            actionMenu.Clear();
+                //            runAction.SendKeys(value);
+                //            break;
+                //        case MyAction.DoubleClick:
+                //            runAction.DoubleClick();
+                //            break;
+                //        case MyAction.KeyDown:
+                //            runAction.KeyDown(value);
+                //            break;
+                //        case MyAction.KeyUp:
+                //            runAction.KeyUp(value);
+                //            break;
+                //        case MyAction.Sleep:
+                //            Thread.Sleep(Convert.ToInt32(value));
+                //            break;
+                //    }
 
-                if (action.Equals(MyAction.Nothing))
-                {
-                    bAns = actionMenu.Displayed;
-                }
-                else
-                {
-                    OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                    runAction.MoveToElement(actionMenu);
-                    switch (action)
-                    {
-                        case MyAction.Click:
-                            runAction.Click();
-                            break;
-                        case MyAction.SendKeys:
-                            runAction.SendKeys(value);
-                            break;
-                        case MyAction.ClearAndSendKeys:
-                            actionMenu.Clear();
-                            runAction.SendKeys(value);
-                            break;
-                        case MyAction.DoubleClick:
-                            runAction.DoubleClick();
-                            break;
-                        case MyAction.KeyDown:
-                            runAction.KeyDown(value);
-                            break;
-                        case MyAction.KeyUp:
-                            runAction.KeyUp(value);
-                            break;
-                        case MyAction.Sleep:
-                            Thread.Sleep(Convert.ToInt32(value));
-                            break;
-                    }
+                //    runAction.Perform();
+                bAns = true;
+                //}
 
-                    runAction.Perform();
-                    bAns = true;
-                }
-                
             }
             catch (Exception e)
             {

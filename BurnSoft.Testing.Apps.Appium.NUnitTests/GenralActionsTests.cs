@@ -29,6 +29,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         private string _automationIdButton;
         private string _automationIdLabel;
         private string _automationIdTextbox;
+        private string _nodeEXE;
+        private string _appiumNpm;
+        private string _appiumEXE;
         private string _aut;
         /// <summary>
         /// Initializes this instance.
@@ -38,25 +41,11 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         {
             try
             {
-                _aut = Settings.Settings.ApplicationUnderTest;
-                string SettingsScreenShotLocation = "ScreenShots";
-                string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
-                if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
                 _errOut = "";
                 _automationIdButton = "btnClickTest";
                 _automationIdLabel = "lblClickStatus";
                 _automationIdTextbox = "txtClickStatus";
-                _ga = new GeneralActions();
-                _ga.TestName = "UnitTest-Init";
-                //_ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
-                _ga.SettingsScreenShotLocation = fullExceptionPath;
-                _ga.DoSleep = true;
-                _ga.ErrorCatcher += (ss, ee) =>
-                {
-                    TestContext.WriteLine(ee);
-                    throw new Exception(ee);
-                };
-                _ga.Initialize(_aut);
+            
             }
             catch (Exception e)
             {
@@ -64,7 +53,30 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
         }
-        [TearDown]
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            string SettingsScreenShotLocation = "ScreenShots";
+            string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
+            if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
+            _aut = Settings.Settings.ApplicationUnderTest;
+            _nodeEXE = Settings.Settings.NodeExe;
+            _appiumNpm = Settings.Settings.AppiumNpm;
+            _appiumEXE = Settings.Settings.AppiumServerExe;
+            _ga = new GeneralActions(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
+            _ga.TestName = "UnitTest-Init";
+            //_ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
+            _ga.SettingsScreenShotLocation = fullExceptionPath;
+            _ga.DoSleep = true;
+            _ga.ErrorCatcher += (ss, ee) =>
+            {
+                TestContext.WriteLine($"ERROR: {ee}");
+            };
+            _ga.Initialize(_aut);
+        }
+
+        [OneTimeTearDown]
         public void Dispose()
         {
             _ga.Dispose();
