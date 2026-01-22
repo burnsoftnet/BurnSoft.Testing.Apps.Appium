@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using BurnSoft.Testing.Apps.Appium.Types;
+using BurnSoft.Testing.Apps.Appium.helpers;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
 {
@@ -415,7 +416,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             {
                 List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                TestContext.WriteLine(_ga.GenerateResults(value, out _errOut));
+                TestContext.WriteLine(Reporting.GenerateResults(value, out _errOut));
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 //Assert.IsTrue(value.Count > 0);
             }
