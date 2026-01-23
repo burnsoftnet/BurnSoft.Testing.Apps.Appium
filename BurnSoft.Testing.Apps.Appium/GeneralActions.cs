@@ -33,16 +33,16 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The sleep interval
         /// </summary>
         private int _sleepInterval;
-        /// <summary>
-        /// Gets the application session.
-        /// </summary>
-        /// <value>The application session.</value>
-        public WindowsDriver AppSession { get; private set; }
+        ///// <summary>
+        ///// Gets the application session.
+        ///// </summary>
+        ///// <value>The application session.</value>
+        //public WindowsDriver AppSession { get; private set; }
         /// <summary>
         /// Gets the desktop session.
         /// </summary>
         /// <value>The desktop session.</value>
-        public WindowsDriver DesktopSession { get; private set; }
+        public AppiumDriver DesktopSession { get; private set; }
         /// <summary>
         /// The appium server
         /// </summary>
@@ -221,7 +221,12 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             //GeneralActionsInit();
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
+        /// </summary>
+        /// <param name="nodeExecutable">The node executable.</param>
+        /// <param name="appiumMainJs">The appium main js.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
         public GeneralActions(string nodeExecutable, string appiumMainJs,
             bool debugMode = false)
         {
@@ -229,19 +234,16 @@ namespace BurnSoft.Testing.Apps.Appium
             AppiumMainJs = appiumMainJs;
             DebugMode = debugMode;
         }
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            if (AppSession != null)
-            {
-                //AppSession.CloseApp();
-                AppSession.Close();
-                //AppSession.Quit();
-            }
             // Close the desktopSession
             if (DesktopSession != null)
             {
                 //DesktopSession.CloseApp();
-                DesktopSession.Close();
+                DesktopSession?.Close();
                 //DesktopSession.Quit();
             }
             appiumServer.StopAppiumServer();
@@ -265,7 +267,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 var options = appiumServer.SetDesiredCapabilities(appUnderTest);
                 if (!appiumServer.StartDriverConnection(options)) throw new Exception("Error Starting Connection!");
                 DesktopSession = appiumServer.driver;
-                AppSession = DesktopSession;
+                //AppSession = DesktopSession;
             }
             catch (Exception e)
             {
@@ -613,8 +615,9 @@ namespace BurnSoft.Testing.Apps.Appium
                 //AppiumElement actionMenu = GetAction(automationId, myAction);
                 //AppiumElement actionMenu = DesktopSession.FindElement(By.Name(automationId));
                 //AppiumElement actionMenu = DesktopSession.FindElement(by: MobileBy.Id(automationId));
-                AppiumElement actionMenu = DesktopSession.FindElement(by: By.Id(automationId));
-                actionMenu.Click();
+                //AppiumElement actionMenu = DesktopSession.FindElement(by: By.Id(automationId));
+                IWebElement element = DesktopSession.FindElement(By.Name(automationId));
+                element.Click();
                 //actionMenu.Click();
                 //if (action.Equals(MyAction.Nothing))
                 //{

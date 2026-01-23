@@ -63,13 +63,27 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <returns>System.String.</returns>
         private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
         #endregion
-        #region "Event Handler"
+        #region "Event Handler"        
+        /// <summary>
+        /// Event handler for when exception errors occur in the functions
+        /// </summary>
         public event EventHandler<string> Errors;
+        /// <summary>
+        /// Occurs when [junk errors] are thrown, don't care but might be useful.
+        /// </summary>
         public event EventHandler<string> JunkErrors;
+        /// <summary>
+        /// Sends the error.
+        /// </summary>
+        /// <param name="value">The value.</param>
         protected virtual void SendError(string value)
         {
             Errors?.Invoke(this, value);
         }
+        /// <summary>
+        /// Sends the junk error.
+        /// </summary>
+        /// <param name="value">The value.</param>
         protected virtual void SendJunkError(string value)
         {
             JunkErrors?.Invoke(this, value);
@@ -111,7 +125,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The driver once the appium server is up and running and the 
         /// StartDriverConnection has been called and set
         /// </summary>
-        public WindowsDriver driver;
+        public AppiumDriver driver;
         #endregion
 
         #region "AppiumHelper Init"        
@@ -287,33 +301,47 @@ namespace BurnSoft.Testing.Apps.Appium
             }
             return options;
         }
+        /// <summary>
+        /// Starts the driver connection which will use the local application under test options
+        /// that was set when you passed the aut to the init function in this class by startup
+        /// </summary>
+        /// <param name="ip">The appium ip.</param>
+        /// <param name="port">The appium port.</param>
+        /// <param name="wait">The wait.</param>
+        /// <param name="httpProtocol">The HTTP protocol.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool StartDriverConnection(string ip = "127.0.0.1",
            int port = 4723, int wait = 2, string httpProtocol = "http")
         {
             return StartDriverConnection(_options, ip, port, wait, httpProtocol);
         }
-
+        /// <summary>
+        /// Starts the driver connection. and the application under test when the options was created
+        /// externaly and passed to this function to startup and test the application under test
+        /// </summary>
+        /// <param name="options">The appium aut options.</param>
+        /// <param name="ip">The appium ip.</param>
+        /// <param name="port">The appium port.</param>
+        /// <param name="wait">The wait.</param>
+        /// <param name="httpProtocol">The HTTP protocol.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        /// <exception cref="System.Exception">Error Starting Appium</exception>
+        /// <exception cref="System.Exception">AppSession is null, check your settings</exception>
+        /// <exception cref="System.Exception">AppSession.SessionId is null, check your application path</exception>
         public bool StartDriverConnection(AppiumOptions options, string ip = "127.0.0.1",
             int port = 4723, int wait = 2, string httpProtocol = "http")
         {
             bool bAns = false;
-            //AppiumDriver<IWebElement> driver = null;
             try
             {
                 if (!StartAppium(ip, port, startup_wait: wait)) throw new Exception("Error Starting Appium");
                 string url = $"{httpProtocol}://{ip}:{port}";
                 WindowsDriver AppSession = new WindowsDriver(new Uri(url), options);
-                //AppiumDriver driver = appiumDriver;
                 AppSession.Manage().Timeouts().ImplicitWait = IMPLICIT_TIMEOUT_SEC;
                 if (AppSession == null) throw new Exception("AppSession is null, check your settings");
                 if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
 
                 driver = AppSession;
-                // Build the service
-                //var appiumLocalService = builder.Build();
-
-                // Start the service
-                //appiumLocalService.Start();
                 bAns = true;
             }
             catch (Exception ex)
