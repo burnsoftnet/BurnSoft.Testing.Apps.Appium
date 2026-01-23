@@ -439,10 +439,7 @@ namespace BurnSoft.Testing.Apps.Appium
                     Screenshot screenShot = screenShotDriver.GetScreenshot();
                     string savePath = $"{SettingsScreenShotLocation}\\{TestName}-{DateTime.Now.Ticks}.png";
                     screenShot.SaveAsFile(savePath);
-                    if (ScreenShotLocation != null)
-                    {
-                        ScreenShotLocation.Add(savePath);
-                    }
+                    ScreenShotLocation?.Add(savePath);
                 }
                 else
                 {
@@ -918,9 +915,17 @@ namespace BurnSoft.Testing.Apps.Appium
                         }
 
                     }
-                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, 
-                        Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, 
-                        PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName, ReturnedFoundValue = foundValue, TestNumber = testNumber
+                    theReturned.Add(new BatchCommandList()
+                    {
+                        SleepInterval = c.SleepInterval,
+                        Actions = c.Actions,
+                        ElementName = c.ElementName,
+                        SendKeys = c.SendKeys,
+                        PassedFailed = didpass,
+                        ReturnedValue = result,
+                        TestName = c.TestName,
+                        ReturnedFoundValue = foundValue,
+                        TestNumber = testNumber
                     });
                     testNumber++;
                 }
@@ -932,7 +937,6 @@ namespace BurnSoft.Testing.Apps.Appium
 
             return theReturned;
         }
-
 
 
         #endregion

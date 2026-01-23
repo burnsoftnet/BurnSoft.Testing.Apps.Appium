@@ -1,8 +1,10 @@
 ﻿using BurnSoft.Testing.Apps.Appium.NUnitTests.Settings;
 using NUnit.Framework;
+using OpenQA.Selenium.Appium;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
 {
@@ -87,6 +89,22 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             var options = appiumServer.SetDesiredCapabilities(_aut);
             if (!appiumServer.StartDriverConnection(options)) 
                 Assert.Fail();
+        }
+
+        [Test, Category("AppiumHelper Function Test")]
+        public void ManualButtonClickTest()
+        {
+            appiumServer.Errors += (ss, ee) =>
+            {
+                Console.WriteLine($"ERROR: {ee}");
+            };
+            var options = appiumServer.SetDesiredCapabilities(_aut);
+            if (!appiumServer.StartDriverConnection(options))
+                Assert.Fail();
+            var driver = appiumServer.driver;
+            var element = driver.FindElement("Name", "Test Click");
+            element.Click();
+            Thread.Sleep(60);
         }
     }
 }
