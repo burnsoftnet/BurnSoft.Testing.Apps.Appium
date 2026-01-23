@@ -237,12 +237,16 @@ namespace BurnSoft.Testing.Apps.Appium
             // Close the desktopSession
             if (DesktopSession != null)
             {
-                //DesktopSession.CloseApp();
-                DesktopSession?.Close();
-                //DesktopSession.Quit();
+                try
+                {
+                    DesktopSession?.Close();
+                }
+                catch (Exception e)
+                {
+                    SendDebug($"ERROR in Dispose while Closing DesktopSession: {e}");
+                }
             }
             appiumServer.StopAppiumServer();
-            //StopWinappDriver();
         }
         /// <summary>
         /// Initializes this instance.
@@ -392,12 +396,12 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="automationId">The automation identifier.</param>
         /// <param name="myAction">My action.</param>
         /// <returns>WindowsElement.</returns>
-        private WebElement GetAction(string automationId, AppAction myAction)
+        private AppiumElement GetAction(string automationId, AppAction myAction)
         {
             switch (myAction)
             {
                 case AppAction.FindElementByAccessibilityId:
-                    return DesktopSession.FindElement(by: MobileBy.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByName:
                     return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByClassName:
@@ -405,9 +409,9 @@ namespace BurnSoft.Testing.Apps.Appium
                 case AppAction.FindElementByCssSelector:
                     return DesktopSession.FindElement(by: MobileBy.CssSelector(automationId));
                 case AppAction.FindElementById:
-                    return DesktopSession.FindElement(by: MobileBy.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByImage:
-                    return DesktopSession.FindElement(by: MobileBy.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByLinkText:
                     return DesktopSession.FindElement(by: MobileBy.LinkText(automationId));
                 case AppAction.FindElementByPartialLinkText:
@@ -520,7 +524,8 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="automationId"></param>
         /// <param name="errOut"></param>
         /// <param name="myAction"></param>
-        public void GetElements(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public void GetElements(string automationId, out string errOut, 
+            AppAction myAction = AppAction.FindElementById)
         {
             errOut = "";
             try
@@ -537,7 +542,8 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
         /// <summary>
-        /// Performs the tab select, it will start at the automation id that you selected, then you have the option to tab over x many times
+        /// Performs the tab select, it will start at the automation id that you selected, 
+        /// then you have the option to tab over x many times
         /// to another item then it will send a space key press to activate the final element.
         /// </summary>
         /// <param name="automationId">The automation identifier.</param>
@@ -545,7 +551,8 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool PerformTabSelect(string automationId, int tabCount, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public bool PerformTabSelect(string automationId, int tabCount, out string errOut, 
+            AppAction myAction = AppAction.FindElementById)
         {
             bool bAns = false;
             errOut = "";
@@ -598,20 +605,15 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool PerformAction(string automationId, string value, MyAction action, out string errOut, 
-            AppAction myAction = AppAction.FindElementByAccessibilityId)
+            AppAction myAction = AppAction.FindElementById)
         {
             bool bAns = false;
             errOut = "";
             try
             {
-                //WebElement actionMenu = GetAction(automationId, myAction);
-                var actionMenu = DesktopSession.FindElement(MobileBy.Name(automationId));
-                //AppiumElement actionMenu = DesktopSession.FindElement(By.Name(automationId));
-                //AppiumElement actionMenu = DesktopSession.FindElement(by: MobileBy.Id(automationId));
-                //AppiumElement actionMenu = DesktopSession.FindElement(by: By.Id(automationId));
-                //IWebElement element = DesktopSession.FindElement(By.Name(automationId));
-                //element.Click();
-                //actionMenu.Click();
+                var actionMenu = GetAction(automationId, myAction);
+                //var actionMenu = DesktopSession.FindElement(MobileBy.Name(automationId));
+
                 if (action.Equals(MyAction.Nothing))
                 {
                     bAns = actionMenu.Displayed;

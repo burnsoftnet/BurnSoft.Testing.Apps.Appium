@@ -65,7 +65,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             }
         }
 
-        [Test, Category("AppiumHelper Function Test")]
+        [Test, Category("AppiumHelper Function Test"), Order(1)]
         public void StartAppiumTest()
         {
             appiumServer.Errors += (ss, ee) =>
@@ -82,7 +82,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             }
         }
 
-        [Test, Category("AppiumHelper Function Test")]
+        [Test, Category("AppiumHelper Function Test"), Order(2)]
         public void StartApplicationUnderTest()
         {
             appiumServer.Errors += (ss, ee) =>
@@ -94,7 +94,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
         }
 
-        [Test, Category("AppiumHelper Function Test")]
+        [Test, Category("AppiumHelper Function Test"), Order(3)]
         public void ManualButtonClickTest()
         {
             appiumServer.Errors += (ss, ee) =>

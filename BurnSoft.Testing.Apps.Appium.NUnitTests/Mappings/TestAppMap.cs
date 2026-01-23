@@ -35,6 +35,13 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The click test textl
             /// </summary>
             public static string ClickTestTextl = "txtClickStatus";
+            public static string TabOther = "tabOther";
+            public static string TxtDatabaseServer = "txtDatabaseServer";
+            public static string TxtUserName = "txtUserName";
+            public static string TxtPassword = "txtPassword";
+            public static string SaveButton = "btnSave";
+
+
 
         }
         /// <summary>

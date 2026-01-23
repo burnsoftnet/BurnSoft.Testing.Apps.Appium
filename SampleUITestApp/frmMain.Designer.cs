@@ -110,6 +110,7 @@
             // 
             // tabOther
             // 
+            this.tabOther.AccessibleDescription = "tabOther";
             this.tabOther.AccessibleName = "tabOther";
             this.tabOther.Controls.Add(this.btnSave);
             this.tabOther.Controls.Add(this.txtPassword);

@@ -34,6 +34,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         private string _appiumNpm;
         private string _appiumEXE;
         private string _aut;
+        private List<BatchCommandList> _savedRunReport;
         /// <summary>
         /// Initializes this instance.
         /// </summary>
@@ -46,7 +47,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 _automationIdButton = "btnClickTest";
                 _automationIdLabel = "lblClickStatus";
                 _automationIdTextbox = "txtClickStatus";
-            
             }
             catch (Exception e)
             {
@@ -58,6 +58,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
+            //_savedRunReport = new List<BatchCommandList>();
             string SettingsScreenShotLocation = "ScreenShots";
             string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
             if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
@@ -108,7 +109,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             }
         }
 
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(3)]
         public void PerformActionDoubleCLickElementTest()
         {
             bool value = false;
@@ -130,7 +131,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionReadElementTest for textbox.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(5)]
         public void PerformActionReadElementTextboxTest()
         {
             bool value = false;
@@ -166,7 +167,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionReadElementTest for textbox.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(4)]
         public void PerformActionReadElementLabelTest_expectFail()
         {
             bool value = false;
@@ -201,7 +202,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionCLickElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(2)]
         public void PerformActionCLickElementTest()
         {
             bool value = false;
@@ -222,7 +223,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionVerifyElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(1)]
         public void PerformActionVerifyElementTest()
         {
             bool value = false;
@@ -246,17 +247,19 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(6)]
         public void PerformActionSendTextElementTest()
         {
             bool value = false;
             try
             {
-                string UseTab = "tabOther";
+                string UseTab = "Other";
                 string txt1 = "txtDatabaseServer";
                 string txt2 = "txtUserName";
                 string txt3 = "txtPassword";
                 string saveBtn = "btnSave";
+
+                Thread.Sleep(2000);
                 if (!_ga.PerformAction(UseTab, "", GeneralActions.MyAction.Click, out _errOut,
                     GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
                 Thread.Sleep(1000);
@@ -283,14 +286,21 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
 
-            foreach (string s in _ga.ScreenShotLocation)
+            if (_ga.ScreenShotLocation != null)
             {
-                TestContext.WriteLine($"{s}");
+                foreach (string s in _ga.ScreenShotLocation)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
             }
-            foreach (string s in _ga.ErrorLists)
+            if (_ga.ErrorLists != null)
             {
-                TestContext.WriteLine($"{s}");
+                foreach (string s in _ga.ErrorLists)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
             }
+            
             //Assert.IsTrue(value);
         }
         /// <summary>
@@ -426,14 +436,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method BatchCommandTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("Batch Testing")]
+        [Test, Category("Batch Testing"), Order(7)]
         public void BatchCommandTest()
         {
             try
             {
                 List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-
+                _savedRunReport = value;
                 int testNumber = 1;
                 foreach (BatchCommandList v in value)
                 {
@@ -456,16 +466,23 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("Batch Testing")]
+        [Test, Category("Batch Testing"), Order(8)]
         public void GenerateResultsTest()
         {
             try
             {
-                List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
-                if (_errOut.Length > 0) throw new Exception(_errOut);
+                List<BatchCommandList> value = new List<BatchCommandList>();
+                if (_savedRunReport == null)
+                {
+                    value = _ga.RunBatchCommands(GetCommands(), out _errOut);
+                    if (_errOut.Length > 0) throw new Exception(_errOut);
+                } else
+                {
+                    value = _savedRunReport;
+                }
+
                 TestContext.WriteLine(Reporting.GenerateResults(value, out _errOut));
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                //Assert.IsTrue(value.Count > 0);
             }
             catch (Exception e)
             {
