@@ -27,6 +27,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The click test button
             /// </summary>
             public static string ClickTestButton = "btnClickTest";
+            /// <summary>
+            /// The click test label
+            /// </summary>
+            public static string ClickTestLabel = "lblClickStatus";
+            /// <summary>
+            /// The click test textl
+            /// </summary>
+            public static string ClickTestTextl = "txtClickStatus";
 
         }
         /// <summary>
@@ -46,6 +54,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The click test button
             /// </summary>
             public static string ClickTestButton = "Click Test";
+            /// <summary>
+            /// The click test label
+            /// </summary>
+            public static string ClickTestLabel = "Not Clicked";
+            /// <summary>
+            /// The click test textl
+            /// </summary>
+            public static string ClickTestTextl = "Not Clicked";
         }
 
     }

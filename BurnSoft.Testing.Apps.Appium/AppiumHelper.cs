@@ -125,7 +125,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The driver once the appium server is up and running and the 
         /// StartDriverConnection has been called and set
         /// </summary>
-        public AppiumDriver driver;
+        public WindowsDriver driver;
         #endregion
 
         #region "AppiumHelper Init"        

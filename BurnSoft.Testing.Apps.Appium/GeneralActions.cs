@@ -33,16 +33,11 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The sleep interval
         /// </summary>
         private int _sleepInterval;
-        ///// <summary>
-        ///// Gets the application session.
-        ///// </summary>
-        ///// <value>The application session.</value>
-        //public WindowsDriver AppSession { get; private set; }
         /// <summary>
         /// Gets the desktop session.
         /// </summary>
         /// <value>The desktop session.</value>
-        public AppiumDriver DesktopSession { get; private set; }
+        public WindowsDriver DesktopSession { get; private set; }
         /// <summary>
         /// The appium server
         /// </summary>
@@ -397,32 +392,32 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="automationId">The automation identifier.</param>
         /// <param name="myAction">My action.</param>
         /// <returns>WindowsElement.</returns>
-        private AppiumElement GetAction(string automationId, AppAction myAction)
+        private WebElement GetAction(string automationId, AppAction myAction)
         {
             switch (myAction)
             {
                 case AppAction.FindElementByAccessibilityId:
-                    return this.DesktopSession.FindElement(by: By.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Id(automationId));
                 case AppAction.FindElementByName:
-                    return DesktopSession.FindElement(by: By.Name(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByClassName:
-                    return DesktopSession.FindElement(by: By.ClassName(automationId)); 
+                    return DesktopSession.FindElement(by: MobileBy.ClassName(automationId)); 
                 case AppAction.FindElementByCssSelector:
-                    return DesktopSession.FindElement(by: By.CssSelector(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.CssSelector(automationId));
                 case AppAction.FindElementById:
-                    return DesktopSession.FindElement(by: By.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Id(automationId));
                 case AppAction.FindElementByImage:
-                    return DesktopSession.FindElement(by: By.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Id(automationId));
                 case AppAction.FindElementByLinkText:
-                    return DesktopSession.FindElement(by: By.LinkText(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.LinkText(automationId));
                 case AppAction.FindElementByPartialLinkText:
-                    return DesktopSession.FindElement(by: By.PartialLinkText(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.PartialLinkText(automationId));
                 case AppAction.FindElementByTagName:
-                    return DesktopSession.FindElement(by: By.TagName(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.TagName(automationId));
                 case AppAction.FindElementByWindowsUiAutomation:
-                    return DesktopSession.FindElement(by: By.Name(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 default:
-                    return DesktopSession.FindElement(by: By.Name(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
             }
         }
         /// <summary>
@@ -557,7 +552,7 @@ namespace BurnSoft.Testing.Apps.Appium
             try
             {
                 if (tabCount == 0) tabCount = 1;
-                AppiumElement element = GetAction(automationId, myAction);
+                WebElement element = GetAction(automationId, myAction);
 
                 OpenQA.Selenium.Interactions.Actions action = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
                 action.MoveToElement(element);
@@ -609,50 +604,52 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = "";
             try
             {
-                //AppiumElement actionMenu = GetAction(automationId, myAction);
+                //WebElement actionMenu = GetAction(automationId, myAction);
+                var actionMenu = DesktopSession.FindElement(MobileBy.Name(automationId));
                 //AppiumElement actionMenu = DesktopSession.FindElement(By.Name(automationId));
                 //AppiumElement actionMenu = DesktopSession.FindElement(by: MobileBy.Id(automationId));
                 //AppiumElement actionMenu = DesktopSession.FindElement(by: By.Id(automationId));
-                IWebElement element = DesktopSession.FindElement(By.Name(automationId));
-                element.Click();
+                //IWebElement element = DesktopSession.FindElement(By.Name(automationId));
+                //element.Click();
                 //actionMenu.Click();
-                //if (action.Equals(MyAction.Nothing))
-                //{
-                //    bAns = actionMenu.Displayed;
-                //}
-                //else
-                //{
-                //    OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                //    runAction.MoveToElement(actionMenu);
-                //    switch (action)
-                //    {
-                //        case MyAction.Click:
-                //            runAction.Click();
-                //            break;
-                //        case MyAction.SendKeys:
-                //            runAction.SendKeys(value);
-                //            break;
-                //        case MyAction.ClearAndSendKeys:
-                //            actionMenu.Clear();
-                //            runAction.SendKeys(value);
-                //            break;
-                //        case MyAction.DoubleClick:
-                //            runAction.DoubleClick();
-                //            break;
-                //        case MyAction.KeyDown:
-                //            runAction.KeyDown(value);
-                //            break;
-                //        case MyAction.KeyUp:
-                //            runAction.KeyUp(value);
-                //            break;
-                //        case MyAction.Sleep:
-                //            Thread.Sleep(Convert.ToInt32(value));
-                //            break;
-                //    }
+                if (action.Equals(MyAction.Nothing))
+                {
+                    bAns = actionMenu.Displayed;
+                }
+                else
+                {
+                    //OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
+                    //runAction.MoveToElement(actionMenu);
+                    var runAction = actionMenu;
+                    switch (action)
+                    {
+                        case MyAction.Click:
+                            runAction.Click();
+                            break;
+                        case MyAction.SendKeys:
+                            runAction.SendKeys(value);
+                            break;
+                        case MyAction.ClearAndSendKeys:
+                            actionMenu.Clear();
+                            runAction.SendKeys(value);
+                            break;
+                        //case MyAction.DoubleClick:
+                        //    runAction.DoubleClick();
+                        //    break;
+                        //case MyAction.KeyDown:
+                        //    runAction.KeyDown(value);
+                        //    break;
+                        //case MyAction.KeyUp:
+                        //    runAction.KeyUp(value);
+                        //    break;
+                        case MyAction.Sleep:
+                            Thread.Sleep(Convert.ToInt32(value));
+                            break;
+                    }
 
-                //    runAction.Perform();
-                bAns = true;
-                //}
+                    //runAction.Perform();
+                    bAns = true;
+                }
 
             }
             catch (Exception e)
@@ -672,13 +669,13 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="myAction">My action.</param>
         /// <returns>System.String.</returns>
         public string PerformAction(string automationId, out string errOut, 
-            AppAction myAction = AppAction.FindElementByAccessibilityId)
+            AppAction myAction = AppAction.FindElementById)
         {
             string sAns = "";
             errOut = "";
             try
             {
-                AppiumElement actionMenu = GetAction(automationId, myAction);
+                var actionMenu = GetAction(automationId, myAction);
                 sAns = actionMenu.Text;
             }
             catch (Exception e)

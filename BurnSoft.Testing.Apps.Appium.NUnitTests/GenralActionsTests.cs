@@ -114,7 +114,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             bool value = false;
             try
             {
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
             }
@@ -135,13 +136,15 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             bool value = false;
             try
             {
-                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
                 string status = _ga.PerformAction(_automationIdTextbox, out _errOut);
                 TestContext.WriteLine($"Status Textbox: {status}");
                 value = status.Length > 0;
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 status = _ga.PerformAction(_automationIdTextbox, out _errOut);
                 TestContext.WriteLine($"Status Textbox: {status}");
@@ -169,13 +172,15 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             bool value = false;
             try
             {
-                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick,
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
                 string status = _ga.PerformAction(_automationIdLabel, out _errOut);
                 TestContext.WriteLine($"Status Label: {status}");
                 value = status.Length > 0;
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 status = _ga.PerformAction(_automationIdLabel, out _errOut);
                 TestContext.WriteLine($"Status Label: {status}");
@@ -202,7 +207,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             bool value = false;
             try
             {
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
             }
             catch (Exception e)
@@ -222,7 +228,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             bool value = false;
             try
             {
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Nothing, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Nothing, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
             }
             catch (Exception e)
@@ -251,7 +258,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 string txt3 = "txtPassword";
                 string saveBtn = "btnSave";
                 if (!_ga.PerformAction(UseTab, "", GeneralActions.MyAction.Click, out _errOut,
-                    GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
+                    GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
                 Thread.Sleep(1000);
 
                 if (!_ga.PerformAction(txt1, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
