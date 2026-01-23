@@ -620,9 +620,9 @@ namespace BurnSoft.Testing.Apps.Appium
                 }
                 else
                 {
+                    var runAction = actionMenu;
                     //OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
                     //runAction.MoveToElement(actionMenu);
-                    var runAction = actionMenu;
                     switch (action)
                     {
                         case MyAction.Click:

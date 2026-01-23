@@ -35,10 +35,25 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The click test textl
             /// </summary>
             public static string ClickTestTextl = "txtClickStatus";
-            public static string TabOther = "tabOther";
+            /// <summary>
+            /// The tab other
+            /// </summary>
+            public static string TabOther = "Other";
+            /// <summary>
+            /// The text database server
+            /// </summary>
             public static string TxtDatabaseServer = "txtDatabaseServer";
+            /// <summary>
+            /// The text user name
+            /// </summary>
             public static string TxtUserName = "txtUserName";
+            /// <summary>
+            /// The text password
+            /// </summary>
             public static string TxtPassword = "txtPassword";
+            /// <summary>
+            /// The save button
+            /// </summary>
             public static string SaveButton = "btnSave";
 
 
@@ -69,6 +84,26 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The click test textl
             /// </summary>
             public static string ClickTestTextl = "Not Clicked";
+            /// <summary>
+            /// The tab other
+            /// </summary>
+            public static string TabOther = "Other";
+            /// <summary>
+            /// The text database server
+            /// </summary>
+            public static string TxtDatabaseServer = "txtDatabaseServer";
+            /// <summary>
+            /// The text user name
+            /// </summary>
+            public static string TxtUserName = "txtUserName";
+            /// <summary>
+            /// The text password
+            /// </summary>
+            public static string TxtPassword = "txtPassword";
+            /// <summary>
+            /// The save button
+            /// </summary>
+            public static string SaveButton = "btnSave";
         }
 
     }
