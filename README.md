@@ -11,6 +11,10 @@ The Older WinDriver ( pre appium ) test library can still be found in the [relea
 The Master Branch was merged with an updated, ( STILL WORKING ON ) appium version with updated libraries to get rid of the dependabot pull requests and complaints that the library was not up to date
 So if you are looking for the WinDriver Version visit the release branch listed above.
 
+## Documentation
+
+Details about the [API Dcoumentation](docs/README.md) are available to view, also the Help file is also available in the package
+[Developer Notes](docs/DeveloperNotes.md) Is avavilabe for more information about what was installed on the developer machine.
 
 ## Resources
 - [BurnSoft.Universal](https://github.com/burnsoftnet/BurnSoft.Universal)
