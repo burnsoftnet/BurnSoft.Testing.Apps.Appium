@@ -27,11 +27,13 @@ So if you are looking for the WinDriver Version visit the release branch listed 
 
 ## Release Log
 
-### v2.1.0.22-beta
+### v3.1.2.33-beta
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
 * Updated The library to use the appium application instead of the old winDriver function
+* Updated to Work with Appium Server 3.1.2
+* Updated Version to match the support for the appium Server, so this will start with 3.1.2
 
 ### v1.x
 
