@@ -1,9 +1,11 @@
+using BurnSoft.Testing.Apps.Appium.helpers;
+using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using BurnSoft.Testing.Apps.Appium.Types;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
 {
@@ -28,6 +30,11 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         private string _automationIdButton;
         private string _automationIdLabel;
         private string _automationIdTextbox;
+        private string _nodeEXE;
+        private string _appiumNpm;
+        private string _appiumEXE;
+        private string _aut;
+        private List<BatchCommandList> _savedRunReport;
         /// <summary>
         /// Initializes this instance.
         /// </summary>
@@ -36,24 +43,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         {
             try
             {
-                string SettingsScreenShotLocation = "ScreenShots";
-                string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
-                if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
                 _errOut = "";
                 _automationIdButton = "btnClickTest";
                 _automationIdLabel = "lblClickStatus";
                 _automationIdTextbox = "txtClickStatus";
-                _ga = new GeneralActions();
-                _ga.TestName = "UnitTest-Init";
-                _ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
-                _ga.SettingsScreenShotLocation = fullExceptionPath;
-                _ga.DoSleep = true;
-                _ga.ErrorCatcher += (ss, ee) =>
-                {
-                    TestContext.WriteLine(ee);
-                    throw new Exception(ee);
-                };
-                _ga.Initialize();
             }
             catch (Exception e)
             {
@@ -61,19 +54,69 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
         }
-        [TearDown]
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            //_savedRunReport = new List<BatchCommandList>();
+            string SettingsScreenShotLocation = "ScreenShots";
+            string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
+            if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
+            _aut = Settings.Settings.ApplicationUnderTest;
+            _nodeEXE = Settings.Settings.NodeExe;
+            _appiumNpm = Settings.Settings.AppiumNpm;
+            _appiumEXE = Settings.Settings.AppiumServerExe;
+            _ga = new GeneralActions(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
+            _ga.TestName = "UnitTest-Init";
+            //_ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
+            _ga.SettingsScreenShotLocation = fullExceptionPath;
+            _ga.DoSleep = true;
+            _ga.ErrorCatcher += (ss, ee) =>
+            {
+                TestContext.WriteLine($"ERROR: {ee}");
+            };
+            _ga.Initialize(_aut);
+        }
+
+        [OneTimeTearDown]
         public void Dispose()
         {
             _ga.Dispose();
+            KillAppByName(_aut);
         }
 
-        [Test, Category("General Function Test")]
+        public void KillAppByName(string appName)
+        {
+            // The process name is typically the executable name without the .exe extension
+            // For "notepad.exe", the process name is "notepad"
+            appName = Path.GetFileName(appName);
+            string processName = Path.GetFileNameWithoutExtension(appName);
+
+            Process[] processes = Process.GetProcessesByName(processName);
+
+            foreach (Process proc in processes)
+            {
+                try
+                {
+                    proc.Kill();
+                    // Optional: wait for the process to exit to ensure it's fully terminated
+                    proc.WaitForExit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Could not kill process {proc.Id}: {ex.Message}");
+                }
+            }
+        }
+
+        [Test, Category("General Function Test"), Order(3)]
         public void PerformActionDoubleCLickElementTest()
         {
             bool value = false;
             try
             {
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
             }
@@ -88,19 +131,21 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionReadElementTest for textbox.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(5)]
         public void PerformActionReadElementTextboxTest()
         {
             bool value = false;
             try
             {
-                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
                 string status = _ga.PerformAction(_automationIdTextbox, out _errOut);
                 TestContext.WriteLine($"Status Textbox: {status}");
                 value = status.Length > 0;
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 status = _ga.PerformAction(_automationIdTextbox, out _errOut);
                 TestContext.WriteLine($"Status Textbox: {status}");
@@ -122,19 +167,21 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionReadElementTest for textbox.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(4)]
         public void PerformActionReadElementLabelTest_expectFail()
         {
             bool value = false;
             try
             {
-                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick, out _errOut, GeneralActions.AppAction.FindElementByName);
+                bool myValue = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.DoubleClick,
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 Thread.Sleep(500);
                 string status = _ga.PerformAction(_automationIdLabel, out _errOut);
                 TestContext.WriteLine($"Status Label: {status}");
                 value = status.Length > 0;
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
                 status = _ga.PerformAction(_automationIdLabel, out _errOut);
                 TestContext.WriteLine($"Status Label: {status}");
@@ -155,13 +202,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionCLickElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(2)]
         public void PerformActionCLickElementTest()
         {
             bool value = false;
             try
             {
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Click, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
             }
             catch (Exception e)
@@ -175,13 +223,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method PerformActionVerifyElementTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(1)]
         public void PerformActionVerifyElementTest()
         {
             bool value = false;
             try
             {
-                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Nothing, out _errOut, GeneralActions.AppAction.FindElementByName);
+                value = _ga.PerformAction(_automationIdButton, "", GeneralActions.MyAction.Nothing, 
+                    out _errOut, GeneralActions.AppAction.FindElementById);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
             }
             catch (Exception e)
@@ -198,19 +247,21 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("General Function Test")]
+        [Test, Category("General Function Test"), Order(6)]
         public void PerformActionSendTextElementTest()
         {
             bool value = false;
             try
             {
-                string UseTab = "tabOther";
+                string UseTab = "Other";
                 string txt1 = "txtDatabaseServer";
                 string txt2 = "txtUserName";
                 string txt3 = "txtPassword";
                 string saveBtn = "btnSave";
+
+                Thread.Sleep(2000);
                 if (!_ga.PerformAction(UseTab, "", GeneralActions.MyAction.Click, out _errOut,
-                    GeneralActions.AppAction.FindElementByName)) throw new Exception(_errOut);
+                    GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
                 Thread.Sleep(1000);
 
                 if (!_ga.PerformAction(txt1, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
@@ -235,14 +286,21 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
 
-            foreach (string s in _ga.ScreenShotLocation)
+            if (_ga.ScreenShotLocation != null)
             {
-                TestContext.WriteLine($"{s}");
+                foreach (string s in _ga.ScreenShotLocation)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
             }
-            foreach (string s in _ga.ErrorLists)
+            if (_ga.ErrorLists != null)
             {
-                TestContext.WriteLine($"{s}");
+                foreach (string s in _ga.ErrorLists)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
             }
+            
             //Assert.IsTrue(value);
         }
         /// <summary>
@@ -378,14 +436,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// Defines the test method BatchCommandTest.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("Batch Testing")]
+        [Test, Category("Batch Testing"), Order(7)]
         public void BatchCommandTest()
         {
             try
             {
                 List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-
+                _savedRunReport = value;
                 int testNumber = 1;
                 foreach (BatchCommandList v in value)
                 {
@@ -408,16 +466,23 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// </summary>
         /// <exception cref="System.Exception"></exception>
         /// <exception cref="System.Exception"></exception>
-        [Test, Category("Batch Testing")]
+        [Test, Category("Batch Testing"), Order(8)]
         public void GenerateResultsTest()
         {
             try
             {
-                List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
+                List<BatchCommandList> value = new List<BatchCommandList>();
+                if (_savedRunReport == null)
+                {
+                    value = _ga.RunBatchCommands(GetCommands(), out _errOut);
+                    if (_errOut.Length > 0) throw new Exception(_errOut);
+                } else
+                {
+                    value = _savedRunReport;
+                }
+
+                TestContext.WriteLine(Reporting.GenerateResults(value, out _errOut));
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                TestContext.WriteLine(_ga.GenerateResults(value, out _errOut));
-                if (_errOut.Length > 0) throw new Exception(_errOut);
-                //Assert.IsTrue(value.Count > 0);
             }
             catch (Exception e)
             {

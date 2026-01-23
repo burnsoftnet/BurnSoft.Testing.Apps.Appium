@@ -11,6 +11,10 @@ The Older WinDriver ( pre appium ) test library can still be found in the [relea
 The Master Branch was merged with an updated, ( STILL WORKING ON ) appium version with updated libraries to get rid of the dependabot pull requests and complaints that the library was not up to date
 So if you are looking for the WinDriver Version visit the release branch listed above.
 
+## Documentation
+
+Details about the [API Dcoumentation](docs/README.md) are available to view, also the Help file is also available in the package
+[Developer Notes](docs/DeveloperNotes.md) Is avavilabe for more information about what was installed on the developer machine.
 
 ## Resources
 - [BurnSoft.Universal](https://github.com/burnsoftnet/BurnSoft.Universal)
@@ -27,11 +31,14 @@ So if you are looking for the WinDriver Version visit the release branch listed 
 
 ## Release Log
 
-### v2.1.0.22-beta
+### v3.1.2.43-beta
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
 * Updated The library to use the appium application instead of the old winDriver function
+* Updated to Work with Appium Server 3.1.2
+* Updated Version to match the support for the appium Server, so this will start with 3.1.2
+* REFACTOR GeneralActions to use the New Appium helper to manage the appium helper and the AUT.
 
 ### v1.x
 

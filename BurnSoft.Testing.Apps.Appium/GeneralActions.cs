@@ -3,7 +3,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Appium.Service;
-
 //using OpenQA.Selenium.Remote;
 //using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
@@ -15,15 +14,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Configuration;
 using System.Threading;
-////using OpenQA.Selenium.Interactions;
-// ReSharper disable InconsistentNaming
-// ReSharper disable RedundantCast
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
-// ReSharper disable UseObjectOrCollectionInitializer
-// ReSharper disable UnusedVariable
-
-// ReSharper disable UnusedMember.Local
-// ReSharper disable UnusedMember.Global
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -36,39 +26,22 @@ namespace BurnSoft.Testing.Apps.Appium
     {
         #region "Private Variables"        
         /// <summary>
-        /// The windows application driver URL
-        /// </summary>
-        private string _windowsApplicationDriverUrl;
-        /// <summary>
-        /// The win application driver path
-        /// </summary>
-        private string _winAppDriverPath;
-        /// <summary>
-        /// The device name
-        /// </summary>
-        private string _deviceName = "";
-        /// <summary>
         /// The wait for application launch
         /// </summary>
         private int _waitForAppLaunch;
-        /// <summary>
-        /// The win application driver process
-        /// </summary>
-        private Process _winAppDriverProcess;
         /// <summary>
         /// The sleep interval
         /// </summary>
         private int _sleepInterval;
         /// <summary>
-        /// Gets the application session.
-        /// </summary>
-        /// <value>The application session.</value>
-        public WindowsDriver AppSession { get; private set; }
-        /// <summary>
         /// Gets the desktop session.
         /// </summary>
         /// <value>The desktop session.</value>
         public WindowsDriver DesktopSession { get; private set; }
+        /// <summary>
+        /// The appium server
+        /// </summary>
+        private AppiumHelper appiumServer;
         #endregion
         #region "Event Handlers"        
         /// <summary>
@@ -82,6 +55,20 @@ namespace BurnSoft.Testing.Apps.Appium
         protected virtual void SendError(string message)
         {
             ErrorCatcher?.Invoke(this, message);
+        }
+        /// <summary>
+        /// Occurs when [debug log].
+        /// </summary>
+        public event EventHandler<string> DebugLog;
+        /// <summary>
+        /// Sends the debug messages only when the debug 
+        /// flag is set to true
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>virtualvoid.</returns>
+        protected virtual void SendDebug(string message)
+        {
+            if (DebugMode) DebugLog?.Invoke(this, message);
         }
         #endregion
         #region "Public Variables"
@@ -125,50 +112,6 @@ namespace BurnSoft.Testing.Apps.Appium
             set => _sleepInterval = value;
         }
         /// <summary>
-        /// Gets or sets the windows application driver URL. If not set, it will default to http://127.0.0.1:4723
-        /// </summary>
-        /// <value>The windows application driver URL.</value>
-        /// [Obsolete("Method is deprecated, please remove.")]
-        public string WindowsApplicationDriverUrl
-        {
-            get
-            {
-                if (_windowsApplicationDriverUrl == null) return "http://127.0.0.1:4723";
-                if (_windowsApplicationDriverUrl.Length == 0)
-                {
-                    return "http://127.0.0.1:4723";
-                }
-                else
-                {
-                    return _windowsApplicationDriverUrl;
-                }
-            }
-            set => _windowsApplicationDriverUrl = value;
-        }
-        /// <summary>
-        /// Gets or sets the win application driver path. If not set, it will
-        /// default to C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe
-        /// </summary>
-        /// <value>The win application driver path.</value>
-        [Obsolete("Method is deprecated, please remove.")]
-        public string WinAppDriverPath
-        {
-            get {
-                if (_winAppDriverPath == null) return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
-                if (_winAppDriverPath.Length == 0)
-                {
-                    return @"C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe";
-                }
-                else
-                {
-                    return _winAppDriverPath;
-                }
-            }
-            set => _winAppDriverPath = value;
-        }
-
-
-        /// <summary>
         /// Gets or sets the wait for application launch.
         /// </summary>
         /// <value>The wait for application launch.</value>
@@ -196,11 +139,20 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <value>The error lists.</value>
         public List<string> ErrorLists { get; set; }
         /// <summary>
-        /// Gets or sets a value indicating whether to run the test in admin mode.
+        /// Gets or sets the node executable.
         /// </summary>
-        /// <value><c>true</c> if [run in admin mode]; otherwise, <c>false</c>.</value>
-        public bool RunInAdminMode { get; set; }
-
+        /// <value>The node executable.</value>
+        public string NodeExecutable { get; set; }
+        /// <summary>
+        /// Gets or sets the appium main js.
+        /// </summary>
+        /// <value>The appium main js.</value>
+        public string AppiumMainJs { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether [debug mode].
+        /// </summary>
+        /// <value><c>true</c> if [debug mode]; otherwise, <c>false</c>.</value>
+        private bool DebugMode { get; set; }
         #endregion
         #region "Exception Error Handling"        
         /// <summary>
@@ -255,95 +207,46 @@ namespace BurnSoft.Testing.Apps.Appium
             if (ErrorLists == null) ErrorLists = new List<string>();
             ErrorLists.Add(error);
         }
-        /// <summary>
-        /// Starts the win application driver.
-        /// </summary>
-        [Obsolete("Method is deprecated, please remove.")]
-        private void StartWinAppDriver()
-        {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo(WinAppDriverPath);
-                psi.UseShellExecute = true;
-                if (RunInAdminMode) psi.Verb = "runas"; // run as administrator
-                _winAppDriverProcess = Process.Start(psi);
-            }
-            catch (Exception e)
-            {
-                AddError(ErrorMessage("StartWinAppDriver", e));
-            }
-        }
-        /// <summary>
-        /// Stops the winapp driver.
-        /// </summary>
-        [Obsolete("Method is deprecated, please remove.")]
-        private void StopWinappDriver()
-        {
-            // Stop the WinAppDriverProcess
-            if (_winAppDriverProcess != null)
-            {
-                foreach (var process in Process.GetProcessesByName("WinAppDriver"))
-                {
-                    process.Kill();
-                }
-            }
-        }
         #endregion
         #region "Public Initalization and cleanup function"
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralActions"/> class.
         /// </summary>
-        /// <param name="desktopSession">The desktop session.</param>
-        public GeneralActions(WindowsDriver desktopSession)
-        {
-            DesktopSession = desktopSession;
-            GeneralActionsInit();
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneralActions"/> class.
-        /// </summary>
         public GeneralActions()
         {
-            GeneralActionsInit();
+            //GeneralActionsInit();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneralActions"/> class.
         /// </summary>
-        /// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
-        public GeneralActions(bool runInAdminMode)
+        /// <param name="nodeExecutable">The node executable.</param>
+        /// <param name="appiumMainJs">The appium main js.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
+        public GeneralActions(string nodeExecutable, string appiumMainJs,
+            bool debugMode = false)
         {
-            GeneralActionsInit(runInAdminMode);
-        }
-        /// <summary>
-        /// Generals the actions initialize.
-        /// </summary>
-        /// <param name="runInAdminMode">if set to <c>true</c> [run in admin mode].</param>
-        private void GeneralActionsInit(bool runInAdminMode = false) 
-        {
-            ErrorLists = new List<string>();
-            ScreenShotLocation = new List<string>();
-            RunInAdminMode = runInAdminMode;
+            NodeExecutable = nodeExecutable;
+            AppiumMainJs = appiumMainJs;
+            DebugMode = debugMode;
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
-            if (AppSession != null)
-            {
-                //AppSession.CloseApp();
-                AppSession.Close();
-                //AppSession.Quit();
-            }
             // Close the desktopSession
             if (DesktopSession != null)
             {
-                //DesktopSession.CloseApp();
-                DesktopSession.Close();
-                //DesktopSession.Quit();
+                try
+                {
+                    DesktopSession?.Close();
+                }
+                catch (Exception e)
+                {
+                    SendDebug($"ERROR in Dispose while Closing DesktopSession: {e}");
+                }
             }
-
-            //StopWinappDriver();
+            appiumServer.StopAppiumServer();
         }
         /// <summary>
         /// Initializes this instance.
@@ -351,52 +254,19 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <exception cref="System.Exception">AppSession is null, check your settings</exception>
         /// <exception cref="System.Exception">AppSession.SessionId is null, check your application path</exception>
         /// <exception cref="System.Exception">DesktopSession is null, please check your settings</exception>
-        public void Initialize()
+        public void Initialize(string appUnderTest)
         {
             try
             {
-                _deviceName = Dns.GetHostName();
-                //StartWinAppDriver();
-                //var appiumOptions = new AppiumOptions();
-                //appiumOptions.AddAdditionalCapability("app", ApplicationPath);
-                //appiumOptions.AddAdditionalCapability("deviceName", _deviceName);
-                //appiumOptions.AddAdditionalCapability("ms:waitForAppLaunch", WaitForAppLaunch);
-                //AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appiumOptions);
-
-                var options = new AppiumOptions();
-                options.DeviceName = _deviceName;
-                options.App = ApplicationPath;
-                //options.AddAdditionalOption("ms:waitForAppLaunch", WaitForAppLaunch);
-                AppSession = new WindowsDriver(options);
-                DesktopSession = AppSession;
-
-                if (AppSession == null) throw new Exception("AppSession is null, check your settings");
-                if (AppSession.SessionId == null) throw new Exception("AppSession.SessionId is null, check your application path");
-
-                AppSession.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
-                //AppiumOptions optionsDesktop = new AppiumOptions();
-                //optionsDesktop.AddAdditionalCapability("app", "Root");
-                //optionsDesktop.AddAdditionalCapability("deviceName", _deviceName);
-                //DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), optionsDesktop);
-
-                if (DesktopSession == null) throw new Exception("DesktopSession is null, please check your settings");
-                InitPassed = true;
-                var builder = new AppiumServiceBuilder();
-
-                // Configure the service builder
-                builder.WithIPAddress("127.0.0.1") // Specify IP address
-                       .UsingPort(4723)          // Specify port
-                       .UsingDriverExecutable(new FileInfo(@"C:\nvm4w\nodejs\node.exe")) // Path to Node.js
-                       .WithAppiumJS(new FileInfo(@"C:\Users\BurnSoft\AppData\Roaming\npm\node_modules\appium\build\lib\main.js")) // Path to Appium's main.js
-                       .WithLogFile(new FileInfo("C:\\Users\\BurnSoft\\appium_logs.txt")); // Log file for Appium output
-                       //.WithArgument(GeneralServerFlag.SessionOverride) // Allow session override
-                       //.WithArgument(GeneralServerFlag.LogTimestamp); // Add timestamps to logs
-
-                // Build the service
-                var appiumLocalService = builder.Build();
-
-                // Start the service
-                appiumLocalService.Start();
+                appiumServer = new AppiumHelper(nodeExecutable: NodeExecutable, appiumMainJs: AppiumMainJs);
+                appiumServer.Errors += (ss, ee) =>
+                {
+                    SendError(ee);
+                };
+                var options = appiumServer.SetDesiredCapabilities(appUnderTest);
+                if (!appiumServer.StartDriverConnection(options)) throw new Exception("Error Starting Connection!");
+                DesktopSession = appiumServer.driver;
+                //AppSession = DesktopSession;
             }
             catch (Exception e)
             {
@@ -531,27 +401,27 @@ namespace BurnSoft.Testing.Apps.Appium
             switch (myAction)
             {
                 case AppAction.FindElementByAccessibilityId:
-                    return this.DesktopSession.FindElement(by: By.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByName:
-                    return DesktopSession.FindElement(by: By.Name(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByClassName:
-                    return DesktopSession.FindElement(by: By.ClassName(automationId)); 
+                    return DesktopSession.FindElement(by: MobileBy.ClassName(automationId)); 
                 case AppAction.FindElementByCssSelector:
-                    return DesktopSession.FindElement(by: By.CssSelector(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.CssSelector(automationId));
                 case AppAction.FindElementById:
-                    return DesktopSession.FindElement(by: By.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByImage:
-                    return DesktopSession.FindElement(by: By.Id(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 case AppAction.FindElementByLinkText:
-                    return DesktopSession.FindElement(by: By.LinkText(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.LinkText(automationId));
                 case AppAction.FindElementByPartialLinkText:
-                    return DesktopSession.FindElement(by: By.PartialLinkText(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.PartialLinkText(automationId));
                 case AppAction.FindElementByTagName:
-                    return DesktopSession.FindElement(by: By.TagName(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.TagName(automationId));
                 case AppAction.FindElementByWindowsUiAutomation:
-                    return DesktopSession.FindElement(by: By.Name(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
                 default:
-                    return DesktopSession.FindElement(by: By.Name(automationId));
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
             }
         }
         /// <summary>
@@ -568,7 +438,7 @@ namespace BurnSoft.Testing.Apps.Appium
                     Screenshot screenShot = screenShotDriver.GetScreenshot();
                     string savePath = $"{SettingsScreenShotLocation}\\{TestName}-{DateTime.Now.Ticks}.png";
                     screenShot.SaveAsFile(savePath);
-                    ScreenShotLocation.Add(savePath);
+                    ScreenShotLocation?.Add(savePath);
                 }
                 else
                 {
@@ -646,57 +516,7 @@ namespace BurnSoft.Testing.Apps.Appium
             return sAns;
         }
         #endregion
-        #region "Reporting"
-        /// <summary>
-        /// Generates the results from the Batch Command List to display the step number, testname, any returnedvalue results and
-        /// if it failed, to return the element name that it failed at.
-        /// </summary>
-        /// <param name="cmdResults">The command results.</param>
-        /// <param name="errOut">The error out.</param>
-        /// <returns>System.String.</returns>
-        public string GenerateResults(List<BatchCommandList> cmdResults, out string errOut)
-        {
-            string sAns = "";
-            errOut = "";
-            try
-            {
-                int stepNumber = 1;
-                foreach (BatchCommandList c in cmdResults)
-                {
-                    if (c.TestName != null)
-                    {
-                        if (c.TestName?.Length > 0)
-                        {
-                            string passFailed = c.PassedFailed ? "PASSED!" : "FAILED!";
-                            sAns += $"{Environment.NewLine}{stepNumber}.)  {passFailed} {c.TestName}";
-                            if (c.ReturnedValue.Length > 0) sAns += $"  {c.ReturnedValue}";
-                            if (!c.PassedFailed) sAns += $"{Environment.NewLine} Failed at line: {c.ElementName}";
-                            stepNumber++;
-                        }
-                    }
-                }
 
-                if (sAns.Length > 0) sAns += $"{Environment.NewLine}";
-            }
-            catch (Exception e)
-            {
-                errOut = e.Message;
-            }
-            return sAns;
-        }
-
-        /// <summary>
-        /// Works through the results of the Batch Command list and looks to see if any of the tests where marked as failed,
-        /// if some show up as failed then it will return false, else everything passed and it is true.
-        /// </summary>
-        /// <param name="results"></param>
-        /// <returns></returns>
-        public bool AllTestsPassed(List<BatchCommandList> results)
-        {
-            return results.All(r => r.PassedFailed);
-        }
-
-        #endregion
         /// <summary>
         /// Get Elemtns from item test
         /// </summary>
@@ -704,7 +524,8 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="automationId"></param>
         /// <param name="errOut"></param>
         /// <param name="myAction"></param>
-        public void GetElements(string automationId, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public void GetElements(string automationId, out string errOut, 
+            AppAction myAction = AppAction.FindElementById)
         {
             errOut = "";
             try
@@ -721,7 +542,8 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
         /// <summary>
-        /// Performs the tab select, it will start at the automation id that you selected, then you have the option to tab over x many times
+        /// Performs the tab select, it will start at the automation id that you selected, 
+        /// then you have the option to tab over x many times
         /// to another item then it will send a space key press to activate the final element.
         /// </summary>
         /// <param name="automationId">The automation identifier.</param>
@@ -729,14 +551,15 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="errOut">The error out.</param>
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool PerformTabSelect(string automationId, int tabCount, out string errOut, AppAction myAction = AppAction.FindElementByAccessibilityId)
+        public bool PerformTabSelect(string automationId, int tabCount, out string errOut, 
+            AppAction myAction = AppAction.FindElementById)
         {
             bool bAns = false;
             errOut = "";
             try
             {
                 if (tabCount == 0) tabCount = 1;
-                AppiumElement element = GetAction(automationId, myAction);
+                WebElement element = GetAction(automationId, myAction);
 
                 OpenQA.Selenium.Interactions.Actions action = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
                 action.MoveToElement(element);
@@ -782,13 +605,13 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="myAction">My action.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public bool PerformAction(string automationId, string value, MyAction action, out string errOut, 
-            AppAction myAction = AppAction.FindElementByAccessibilityId)
+            AppAction myAction = AppAction.FindElementById)
         {
             bool bAns = false;
             errOut = "";
             try
             {
-                AppiumElement actionMenu = GetAction(automationId, myAction);
+                var actionMenu = GetAction(automationId, myAction);
 
                 if (action.Equals(MyAction.Nothing))
                 {
@@ -796,38 +619,44 @@ namespace BurnSoft.Testing.Apps.Appium
                 }
                 else
                 {
-                    OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                    runAction.MoveToElement(actionMenu);
+                    OpenQA.Selenium.Interactions.Actions runAction;
+                    
                     switch (action)
                     {
                         case MyAction.Click:
-                            runAction.Click();
+                            actionMenu.Click();
                             break;
                         case MyAction.SendKeys:
-                            runAction.SendKeys(value);
+                            actionMenu.SendKeys(value);
                             break;
                         case MyAction.ClearAndSendKeys:
                             actionMenu.Clear();
-                            runAction.SendKeys(value);
+                            actionMenu.SendKeys(value);
                             break;
                         case MyAction.DoubleClick:
-                            runAction.DoubleClick();
+                            actionMenu.Click();
+                            actionMenu.Click();
                             break;
                         case MyAction.KeyDown:
+                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
+                            runAction.MoveToElement(actionMenu);
                             runAction.KeyDown(value);
+                            runAction.Perform();
                             break;
                         case MyAction.KeyUp:
+                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
+                            runAction.MoveToElement(actionMenu);
                             runAction.KeyUp(value);
+                            runAction.Perform();
                             break;
                         case MyAction.Sleep:
                             Thread.Sleep(Convert.ToInt32(value));
                             break;
                     }
 
-                    runAction.Perform();
                     bAns = true;
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -846,13 +675,13 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="myAction">My action.</param>
         /// <returns>System.String.</returns>
         public string PerformAction(string automationId, out string errOut, 
-            AppAction myAction = AppAction.FindElementByAccessibilityId)
+            AppAction myAction = AppAction.FindElementById)
         {
             string sAns = "";
             errOut = "";
             try
             {
-                AppiumElement actionMenu = GetAction(automationId, myAction);
+                var actionMenu = GetAction(automationId, myAction);
                 sAns = actionMenu.Text;
             }
             catch (Exception e)
@@ -1089,9 +918,17 @@ namespace BurnSoft.Testing.Apps.Appium
                         }
 
                     }
-                    theReturned.Add(new BatchCommandList() { SleepInterval = c.SleepInterval, 
-                        Actions = c.Actions, ElementName = c.ElementName, SendKeys = c.SendKeys, 
-                        PassedFailed = didpass,ReturnedValue = result, TestName = c.TestName, ReturnedFoundValue = foundValue, TestNumber = testNumber
+                    theReturned.Add(new BatchCommandList()
+                    {
+                        SleepInterval = c.SleepInterval,
+                        Actions = c.Actions,
+                        ElementName = c.ElementName,
+                        SendKeys = c.SendKeys,
+                        PassedFailed = didpass,
+                        ReturnedValue = result,
+                        TestName = c.TestName,
+                        ReturnedFoundValue = foundValue,
+                        TestNumber = testNumber
                     });
                     testNumber++;
                 }
@@ -1103,7 +940,6 @@ namespace BurnSoft.Testing.Apps.Appium
 
             return theReturned;
         }
-
 
 
         #endregion
