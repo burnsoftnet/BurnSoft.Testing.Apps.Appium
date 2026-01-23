@@ -1,5 +1,7 @@
 ﻿
 
+using System.Diagnostics;
+
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
 {
     /// <summary>
@@ -21,6 +23,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The menu file
             /// </summary>
             public static string MenuFile = "mnuFile";
+            /// <summary>
+            /// The click test button
+            /// </summary>
+            public static string ClickTestButton = "btnClickTest";
 
         }
         /// <summary>
@@ -36,6 +42,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The menu file
             /// </summary>
             public static string MenuFile = "File";
+            /// <summary>
+            /// The click test button
+            /// </summary>
+            public static string ClickTestButton = "Click Test";
         }
 
     }

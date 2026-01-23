@@ -1,5 +1,7 @@
-﻿using BurnSoft.Testing.Apps.Appium.NUnitTests.Settings;
+﻿using BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings;
+using BurnSoft.Testing.Apps.Appium.NUnitTests.Settings;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using System;
 using System.Diagnostics;
@@ -102,8 +104,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             if (!appiumServer.StartDriverConnection(options))
                 Assert.Fail();
             var driver = appiumServer.driver;
-            var element = driver.FindElement("Name", "Test Click");
-            element.Click();
+            var element = driver.FindElement((By.Id(TestAppMap.AutomationIds.ClickTestButton));
+            //var element = driver.FindElement(By.Name(TestAppMap.DisplayName.ClickTestButton));
+            //var element = driver.FindElement("Name", TestAppMap.AutomationIds.ClickTestButton);
+            //element.Click();
             Thread.Sleep(60);
         }
     }
