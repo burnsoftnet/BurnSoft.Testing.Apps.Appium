@@ -31,13 +31,14 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 
 ## Release Log
 
-### v3.1.2.33-beta
+### v3.1.2.43-beta
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
 * Updated The library to use the appium application instead of the old winDriver function
 * Updated to Work with Appium Server 3.1.2
 * Updated Version to match the support for the appium Server, so this will start with 3.1.2
+* REFACTOR GeneralActions to use the New Appium helper to manage the appium helper and the AUT.
 
 ### v1.x
 
