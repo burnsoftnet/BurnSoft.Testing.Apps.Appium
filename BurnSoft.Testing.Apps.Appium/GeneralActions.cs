@@ -612,7 +612,6 @@ namespace BurnSoft.Testing.Apps.Appium
             try
             {
                 var actionMenu = GetAction(automationId, myAction);
-                //var actionMenu = DesktopSession.FindElement(MobileBy.Name(automationId));
 
                 if (action.Equals(MyAction.Nothing))
                 {
@@ -620,36 +619,41 @@ namespace BurnSoft.Testing.Apps.Appium
                 }
                 else
                 {
-                    var runAction = actionMenu;
-                    //OpenQA.Selenium.Interactions.Actions runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                    //runAction.MoveToElement(actionMenu);
+                    OpenQA.Selenium.Interactions.Actions runAction;
+                    
                     switch (action)
                     {
                         case MyAction.Click:
-                            runAction.Click();
+                            actionMenu.Click();
                             break;
                         case MyAction.SendKeys:
-                            runAction.SendKeys(value);
+                            actionMenu.SendKeys(value);
                             break;
                         case MyAction.ClearAndSendKeys:
                             actionMenu.Clear();
-                            runAction.SendKeys(value);
+                            actionMenu.SendKeys(value);
                             break;
-                        //case MyAction.DoubleClick:
-                        //    runAction.DoubleClick();
-                        //    break;
-                        //case MyAction.KeyDown:
-                        //    runAction.KeyDown(value);
-                        //    break;
-                        //case MyAction.KeyUp:
-                        //    runAction.KeyUp(value);
-                        //    break;
+                        case MyAction.DoubleClick:
+                            actionMenu.Click();
+                            actionMenu.Click();
+                            break;
+                        case MyAction.KeyDown:
+                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
+                            runAction.MoveToElement(actionMenu);
+                            runAction.KeyDown(value);
+                            runAction.Perform();
+                            break;
+                        case MyAction.KeyUp:
+                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
+                            runAction.MoveToElement(actionMenu);
+                            runAction.KeyUp(value);
+                            runAction.Perform();
+                            break;
                         case MyAction.Sleep:
                             Thread.Sleep(Convert.ToInt32(value));
                             break;
                     }
 
-                    //runAction.Perform();
                     bAns = true;
                 }
 
