@@ -27,5 +27,10 @@ namespace SampleUITestApp
         {
             Close();
         }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            cmdDebugMode.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
     }
 }

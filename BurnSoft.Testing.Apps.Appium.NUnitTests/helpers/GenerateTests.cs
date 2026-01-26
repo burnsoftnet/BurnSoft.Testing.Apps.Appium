@@ -15,12 +15,12 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.helpers
         /// <returns>List&lt;BatchCommandList&gt;.</returns>
         internal static List<BatchCommandList> GetCommands()
         {
-            string UseTab = "Other";
-            string txt1 = "txtDatabaseServer";
-            string txt2 = "txtUserName";
-            string txt3 = "txtPassword";
-            string saveBtn = "btnSave";
-            string nextTab = "Main";
+            string UseTab = Mappings.TestAppMap.AutomationIds.TabOther;
+            string txt1 = Mappings.TestAppMap.AutomationIds.TxtDatabaseServer;
+            string txt2 = Mappings.TestAppMap.AutomationIds.TxtUserName;
+            string txt3 = Mappings.TestAppMap.AutomationIds.TxtPassword;
+            string saveBtn = Mappings.TestAppMap.AutomationIds.SaveButton;
+            string nextTab = Mappings.TestAppMap.AutomationIds.TabMain;
 
             List<BatchCommandList> cmd = new List<BatchCommandList>();
             cmd.Add(new BatchCommandList()
@@ -125,7 +125,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.helpers
                 TestName = "Click File",
                 Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "mnuFile"
+                ElementName = Mappings.TestAppMap.AutomationIds.MenuFile
             });
 
             cmd.Add(new BatchCommandList()
@@ -133,7 +133,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.helpers
                 TestName = "Click Exit",
                 Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-                ElementName = "mnuExit"
+                ElementName = Mappings.TestAppMap.AutomationIds.ExitButton
             });
 
             return cmd;

@@ -40,6 +40,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// </summary>
             public static string TabOther = "Other";
             /// <summary>
+            /// The tab main
+            /// </summary>
+            public static string TabMain = "Main";
+            /// <summary>
             /// The text database server
             /// </summary>
             public static string TxtDatabaseServer = "txtDatabaseServer";
@@ -55,8 +59,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The save button
             /// </summary>
             public static string SaveButton = "btnSave";
-
-
+            /// <summary>
+            /// The debug mode drop down
+            /// </summary>
+            public static string DebugModeDropDown = "cmdDebugMode";
 
         }
         /// <summary>
@@ -104,6 +110,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings
             /// The save button
             /// </summary>
             public static string SaveButton = "btnSave";
+            /// <summary>
+            /// The debug mode drop down
+            /// </summary>
+            public static string DebugModeDropDown = "cmdDebugMode";
         }
 
     }

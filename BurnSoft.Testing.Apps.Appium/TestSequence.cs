@@ -22,7 +22,48 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The debug mode toggle
         /// </summary>
         public bool DebugMode;
+        #region "Exception Error Handling"        
+        /// <summary>
+        /// The class location
+        /// </summary>
+        private static string _classLocation = "BurnSoft.Testing.Apps.Appium.TestSequence";
 
+        /// <summary>
+        /// Errors the message for regular Exceptions
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, Exception e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message for access violations
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, AccessViolationException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message for invalid cast exception
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, InvalidCastException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message argument exception
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, ArgumentException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        /// <summary>
+        /// Errors the message for argument null exception.
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="e">The e.</param>
+        /// <returns>System.String.</returns>
+        private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
+        #endregion
         #region "Event Handlers"        
         /// <summary>
         /// Occurs when En exception is caught 
@@ -203,6 +244,18 @@ namespace BurnSoft.Testing.Apps.Appium
                                     msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValueNum}";
                                 }
                                 break;
+                            case MyAction.KeyDown:
+                                didpass = ClickOnControlSendKeyDown(c.ElementName, c.RepeatXTimes, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
+                                msg += $"{msg} {c.RepeatXTimes} times.";
+                                break;
+                            case MyAction.KeyUp:
+                                didpass = ClickOnControlSendKeyUp(c.ElementName, c.RepeatXTimes, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
+                                msg += $"{msg} {c.RepeatXTimes} times.";
+                                break;
                             default:
                                 if (!generalActions.PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
                                     throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
@@ -250,6 +303,68 @@ namespace BurnSoft.Testing.Apps.Appium
             }
 
             return theReturned;
+        }
+
+        /// <summary>
+        /// Clicks the on control send key down.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="sendXTimes">The send x times.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        /// <exception cref="System.Exception"></exception>
+        private bool ClickOnControlSendKeyDown(string control, int sendXTimes, out string errOut)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                bool value = generalActions.PerformAction(control, "", GeneralActions.MyAction.Click, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+
+                for (int i = 0; i > sendXTimes; i++)
+                {
+                    value = generalActions.PerformAction(control, "", GeneralActions.MyAction.KeyDown, out errOut);
+                    if (errOut.Length > 0) throw new Exception(errOut);
+                }
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = ErrorMessage("ClickOnControlSendKeyDown", e);
+            }
+            return bAns;
+        }
+
+        /// <summary>
+        /// Clicks the on control send key up.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="sendXTimes">The send x times.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        /// <exception cref="System.Exception"></exception>
+        private bool ClickOnControlSendKeyUp(string control, int sendXTimes, out string errOut)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                bool value = generalActions.PerformAction(control, "", GeneralActions.MyAction.Click, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+
+                for (int i = 0; i > sendXTimes; i++)
+                {
+                    value = generalActions.PerformAction(control, "", GeneralActions.MyAction.KeyUp, out errOut);
+                    if (errOut.Length > 0) throw new Exception(errOut);
+                }
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = ErrorMessage("ClickOnControlSendKeyUp", e);
+            }
+            return bAns;
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

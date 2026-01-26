@@ -385,7 +385,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The get value from previous test and compare by test number
             /// </summary>
-            GetValueFromPreviousTestAndCompareByTestNumber
+            GetValueFromPreviousTestAndCompareByTestNumber,
+            /// <summary>
+            /// The key enter
+            /// </summary>
+            KeyEnter
         }
         #endregion
         #region "Appinum Actions"
@@ -530,8 +534,6 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = "";
             try
             {
-
-                //IEnumerable<AppiumWebElement> elementsOne = DesktopSession.FindElementsByAccessibilityId(automationId).ToList();
                 IEnumerable<AppiumElement> elementsOne = DesktopSession.FindElements(By.Id(automationId)).ToList();
                 var test = DesktopSession.FindElements(By.Id(automationId));
                 Thread.Sleep(200);
@@ -638,16 +640,13 @@ namespace BurnSoft.Testing.Apps.Appium
                             actionMenu.Click();
                             break;
                         case MyAction.KeyDown:
-                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                            runAction.MoveToElement(actionMenu);
-                            runAction.KeyDown(value);
-                            runAction.Perform();
+                            actionMenu.SendKeys(Keys.ArrowDown);
                             break;
                         case MyAction.KeyUp:
-                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                            runAction.MoveToElement(actionMenu);
-                            runAction.KeyUp(value);
-                            runAction.Perform();
+                            actionMenu.SendKeys(Keys.ArrowUp);
+                            break;
+                        case MyAction.KeyEnter:
+                            actionMenu.SendKeys(Keys.Enter);
                             break;
                         case MyAction.Sleep:
                             Thread.Sleep(Convert.ToInt32(value));

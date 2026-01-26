@@ -280,6 +280,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Thread.Sleep(1000);
                 if (!_ga.PerformAction(saveBtn, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
                 Thread.Sleep(500);
+                if (!_ga.PerformAction(Mappings.TestAppMap.AutomationIds.TabMain, "", GeneralActions.MyAction.Click, out _errOut,
+                    GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
             }
             catch (Exception e)
             {
@@ -301,160 +303,25 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     TestContext.WriteLine($"{s}");
                 }
             }
-            
-            //Assert.IsTrue(value);
         }
-        /// <summary>
-        /// Gets the commands.
-        /// </summary>
-        /// <returns>List&lt;BatchCommandList&gt;.</returns>
-        private List<BatchCommandList> GetCommands()
+
+        [Test, Category("General Function Test"), Order(7)]
+        public void DropDownBoxSendKeysTest()
         {
-            //string UseTab = "Other";
-            //string txt1 = "txtDatabaseServer";
-            //string txt2 = "txtUserName";
-            //string txt3 = "txtPassword";
-            //string saveBtn = "btnSave";
-            //string nextTab = "Main";
-
-            //List<BatchCommandList> cmd = new List<BatchCommandList>();
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click On Tab",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByName,
-            //    ElementName = UseTab
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Verify Database Server Textbox exists",
-            //    Actions = GeneralActions.MyAction.Nothing,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = txt1
-            //});
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Set Database Server",
-            //    Actions = GeneralActions.MyAction.ClearAndSendKeys,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = txt1,
-            //    SendKeys = "11.2.3.4"
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Verify Username Textbox exists",
-            //    Actions = GeneralActions.MyAction.Nothing,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = txt2
-            //});
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Set Username",
-            //    Actions = GeneralActions.MyAction.ClearAndSendKeys,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = txt2,
-            //    SendKeys = "superman"
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Verify password Textbox exists",
-            //    Actions = GeneralActions.MyAction.Nothing,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = txt3
-            //});
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Set Password",
-            //    Actions = GeneralActions.MyAction.ClearAndSendKeys,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = txt3,
-            //    SendKeys = "superangry"
-            //});
-
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click Save Button",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = saveBtn
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click on Main Tab",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = nextTab
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click Button",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = _automationIdButton
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Read Textbox in Main after Click",
-            //    Actions = GeneralActions.MyAction.ReadValue,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = _automationIdTextbox
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Read Label in Main after Click",
-            //    Actions = GeneralActions.MyAction.ReadValue,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = _automationIdLabel
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click File",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = "mnuFile"
-            //});
-
-            //cmd.Add(new BatchCommandList()
-            //{
-            //    TestName = "Click Exit",
-            //    Actions = GeneralActions.MyAction.Click,
-            //    CommandAction = GeneralActions.AppAction.FindElementByAccessibilityId,
-            //    ElementName = "mnuExit"
-            //});
-
-            //return cmd;
-            return GenerateTests.GetCommands();
-        }
-        /// <summary>
-        /// Defines the test method BatchCommandTest.
-        /// </summary>
-        /// <exception cref="System.Exception"></exception>
-        [Test, Category("Batch Testing"), Order(7)]
-        public void BatchCommandTest()
-        {
+            bool value = false;
             try
             {
-                List<BatchCommandList> value = _ga.RunBatchCommands(GetCommands(), out _errOut);
+                Thread.Sleep(1000);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "Ve", GeneralActions.MyAction.SendKeys, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                _savedRunReport = value;
-                int testNumber = 1;
-                foreach (BatchCommandList v in value)
-                {
-                    string passfailed = v.PassedFailed ? "PASSED" : "FAILED";
-                    TestContext.WriteLine($"{testNumber}.) {passfailed} - {v.TestName}");
-                    TestContext.WriteLine(v.ReturnedValue);
-                    testNumber++;
-                }
-                //Assert.IsTrue(_ga.AllTestsPassed(value));
+
+                string svalue = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                TestContext.WriteLine(svalue);
+
+                Thread.Sleep(1000);
             }
             catch (Exception e)
             {
@@ -462,29 +329,54 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
 
+            if (_ga.ScreenShotLocation != null)
+            {
+                foreach (string s in _ga.ScreenShotLocation)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
+            if (_ga.ErrorLists != null)
+            {
+                foreach (string s in _ga.ErrorLists)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
         }
-        /// <summary>
-        /// Defines the test method GenerateResultsTest.
-        /// </summary>
-        /// <exception cref="System.Exception"></exception>
-        /// <exception cref="System.Exception"></exception>
-        [Test, Category("Batch Testing"), Order(8)]
-        public void GenerateResultsTest()
+
+        [Test, Category("General Function Test"), Order(8)]
+        public void DropDownBoxSendArrowKeys()
         {
+            bool value = false;
             try
             {
-                List<BatchCommandList> value = new List<BatchCommandList>();
-                if (_savedRunReport == null)
-                {
-                    value = _ga.RunBatchCommands(GetCommands(), out _errOut);
-                    if (_errOut.Length > 0) throw new Exception(_errOut);
-                } else
-                {
-                    value = _savedRunReport;
-                }
+                Thread.Sleep(1000);
 
-                TestContext.WriteLine(Reporting.GenerateResults(value, out _errOut));
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.Click, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyUp, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyEnter, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                string svalue = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                TestContext.WriteLine(svalue);
+
+                Thread.Sleep(1000);
             }
             catch (Exception e)
             {
@@ -492,6 +384,20 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
 
+            if (_ga.ScreenShotLocation != null)
+            {
+                foreach (string s in _ga.ScreenShotLocation)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
+            if (_ga.ErrorLists != null)
+            {
+                foreach (string s in _ga.ErrorLists)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
         }
     }
 }
