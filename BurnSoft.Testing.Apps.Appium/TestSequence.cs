@@ -1,4 +1,5 @@
-﻿using BurnSoft.Testing.Apps.Appium.Types;
+﻿using BurnSoft.Testing.Apps.Appium.helpers;
+using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -137,6 +138,32 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
         }
+
+        /// <summary>
+        /// Runs the specified application under test using the json command file
+        /// </summary>
+        /// <param name="appUnderTest">The application under test.</param>
+        /// <param name="commandPath">The command path.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        /// <exception cref="System.Exception"></exception>
+        public List<BatchCommandList> Run(string appUnderTest, string commandPath)
+        {
+            List<BatchCommandList> theReturned = new List<BatchCommandList>();
+            string errOut = @"";
+            try
+            {
+                List<BatchCommandList> cmd = JsonHandling.ConvertJsonToBatchCommand(commandPath, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+                theReturned = Run(appUnderTest, cmd, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+            }
+            catch (Exception e)
+            {
+                SendError(ErrorMessage("Run", e));
+            }
+            return theReturned;
+        }
+
         /// <summary>
         /// Runs the specified application under test.
         /// </summary>
@@ -319,6 +346,7 @@ namespace BurnSoft.Testing.Apps.Appium
             catch (Exception e)
             {
                 errOut = e.Message;
+                SendError(ErrorMessage("Run", e));
             }
 
             return theReturned;
