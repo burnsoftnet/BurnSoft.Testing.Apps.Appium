@@ -302,5 +302,44 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
+        [Test, Category("General Function Test"), Order(7)]
+        public void DropDownBoxTest()
+        {
+            bool value = false;
+            try
+            {
+                Thread.Sleep(1000);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "Ve", GeneralActions.MyAction.SendKeys, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                string svalue = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                TestContext.WriteLine(svalue);
+
+                Thread.Sleep(1000);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail(e.Message);
+            }
+
+            if (_ga.ScreenShotLocation != null)
+            {
+                foreach (string s in _ga.ScreenShotLocation)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
+            if (_ga.ErrorLists != null)
+            {
+                foreach (string s in _ga.ErrorLists)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
+        }
     }
 }
