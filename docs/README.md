@@ -2,20 +2,20 @@
 
 ## BurnSoft.Testing.Apps.Appium
 
-[AppiumHelper](./burnsoft.testing.apps.appium.appiumhelper)
+[AppiumHelper](./burnsoft.testing.apps.appium.appiumhelper.md)
 
-[GeneralActions](./burnsoft.testing.apps.appium.generalactions)
+[GeneralActions](./burnsoft.testing.apps.appium.generalactions.md)
 
-[TestSequence](./burnsoft.testing.apps.appium.testsequence)
+[TestSequence](./burnsoft.testing.apps.appium.testsequence.md)
 
 ## BurnSoft.Testing.Apps.Appium.helpers
 
-[JsonHandling](./burnsoft.testing.apps.appium.helpers.jsonhandling)
+[JsonHandling](./burnsoft.testing.apps.appium.helpers.jsonhandling.md)
 
-[PrintLists](./burnsoft.testing.apps.appium.helpers.printlists)
+[PrintLists](./burnsoft.testing.apps.appium.helpers.printlists.md)
 
-[Reporting](./burnsoft.testing.apps.appium.helpers.reporting)
+[Reporting](./burnsoft.testing.apps.appium.helpers.reporting.md)
 
 ## BurnSoft.Testing.Apps.Appium.Types
 
-[BatchCommandList](./burnsoft.testing.apps.appium.types.batchcommandlist)
+[BatchCommandList](./burnsoft.testing.apps.appium.types.batchcommandlist.md)

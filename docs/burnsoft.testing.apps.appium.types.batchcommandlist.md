@@ -194,6 +194,32 @@ public string TestNameLookUp { get; set; }
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
 The test name look up.
 
+### **RepeatXTimes**
+
+Gets or sets the repeat x times.
+
+```csharp
+public int RepeatXTimes { get; set; }
+```
+
+#### Property Value
+
+[Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)<br>
+The repeat x times.
+
+### **FilePath**
+
+Gets or sets the file path.
+
+```csharp
+public string FilePath { get; set; }
+```
+
+#### Property Value
+
+[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+The file path.
+
 ## Constructors
 
 ### **BatchCommandList()**

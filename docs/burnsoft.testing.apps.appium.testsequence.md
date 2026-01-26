@@ -118,6 +118,31 @@ protected void SendDebug(string message)
 `message` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
 The message.
 
+### **Run(String, String)**
+
+Runs the specified application under test using the json command file
+
+```csharp
+public List<BatchCommandList> Run(string appUnderTest, string commandPath)
+```
+
+#### Parameters
+
+`appUnderTest` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+The application under test.
+
+`commandPath` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+The command path.
+
+#### Returns
+
+[List&lt;BatchCommandList&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)<br>
+List&lt;BatchCommandList&gt;.
+
+#### Exceptions
+
+[Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception)<br>
+
 ### **Run(String, List&lt;BatchCommandList&gt;, String&)**
 
 Runs the specified application under test.
