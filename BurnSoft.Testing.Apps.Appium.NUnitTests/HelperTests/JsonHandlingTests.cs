@@ -10,11 +10,16 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
     {
         private List<BatchCommandList> _testSequence;
         private string _errOut;
+        private string _saveTo;
+        private string _loadFrom;
+
         [SetUp]
         public void Setup()
         {
             _testSequence = helpers.GenerateTests.GetCommands();
             _errOut = "";
+            _saveTo = Settings.Settings.JsonSaveTo;
+            _loadFrom = Settings.Settings.JsonLoadFrom;
         }
 
         [Test, Category("BatchCommand JSON Tests")]
@@ -33,6 +38,20 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             } else
             {
                 Console.WriteLine($"JSON: {json}");
+            }
+        }
+
+        [Test, Category("BatchCommand JSON Tests")]
+        public void ConvertTestSequenceToJsonFileTest()
+        {
+            if (JsonHandling.ConvertTestSequenceToJsonFile(_testSequence, _saveTo, out _errOut))
+            {
+                Console.WriteLine($"Data Saved to {_saveTo}");
+            }
+            if (_errOut.Length > 0)
+            {
+                Console.WriteLine($"ERROR: {_errOut}");
+                Assert.Fail();
             }
         }
     }
