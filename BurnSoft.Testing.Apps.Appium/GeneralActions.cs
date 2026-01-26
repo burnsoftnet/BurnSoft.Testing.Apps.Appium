@@ -454,7 +454,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="testName">Name of the test.</param>
         /// <param name="errOut">The error out.</param>
         /// <returns>System.String.</returns>
-        private string GetStringFromStep(List<BatchCommandList> lst, string testName, out string errOut)
+        public string GetStringFromStep(List<BatchCommandList> lst, string testName, out string errOut)
         {
             string sAns = "";
             errOut = "";
