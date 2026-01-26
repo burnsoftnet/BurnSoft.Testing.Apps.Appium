@@ -302,8 +302,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
+
         [Test, Category("General Function Test"), Order(7)]
-        public void DropDownBoxTest()
+        public void DropDownBoxSendKeysTest()
         {
             bool value = false;
             try
@@ -311,6 +312,61 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Thread.Sleep(1000);
 
                 value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "Ve", GeneralActions.MyAction.SendKeys, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                string svalue = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                TestContext.WriteLine(svalue);
+
+                Thread.Sleep(1000);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail(e.Message);
+            }
+
+            if (_ga.ScreenShotLocation != null)
+            {
+                foreach (string s in _ga.ScreenShotLocation)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
+            if (_ga.ErrorLists != null)
+            {
+                foreach (string s in _ga.ErrorLists)
+                {
+                    TestContext.WriteLine($"{s}");
+                }
+            }
+        }
+
+        [Test, Category("General Function Test"), Order(8)]
+        public void DropDownBoxSendArrowKeys()
+        {
+            bool value = false;
+            try
+            {
+                Thread.Sleep(1000);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.Click, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyDown, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyUp, out _errOut);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+
+                value = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, "", GeneralActions.MyAction.KeyEnter, out _errOut);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
 
                 string svalue = _ga.PerformAction(Mappings.TestAppMap.AutomationIds.DebugModeDropDown, out _errOut);
