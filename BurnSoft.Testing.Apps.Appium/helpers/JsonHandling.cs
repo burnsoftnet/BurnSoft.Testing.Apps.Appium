@@ -1,12 +1,18 @@
 ﻿using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BurnSoft.Testing.Apps.Appium.helpers
 {
+    /// <summary>
+    /// The Json Handling Class contains functions to help convert the BatchCommandList that you generated/created
+    /// into json to store to file to load later if you wish.
+    /// summary>
     public class JsonHandling
     {
         #region "Exception Error Handling"        
@@ -50,19 +56,54 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
         /// <param name="e">The e.</param>
         /// <returns>System.String.</returns>
         private static string ErrorMessage(string functionName, ArgumentNullException e) => $"{_classLocation}.{functionName} - {e.Message}";
-        #endregion
+        #endregion        
+        /// <summary>
+        /// Converts the test sequence to json.
+        /// </summary>
+        /// <param name="lst">The BatchCommandList list test sequence that you created.</param>
+        /// <param name="errOut">The error out, if error occurs.</param>
+        /// <returns>System.String json format.</returns>
         public static string ConvertTestSequenceToJson(List<BatchCommandList> lst, out string errOut)
         {
             string sAns = "";
             errOut = "";
             try
             {
-
+                sAns = JsonSerializer.Serialize(lst, new JsonSerializerOptions { WriteIndented = true });
             }
             catch (Exception ex)
             {
                 errOut = ErrorMessage("ConvertTestSequenceToJson", ex);
             }
             return sAns;
+        }
+
+        /// <summary>
+        /// Converts the test sequence to json file and save to the file that you want to
+        /// store the information at.
+        /// </summary>
+        /// <param name="lst">The BatchCommandList list test sequence that you created.</param>
+        /// <param name="saveToPath">The save to path.</param>
+        /// <param name="errOut">The error out, if error occurs.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        /// <exception cref="System.Exception"></exception>
+        public static bool ConvertTestSequenceToJsonFile(List<BatchCommandList> lst, string saveToPath, 
+            out string errOut)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                string json = ConvertTestSequenceToJson(lst, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+                File.WriteAllText(saveToPath, json);
+                bAns = true;
+            }
+            catch (Exception ex)
+            {
+                errOut = ErrorMessage("ConvertTestSequenceToJsonFile", ex);
+            }
+            return bAns;
+        }
     }
 }
