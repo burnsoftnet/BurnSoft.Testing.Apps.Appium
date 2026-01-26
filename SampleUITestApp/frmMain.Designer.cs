@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
+            this.cmdDebugMode = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.txtClickStatus = new System.Windows.Forms.TextBox();
             this.lblClickStatus = new System.Windows.Forms.Label();
             this.btnClickTest = new System.Windows.Forms.Button();
@@ -45,8 +47,6 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmdDebugMode = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabOther.SuspendLayout();
@@ -78,6 +78,30 @@
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             this.tabMain.UseVisualStyleBackColor = true;
+            // 
+            // cmdDebugMode
+            // 
+            this.cmdDebugMode.AccessibleDescription = "cmdDebugMode";
+            this.cmdDebugMode.AccessibleName = "cmdDebugMode";
+            this.cmdDebugMode.FormattingEnabled = true;
+            this.cmdDebugMode.Items.AddRange(new object[] {
+            "Regular",
+            "Verbose",
+            "Super",
+            "TMFO"});
+            this.cmdDebugMode.Location = new System.Drawing.Point(103, 115);
+            this.cmdDebugMode.Name = "cmdDebugMode";
+            this.cmdDebugMode.Size = new System.Drawing.Size(121, 21);
+            this.cmdDebugMode.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(25, 118);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Debug Mode:";
             // 
             // txtClickStatus
             // 
@@ -230,30 +254,6 @@
             this.mnuExit.Text = "&Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 118);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Debug Mode:";
-            // 
-            // cmdDebugMode
-            // 
-            this.cmdDebugMode.AccessibleDescription = "cmdDebugMode";
-            this.cmdDebugMode.AccessibleName = "cmdDebugMode";
-            this.cmdDebugMode.FormattingEnabled = true;
-            this.cmdDebugMode.Items.AddRange(new object[] {
-            "Regular",
-            "Verbose",
-            "Super",
-            "TMFO"});
-            this.cmdDebugMode.Location = new System.Drawing.Point(103, 115);
-            this.cmdDebugMode.Name = "cmdDebugMode";
-            this.cmdDebugMode.Size = new System.Drawing.Size(121, 21);
-            this.cmdDebugMode.TabIndex = 4;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -264,6 +264,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
             this.Text = "Sample UI App For Testing";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabMain.PerformLayout();
