@@ -31,7 +31,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 
 ## Release Log
 
-### v3.1.2.47-beta
+### v3.1.2.48-beta
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
@@ -47,7 +47,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 * Added Send Enter Key Function
 * Added UpDown to test sequence and new parameter to batch command list.
 * Added Action to Delete File, Fail if Exists or Pass if Exists to check on AUT error log during testing and delete the log before testing.
-* 
+* Added Test Sequence Run Function to use JSON file commands to run against the AUT.
 
 ### v1.x
 
