@@ -241,6 +241,30 @@ AppSession.SessionId is null, check your application path
 [Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception)<br>
 DesktopSession is null, please check your settings
 
+### **GetStringFromStep(List&lt;BatchCommandList&gt;, String, String&)**
+
+Gets the string from step.
+
+```csharp
+public string GetStringFromStep(List<BatchCommandList> lst, string testName, String& errOut)
+```
+
+#### Parameters
+
+`lst` [List&lt;BatchCommandList&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)<br>
+The LST.
+
+`testName` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+Name of the test.
+
+`errOut` [String&](https://docs.microsoft.com/en-us/dotnet/api/system.string&)<br>
+The error out.
+
+#### Returns
+
+[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+System.String.
+
 ### **GetElements(String, String&, AppAction)**
 
 Get Elemtns from item test
@@ -345,6 +369,12 @@ My action.
 System.String.
 
 ### **RunBatchCommands(List&lt;BatchCommandList&gt;, String&)**
+
+#### Caution
+
+This was Replaced with the TestSequence.Run Function.  This will be removed later
+
+---
 
 Runs the batch commands.
 

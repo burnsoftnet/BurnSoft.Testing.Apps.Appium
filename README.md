@@ -31,7 +31,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 
 ## Release Log
 
-### v3.1.2.44-beta
+### v3.1.2.45-beta
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
@@ -42,6 +42,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 * Added Functions to Convert the List BatchCommands to json to save to file and use later.
 * Added function to load the saved json file be used in the List BatchCommands to use in the Test Sequencer.
 * Added Print List function to be used in the unit test or for other purposes.
+* Added TestSequence Function to Replace Batch Function, to Seperate General Function Operations from batch Run Operations
 
 ### v1.x
 
