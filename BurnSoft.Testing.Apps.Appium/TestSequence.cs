@@ -1,6 +1,7 @@
 ﻿using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,7 +10,7 @@ using static BurnSoft.Testing.Apps.Appium.GeneralActions;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
-    public class TestSequence
+    public class TestSequence : IDisposable
     {
         private GeneralActions generalActions;
         public bool DebugMode;
@@ -55,6 +56,18 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.TestName = "GenericTestSequence";
             generalActions.SettingsScreenShotLocation = "";
             generalActions.DoSleep = true;
+            DebugMode = debugMode;
+        }
+
+        public TestSequence(string nodeExecutable, string appiumMainJs,
+            bool debugMode = false, string settingsScreenShotLocation = "", 
+            bool doSleep = true, string testName = "GenericTestSequence")
+        {
+            generalActions = new GeneralActions(nodeExecutable: nodeExecutable,
+                appiumMainJs: appiumMainJs, debugMode: debugMode);
+            generalActions.TestName = testName;
+            generalActions.SettingsScreenShotLocation = settingsScreenShotLocation;
+            generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
         }
         public List<BatchCommandList> Run(string appUnderTest, List<BatchCommandList> cmd, out string errOut)
@@ -202,6 +215,11 @@ namespace BurnSoft.Testing.Apps.Appium
             }
 
             return theReturned;
+        }
+
+        public void Dispose()
+        {
+            generalActions.Dispose();
         }
     }
 }

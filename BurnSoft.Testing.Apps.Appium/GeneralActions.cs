@@ -799,6 +799,7 @@ namespace BurnSoft.Testing.Apps.Appium
         ///  <br/>
         /// } <br/>
         /// </example>
+        [Obsolete("This was Replaced with the TestSequence.Run Function.  This will be removed later")]
         public List<BatchCommandList> RunBatchCommands(List<BatchCommandList> cmd, out string errOut)
         {
             List<BatchCommandList> theReturned = new List<BatchCommandList>();
