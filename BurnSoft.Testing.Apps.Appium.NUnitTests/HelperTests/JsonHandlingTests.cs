@@ -1,7 +1,6 @@
 ﻿using BurnSoft.Testing.Apps.Appium.helpers;
 using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
-using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
 

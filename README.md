@@ -41,6 +41,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 * REFACTOR GeneralActions to use the New Appium helper to manage the appium helper and the AUT.
 * Added Functions to Convert the List BatchCommands to json to save to file and use later.
 * Added function to load the saved json file be used in the List BatchCommands to use in the Test Sequencer.
+* Added Print List function to be used in the unit test or for other purposes.
 
 ### v1.x
 
