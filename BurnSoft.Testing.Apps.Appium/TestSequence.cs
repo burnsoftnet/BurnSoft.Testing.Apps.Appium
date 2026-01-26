@@ -1,18 +1,26 @@
 ﻿using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using static BurnSoft.Testing.Apps.Appium.GeneralActions;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
+    /// <summary>
+    /// Class TestSequence is the old BatchRun Function that was in the General Actions section to help grow
+    /// this Batch Run with extra functions but still use the General Actions to run the tests.
+    /// Implements the <see cref="IDisposable" />
+    /// </summary>
+    /// <seealso cref="IDisposable" />
     public class TestSequence : IDisposable
     {
+        /// <summary>
+        /// The general actions link to use function
+        /// </summary>
         private GeneralActions generalActions;
+        /// <summary>
+        /// The debug mode toggle
+        /// </summary>
         public bool DebugMode;
 
         #region "Event Handlers"        
@@ -42,12 +50,22 @@ namespace BurnSoft.Testing.Apps.Appium
         {
             if (DebugMode) DebugLog?.Invoke(this, message);
         }
-        #endregion
+        #endregion        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestSequence"/> class.
+        /// </summary>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
         public TestSequence(bool debugMode = false)
         {
             generalActions = new GeneralActions();
             DebugMode = debugMode;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestSequence"/> class.
+        /// </summary>
+        /// <param name="nodeExecutable">The node executable.</param>
+        /// <param name="appiumMainJs">The appium main js.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
         public TestSequence(string nodeExecutable, string appiumMainJs,
             bool debugMode = false)
         {
@@ -58,7 +76,15 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = true;
             DebugMode = debugMode;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestSequence"/> class.
+        /// </summary>
+        /// <param name="nodeExecutable">The node executable.</param>
+        /// <param name="appiumMainJs">The appium main js.</param>
+        /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
+        /// <param name="settingsScreenShotLocation">The settings screen shot location.</param>
+        /// <param name="doSleep">if set to <c>true</c> [do sleep].</param>
+        /// <param name="testName">Name of the test.</param>
         public TestSequence(string nodeExecutable, string appiumMainJs,
             bool debugMode = false, string settingsScreenShotLocation = "", 
             bool doSleep = true, string testName = "GenericTestSequence")
@@ -70,6 +96,15 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
         }
+        /// <summary>
+        /// Runs the specified application under test.
+        /// </summary>
+        /// <param name="appUnderTest">The application under test.</param>
+        /// <param name="cmd">The commands to run aginst the aut.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        /// <exception cref="System.Exception">Error occured and the Driver is not active!</exception>
+        /// <exception cref="System.Exception">Was Not able to {msg}{Environment.NewLine}{errOut}</exception>
         public List<BatchCommandList> Run(string appUnderTest, List<BatchCommandList> cmd, out string errOut)
         {
             List<BatchCommandList> theReturned = new List<BatchCommandList>();
@@ -216,7 +251,9 @@ namespace BurnSoft.Testing.Apps.Appium
 
             return theReturned;
         }
-
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             generalActions.Dispose();
