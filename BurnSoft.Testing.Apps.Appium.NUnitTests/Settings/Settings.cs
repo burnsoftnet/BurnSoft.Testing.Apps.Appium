@@ -16,5 +16,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Settings
         public static string AppiumServerExe = @"C:\Users\burnsoft\AppData\Roaming\npm\node_modules\appium";
         public static string JsonSaveTo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\saved_test.json");
         public static string JsonLoadFrom = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\load_test.json");
+        public static string DeletedFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\deletefile.txt");
+        public static string FailFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\fail.txt");
+        public static string PassFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\pass.txt");
     }
 }

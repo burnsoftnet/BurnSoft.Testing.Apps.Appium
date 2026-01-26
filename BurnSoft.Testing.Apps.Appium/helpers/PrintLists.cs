@@ -50,6 +50,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
                     sAns += $"TestNumber: {l.TestNumber}{Environment.NewLine}";
                     sAns += $"TestNameLookUp: {l.TestNameLookUp}{Environment.NewLine}";
                     sAns += $"RepeatXTimes: {l.RepeatXTimes}{Environment.NewLine}";
+                    sAns += $"FilePath: {l.FilePath}{Environment.NewLine}";
                     sAns += $"{Environment.NewLine}";
 
                 }

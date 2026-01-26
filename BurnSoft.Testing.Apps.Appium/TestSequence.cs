@@ -1,4 +1,5 @@
-﻿using BurnSoft.Testing.Apps.Appium.Types;
+﻿using BurnSoft.Testing.Apps.Appium.helpers;
+using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -137,6 +138,32 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
         }
+
+        /// <summary>
+        /// Runs the specified application under test using the json command file
+        /// </summary>
+        /// <param name="appUnderTest">The application under test.</param>
+        /// <param name="commandPath">The command path.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        /// <exception cref="System.Exception"></exception>
+        public List<BatchCommandList> Run(string appUnderTest, string commandPath)
+        {
+            List<BatchCommandList> theReturned = new List<BatchCommandList>();
+            string errOut = @"";
+            try
+            {
+                List<BatchCommandList> cmd = JsonHandling.ConvertJsonToBatchCommand(commandPath, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+                theReturned = Run(appUnderTest, cmd, out errOut);
+                if (errOut.Length > 0) throw new Exception(errOut);
+            }
+            catch (Exception e)
+            {
+                SendError(ErrorMessage("Run", e));
+            }
+            return theReturned;
+        }
+
         /// <summary>
         /// Runs the specified application under test.
         /// </summary>
@@ -256,6 +283,25 @@ namespace BurnSoft.Testing.Apps.Appium
                                     throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
                                 msg += $"{msg} {c.RepeatXTimes} times.";
                                 break;
+                            case MyAction.DeleteFile:
+                                didpass = generalActions.PerformAction(MyAction.DeleteFile, c.FilePath, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to Delete file {c.FilePath}{Environment.NewLine}{errOut}");
+                                msg += $"Was Able to Delete File {c.FilePath}";
+                                break;
+                            case MyAction.FailIfFileExists:
+                                didpass = generalActions.PerformAction(MyAction.FailIfFileExists, c.FilePath, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"File {c.FilePath} exists{Environment.NewLine}{errOut}");
+                                msg += $"File {c.FilePath} did not exist!";
+                                break;
+                            case MyAction.PassIfFileExists:
+                                didpass = generalActions.PerformAction(MyAction.PassIfFileExists, c.FilePath, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"File {c.FilePath} did not exists{Environment.NewLine}{errOut}");
+                                msg += $"File {c.FilePath} exist!";
+                                break;
+
                             default:
                                 if (!generalActions.PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
                                     throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
@@ -300,6 +346,7 @@ namespace BurnSoft.Testing.Apps.Appium
             catch (Exception e)
             {
                 errOut = e.Message;
+                SendError(ErrorMessage("Run", e));
             }
 
             return theReturned;
