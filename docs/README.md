@@ -6,6 +6,8 @@
 
 [GeneralActions](./burnsoft.testing.apps.appium.generalactions)
 
+[TestSequence](./burnsoft.testing.apps.appium.testsequence)
+
 ## BurnSoft.Testing.Apps.Appium.helpers
 
 [JsonHandling](./burnsoft.testing.apps.appium.helpers.jsonhandling)
