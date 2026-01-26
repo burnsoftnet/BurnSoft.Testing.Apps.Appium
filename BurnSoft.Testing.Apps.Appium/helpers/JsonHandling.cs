@@ -71,7 +71,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
             errOut = "";
             try
             {
-                sAns = JsonSerializer.Serialize(lst, new JsonSerializerOptions { WriteIndented = true });
+                sAns = System.Text.Json.JsonSerializer.Serialize(lst, new JsonSerializerOptions { WriteIndented = true });
             }
             catch (Exception ex)
             {
