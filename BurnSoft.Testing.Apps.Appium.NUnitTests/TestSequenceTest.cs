@@ -20,34 +20,48 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// The error out
         /// </summary>
         private string _errOut;
-
+        /// <summary>
+        /// The ts
+        /// </summary>
         private TestSequence _ts;
-        private string _automationIdButton;
-        private string _automationIdLabel;
-        private string _automationIdTextbox;
+        /// <summary>
+        /// The node executable
+        /// </summary>
         private string _nodeEXE;
+        /// <summary>
+        /// The appium NPM
+        /// </summary>
         private string _appiumNpm;
-        private string _appiumEXE;
+        /// <summary>
+        /// The aut
+        /// </summary>
         private string _aut;
+        /// <summary>
+        /// The saved run report
+        /// </summary>
         private List<BatchCommandList> _savedRunReport;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             _errOut = "";
         }
 
+        /// <summary>
+        /// Called when [time setup].
+        /// </summary>
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            //_savedRunReport = new List<BatchCommandList>();
             string SettingsScreenShotLocation = "ScreenShots";
             string fullExceptionPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsScreenShotLocation);
             if (!Directory.Exists(fullExceptionPath)) Directory.CreateDirectory(fullExceptionPath);
             _aut = Settings.Settings.ApplicationUnderTest;
             _nodeEXE = Settings.Settings.NodeExe;
             _appiumNpm = Settings.Settings.AppiumNpm;
-            _appiumEXE = Settings.Settings.AppiumServerExe;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm, 
                 settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init");
             _ts.ErrorCatcher += (ss, ee) =>
@@ -57,6 +71,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             //_ts.Initialize(_aut);
         }
 
+        /// <summary>
+        /// Disposes this instance.
+        /// </summary>
         [OneTimeTearDown]
         public void Dispose()
         {
@@ -64,6 +81,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             KillAppByName(_aut);
         }
 
+        /// <summary>
+        /// Kills the name of the application by.
+        /// </summary>
+        /// <param name="appName">Name of the application.</param>
         public void KillAppByName(string appName)
         {
             // The process name is typically the executable name without the .exe extension
@@ -88,6 +109,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             }
         }
 
+        /// <summary>
+        /// Defines the test method RunTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [Test, Category("Test Sequence Test"), Order(1)]
         public void RunTest()
         {

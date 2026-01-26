@@ -49,6 +49,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
                     sAns += $"TabCount: {l.TabCount}{Environment.NewLine}";
                     sAns += $"TestNumber: {l.TestNumber}{Environment.NewLine}";
                     sAns += $"TestNameLookUp: {l.TestNameLookUp}{Environment.NewLine}";
+                    sAns += $"RepeatXTimes: {l.RepeatXTimes}{Environment.NewLine}";
                     sAns += $"{Environment.NewLine}";
 
                 }
