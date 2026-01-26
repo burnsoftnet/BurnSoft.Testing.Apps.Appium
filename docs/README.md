@@ -8,6 +8,10 @@
 
 ## BurnSoft.Testing.Apps.Appium.helpers
 
+[JsonHandling](./burnsoft.testing.apps.appium.helpers.jsonhandling)
+
+[PrintLists](./burnsoft.testing.apps.appium.helpers.printlists)
+
 [Reporting](./burnsoft.testing.apps.appium.helpers.reporting)
 
 ## BurnSoft.Testing.Apps.Appium.Types
