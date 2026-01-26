@@ -1,8 +1,10 @@
 ﻿using BurnSoft.Testing.Apps.Appium.Types;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -104,6 +106,31 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
                 errOut = ErrorMessage("ConvertTestSequenceToJsonFile", ex);
             }
             return bAns;
+        }
+
+        /// <summary>
+        /// Converts the json file  to batch command to use in the test sequence.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> ConvertJsonToBatchCommand(string filePath, out string errOut)
+        {
+            List<BatchCommandList > lst = new List<BatchCommandList>();
+            errOut = "";
+            try
+            {
+                using (StreamReader file = File.OpenText(filePath))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    List<BatchCommandList> products = Newtonsoft.Json.JsonSerializer.Create().Deserialize<List<BatchCommandList>>(reader);
+                }
+            }
+            catch (Exception ex)
+            {
+                errOut = ErrorMessage("ConvertJsonToBatchCommand", ex);
+            }
+            return lst;
         }
     }
 }
