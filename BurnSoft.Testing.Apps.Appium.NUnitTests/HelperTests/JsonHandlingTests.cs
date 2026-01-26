@@ -49,7 +49,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             {
                 Console.WriteLine($"Data Saved to {_saveTo}");
                 List<BatchCommandList> list = JsonHandling.ConvertJsonToBatchCommand(_saveTo, out _errOut);
-                PrintBatchCommand(list);
+                PrintLists.PrintBatchCommandToConsole(list);
             }
             if (_errOut.Length > 0)
             {
@@ -75,37 +75,11 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             if (list.Count > 0)
             {
                 Console.WriteLine($"LIST LOADED WITH: {list.Count} items");
-                PrintBatchCommand(list);
+                PrintLists.PrintBatchCommandToConsole(list);
             } else
             {
                 Console.WriteLine("NOTHING LOADED FORM LIST");
                 Assert.Fail();
-            }
-        }
-
-        private void PrintBatchCommand(List<BatchCommandList> lst)
-        {
-            if (lst.Count > 0)
-            {
-                foreach (BatchCommandList l in lst)
-                {
-                    Console.WriteLine($"");
-                    Console.WriteLine($"TestName: {l.TestName}");
-                    Console.WriteLine($"CommandAction: {l.CommandAction}");
-                    Console.WriteLine($"Actions: {l.Actions}");
-                    Console.WriteLine($"ElementName: {l.ElementName}");
-                    Console.WriteLine($"SendKeys: {l.SendKeys}");
-                    Console.WriteLine($"PassedFailed: {l.PassedFailed}");
-                    Console.WriteLine($"ReturnedValue: {l.ReturnedValue}");
-                    Console.WriteLine($"ReturnedFoundValue: {l.ReturnedFoundValue}");
-                    Console.WriteLine($"ReturnedValueBlankOk: {l.ReturnedValueBlankOk}");
-                    Console.WriteLine($"SleepInterval: {l.SleepInterval}");
-                    Console.WriteLine($"TabCount: {l.TabCount}");
-                    Console.WriteLine($"TestNumber: {l.TestNumber}");
-                    Console.WriteLine($"TestNameLookUp: {l.TestNameLookUp}");
-                    Console.WriteLine($"");
-
-                }
             }
         }
     }
