@@ -123,7 +123,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
                 using (StreamReader file = File.OpenText(filePath))
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
-                    List<BatchCommandList> products = Newtonsoft.Json.JsonSerializer.Create().Deserialize<List<BatchCommandList>>(reader);
+                    lst = Newtonsoft.Json.JsonSerializer.Create().Deserialize<List<BatchCommandList>>(reader);
                 }
             }
             catch (Exception ex)
