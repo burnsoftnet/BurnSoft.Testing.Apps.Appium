@@ -280,6 +280,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Thread.Sleep(1000);
                 if (!_ga.PerformAction(saveBtn, "", GeneralActions.MyAction.Click, out _errOut)) throw new Exception(_errOut);
                 Thread.Sleep(500);
+                if (!_ga.PerformAction(Mappings.TestAppMap.AutomationIds.TabMain, "", GeneralActions.MyAction.Click, out _errOut,
+                    GeneralActions.AppAction.FindElementById)) throw new Exception(_errOut);
             }
             catch (Exception e)
             {
