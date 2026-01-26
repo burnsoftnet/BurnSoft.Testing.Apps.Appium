@@ -256,6 +256,25 @@ namespace BurnSoft.Testing.Apps.Appium
                                     throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
                                 msg += $"{msg} {c.RepeatXTimes} times.";
                                 break;
+                            case MyAction.DeleteFile:
+                                didpass = generalActions.PerformAction(MyAction.DeleteFile, c.FilePath, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"Was Not able to Delete file {c.FilePath}{Environment.NewLine}{errOut}");
+                                msg += $"Was Able to Delete File {c.FilePath}";
+                                break;
+                            case MyAction.FailIfFileExists:
+                                didpass = generalActions.PerformAction(MyAction.FailIfFileExists, c.FilePath, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"File {c.FilePath} exists{Environment.NewLine}{errOut}");
+                                msg += $"File {c.FilePath} did not exist!";
+                                break;
+                            case MyAction.PassIfFileExists:
+                                didpass = generalActions.PerformAction(MyAction.PassIfFileExists, c.FilePath, out errOut);
+                                if (errOut.Length > 0)
+                                    throw new Exception($"File {c.FilePath} did not exists{Environment.NewLine}{errOut}");
+                                msg += $"File {c.FilePath} exist!";
+                                break;
+
                             default:
                                 if (!generalActions.PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
                                     throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");

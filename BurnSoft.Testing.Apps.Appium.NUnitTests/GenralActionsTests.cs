@@ -399,5 +399,35 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
+
+        [Test, Category("General Function Test"), Order(9)]
+        public void DeleteFileTest()
+        {
+            if (!_ga.PerformAction(GeneralActions.MyAction.DeleteFile, Settings.Settings.DeletedFile, out _errOut))
+            {
+                Console.WriteLine(_errOut);
+                Assert.Fail();
+            }
+        }
+
+        [Test, Category("General Function Test"), Order(10)]
+        public void FailFileTest()
+        {
+            if (_ga.PerformAction(GeneralActions.MyAction.FailIfFileExists, Settings.Settings.FailFile, out _errOut))
+            {
+                Console.WriteLine(_errOut);
+                Assert.Fail();
+            }
+        }
+
+        [Test, Category("General Function Test"), Order(11)]
+        public void PassFileTest()
+        {
+            if (!_ga.PerformAction(GeneralActions.MyAction.PassIfFileExists, Settings.Settings.PassFile, out _errOut))
+            {
+                Console.WriteLine(_errOut);
+                Assert.Fail();
+            }
+        }
     }
 }
