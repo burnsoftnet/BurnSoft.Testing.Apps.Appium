@@ -19,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="data\load_test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestApp\SampleUITestApp.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
