@@ -23,6 +23,10 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The debug mode toggle
         /// </summary>
         public bool DebugMode;
+        /// <summary>
+        /// The break on fail
+        /// </summary>
+        private bool BreakOnFail;
         #region "Exception Error Handling"        
         /// <summary>
         /// The class location
@@ -108,8 +112,9 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="nodeExecutable">The node executable.</param>
         /// <param name="appiumMainJs">The appium main js.</param>
         /// <param name="debugMode">if set to <c>true</c> [debug mode].</param>
+        /// <param name="breakOnFail">Stop the tests if a step fails</param>
         public TestSequence(string nodeExecutable, string appiumMainJs,
-            bool debugMode = false)
+            bool debugMode = false, bool breakOnFail = false)
         {
             generalActions = new GeneralActions(nodeExecutable: nodeExecutable, 
                 appiumMainJs: appiumMainJs, debugMode: debugMode);
@@ -117,6 +122,7 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.SettingsScreenShotLocation = "";
             generalActions.DoSleep = true;
             DebugMode = debugMode;
+            BreakOnFail = breakOnFail;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSequence"/> class.
@@ -127,9 +133,11 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="settingsScreenShotLocation">The settings screen shot location.</param>
         /// <param name="doSleep">if set to <c>true</c> [do sleep].</param>
         /// <param name="testName">Name of the test.</param>
+        /// <param name="breakOnFail">Stop the tests if a step fails</param>
         public TestSequence(string nodeExecutable, string appiumMainJs,
             bool debugMode = false, string settingsScreenShotLocation = "", 
-            bool doSleep = true, string testName = "GenericTestSequence")
+            bool doSleep = true, string testName = "GenericTestSequence", 
+            bool breakOnFail = false)
         {
             generalActions = new GeneralActions(nodeExecutable: nodeExecutable,
                 appiumMainJs: appiumMainJs, debugMode: debugMode);
@@ -137,6 +145,7 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.SettingsScreenShotLocation = settingsScreenShotLocation;
             generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
+            BreakOnFail = breakOnFail;
         }
 
         /// <summary>
