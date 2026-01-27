@@ -66,6 +66,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");
+                _errOut += $"{ee}{Environment.NewLine}";
             };
             //_ts.Initialize(_aut);
         }
@@ -135,6 +136,39 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 Assert.Fail(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Defines the test method RunTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
+        [Test, Category("Test Sequence Test - File"), Order(1)]
+        public void RunTestMGC()
+        {
+            string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
+            string testFile = "c:\\test\\AddSimpleTest.json";
+
+            try
+            {
+                string TestFile = Settings.Settings.JsonLoadFrom;
+                                List<BatchCommandList> value = _ts.Run(aut, testFile);
+                if (_errOut.Length > 0) throw new Exception(_errOut);
+                _savedRunReport = value;
+                int testNumber = 1;
+                foreach (BatchCommandList v in value)
+                {
+                    string passfailed = v.PassedFailed ? "PASSED" : "FAILED";
+                    TestContext.WriteLine($"{testNumber}.) {passfailed} - {v.TestName}");
+                    TestContext.WriteLine(v.ReturnedValue);
+                    testNumber++;
+                }
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+                Assert.Fail(e.Message);
+            }
+            KillAppByName(aut);
         }
     }
 }
