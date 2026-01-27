@@ -385,7 +385,23 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The get value from previous test and compare by test number
             /// </summary>
-            GetValueFromPreviousTestAndCompareByTestNumber
+            GetValueFromPreviousTestAndCompareByTestNumber,
+            /// <summary>
+            /// The key enter
+            /// </summary>
+            KeyEnter,
+            /// <summary>
+            /// The delete file
+            /// </summary>
+            DeleteFile,
+            /// <summary>
+            /// The fail if file exists
+            /// </summary>
+            FailIfFileExists,
+            /// <summary>
+            /// The pass if file exists
+            /// </summary>
+            PassIfFileExists
         }
         #endregion
         #region "Appinum Actions"
@@ -454,7 +470,7 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="testName">Name of the test.</param>
         /// <param name="errOut">The error out.</param>
         /// <returns>System.String.</returns>
-        private string GetStringFromStep(List<BatchCommandList> lst, string testName, out string errOut)
+        public string GetStringFromStep(List<BatchCommandList> lst, string testName, out string errOut)
         {
             string sAns = "";
             errOut = "";
@@ -530,8 +546,6 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = "";
             try
             {
-
-                //IEnumerable<AppiumWebElement> elementsOne = DesktopSession.FindElementsByAccessibilityId(automationId).ToList();
                 IEnumerable<AppiumElement> elementsOne = DesktopSession.FindElements(By.Id(automationId)).ToList();
                 var test = DesktopSession.FindElements(By.Id(automationId));
                 Thread.Sleep(200);
@@ -638,16 +652,13 @@ namespace BurnSoft.Testing.Apps.Appium
                             actionMenu.Click();
                             break;
                         case MyAction.KeyDown:
-                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                            runAction.MoveToElement(actionMenu);
-                            runAction.KeyDown(value);
-                            runAction.Perform();
+                            actionMenu.SendKeys(Keys.ArrowDown);
                             break;
                         case MyAction.KeyUp:
-                            runAction = new OpenQA.Selenium.Interactions.Actions(DesktopSession);
-                            runAction.MoveToElement(actionMenu);
-                            runAction.KeyUp(value);
-                            runAction.Perform();
+                            actionMenu.SendKeys(Keys.ArrowUp);
+                            break;
+                        case MyAction.KeyEnter:
+                            actionMenu.SendKeys(Keys.Enter);
                             break;
                         case MyAction.Sleep:
                             Thread.Sleep(Convert.ToInt32(value));
@@ -691,6 +702,52 @@ namespace BurnSoft.Testing.Apps.Appium
                 ScreenShotIt();
             }
             return sAns;
+        }
+
+        /// <summary>
+        /// Performs the action mostly related to file io operations like delete or check to see if 
+        /// file exists etc.
+        /// </summary>
+        /// <param name="action">The action DeleteFile, FailIfExists or PassIfExists.</param>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="errOut">The error out.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        public bool PerformAction(MyAction action, string filePath, out string errOut)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                switch (action)
+                {
+                    case MyAction.DeleteFile:
+                        if (File.Exists(filePath))
+                        {
+                            File.Delete(filePath);
+                            bAns = true;
+                        }
+                        break;
+                    case MyAction.FailIfFileExists:
+                        if (!File.Exists(filePath))
+                        {
+                            bAns = true;
+                        }
+                        break;
+                    case MyAction.PassIfFileExists:
+                        if (File.Exists(filePath))
+                        {
+                            bAns = true;
+                        }
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                errOut = $"ACTION:FileIO - {ErrorMessage("PerformAction", e)}";
+                AddError(errOut);
+                ScreenShotIt();
+            }
+            return bAns;
         }
         /// <summary>
         /// Runs the batch commands.
@@ -799,6 +856,7 @@ namespace BurnSoft.Testing.Apps.Appium
         ///  <br/>
         /// } <br/>
         /// </example>
+        [Obsolete("This was Replaced with the TestSequence.Run Function.  This will be removed later")]
         public List<BatchCommandList> RunBatchCommands(List<BatchCommandList> cmd, out string errOut)
         {
             List<BatchCommandList> theReturned = new List<BatchCommandList>();

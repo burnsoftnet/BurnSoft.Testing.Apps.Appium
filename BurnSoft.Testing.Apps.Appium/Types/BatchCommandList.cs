@@ -73,6 +73,16 @@ namespace BurnSoft.Testing.Apps.Appium.Types
         /// </summary>
         /// <value>The test name look up.</value>
         public string TestNameLookUp { get; set; }
+        /// <summary>
+        /// Gets or sets the repeat x times.
+        /// </summary>
+        /// <value>The repeat x times.</value>
+        public int RepeatXTimes { get; set; }
+        /// <summary>
+        /// Gets or sets the file path.
+        /// </summary>
+        /// <value>The file path.</value>
+        public string FilePath { get; set; }
 
     }
 }

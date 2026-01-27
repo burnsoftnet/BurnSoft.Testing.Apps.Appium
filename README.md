@@ -31,7 +31,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 
 ## Release Log
 
-### v3.1.2.43-beta
+### v3.1.2.48-beta
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
@@ -39,6 +39,15 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 * Updated to Work with Appium Server 3.1.2
 * Updated Version to match the support for the appium Server, so this will start with 3.1.2
 * REFACTOR GeneralActions to use the New Appium helper to manage the appium helper and the AUT.
+* Added Functions to Convert the List BatchCommands to json to save to file and use later.
+* Added function to load the saved json file be used in the List BatchCommands to use in the Test Sequencer.
+* Added Print List function to be used in the unit test or for other purposes.
+* Added TestSequence Function to Replace Batch Function, to Seperate General Function Operations from batch Run Operations
+* Added and Tested out the Key Up Down Functions
+* Added Send Enter Key Function
+* Added UpDown to test sequence and new parameter to batch command list.
+* Added Action to Delete File, Fail if Exists or Pass if Exists to check on AUT error log during testing and delete the log before testing.
+* Added Test Sequence Run Function to use JSON file commands to run against the AUT.
 
 ### v1.x
 

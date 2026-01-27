@@ -241,6 +241,30 @@ AppSession.SessionId is null, check your application path
 [Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception)<br>
 DesktopSession is null, please check your settings
 
+### **GetStringFromStep(List&lt;BatchCommandList&gt;, String, String&)**
+
+Gets the string from step.
+
+```csharp
+public string GetStringFromStep(List<BatchCommandList> lst, string testName, String& errOut)
+```
+
+#### Parameters
+
+`lst` [List&lt;BatchCommandList&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)<br>
+The LST.
+
+`testName` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+Name of the test.
+
+`errOut` [String&](https://docs.microsoft.com/en-us/dotnet/api/system.string&)<br>
+The error out.
+
+#### Returns
+
+[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+System.String.
+
 ### **GetElements(String, String&, AppAction)**
 
 Get Elemtns from item test
@@ -344,7 +368,38 @@ My action.
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
 System.String.
 
+### **PerformAction(MyAction, String, String&)**
+
+Performs the action mostly related to file io operations like delete or check to see if 
+ file exists etc.
+
+```csharp
+public bool PerformAction(MyAction action, string filePath, String& errOut)
+```
+
+#### Parameters
+
+`action` [MyAction](./burnsoft.testing.apps.appium.generalactions.myaction)<br>
+The action DeleteFile, FailIfExists or PassIfExists.
+
+`filePath` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+The file path.
+
+`errOut` [String&](https://docs.microsoft.com/en-us/dotnet/api/system.string&)<br>
+The error out.
+
+#### Returns
+
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+`true` if XXXX, `false` otherwise.
+
 ### **RunBatchCommands(List&lt;BatchCommandList&gt;, String&)**
+
+#### Caution
+
+This was Replaced with the TestSequence.Run Function.  This will be removed later
+
+---
 
 Runs the batch commands.
 
