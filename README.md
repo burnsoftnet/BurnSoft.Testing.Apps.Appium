@@ -31,7 +31,7 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 
 ## Release Log
 
-### v3.1.2.48-beta
+### v3.1.2.48
 
 * Updated to use .net framework 4.8.1
 * Changed Unit Test to NUnit
