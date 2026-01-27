@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Configuration;
 using System.Threading;
+using static BurnSoft.Testing.Apps.Appium.GeneralActions;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -441,6 +442,56 @@ namespace BurnSoft.Testing.Apps.Appium
             }
         }
         /// <summary>
+        /// Tries the element.
+        /// </summary>
+        /// <param name="myEl">My el.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        private bool TryElement(By myEl)
+        {
+            bool bAns = false;
+            try
+            {
+                DesktopSession.FindElement(by: myEl);
+            }
+            catch (Exception e)
+            {
+                SendDebug($"TryElement {myEl}: {e}");
+            }
+            return bAns;
+        }
+
+        /// <summary>
+        /// Gets the action.
+        /// </summary>
+        /// <param name="automationId">The automation identifier.</param>
+        /// <returns>AppiumElement.</returns>
+        private AppiumElement GetAction(string automationId)
+        {
+            if (TryElement(MobileBy.Name(automationId)))
+                    return DesktopSession.FindElement(by: MobileBy.Name(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.Id(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.AccessibilityId(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.PartialLinkText(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.LinkText(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.TagName(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.CssSelector(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.ClassName(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.WindowsAutomation(automationId));
+            if (TryElement(MobileBy.Name(automationId)))
+                return DesktopSession.FindElement(by: MobileBy.XPath(automationId));
+
+            return DesktopSession.FindElement(by: MobileBy.Name(automationId));
+
+        }
+        /// <summary>
         /// Screens the shot it.
         /// </summary>
         internal void ScreenShotIt()
@@ -625,7 +676,8 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = "";
             try
             {
-                var actionMenu = GetAction(automationId, myAction);
+                //var actionMenu = GetAction(automationId, myAction);
+                var actionMenu = GetAction(automationId);
 
                 if (action.Equals(MyAction.Nothing))
                 {

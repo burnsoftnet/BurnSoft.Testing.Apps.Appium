@@ -183,12 +183,18 @@ namespace BurnSoft.Testing.Apps.Appium
                 {
                     SendError($"GeneralActions {ee}");
                 };
+
+                generalActions.DebugLog += (ss, ee) =>
+                {
+                    SendError($"GeneralActionsDebug {ee}");
+                };
+
                 generalActions.Initialize(appUnderTest);
                 int testNumber = 1;
                 foreach (BatchCommandList c in cmd)
                 {
                     bool didpass = false;
-                    string result;
+                    string result = "";
                     string sendkeys = @"";
                     string foundValue = "";
                     try
@@ -314,20 +320,23 @@ namespace BurnSoft.Testing.Apps.Appium
                     catch (Exception e)
                     {
                         didpass = false;
-                        if (generalActions.ScreenShotLocation.Count > 0)
+                        if (generalActions.ScreenShotLocation != null)
                         {
-                            result = $"{e.Message}{Environment.NewLine}";
-                            foreach (string s in generalActions.ScreenShotLocation)
+                            if (generalActions.ScreenShotLocation.Count > 0)
                             {
-                                result = $"{s}{Environment.NewLine}";
+                                result = $"{e.Message}{Environment.NewLine}";
+                                foreach (string s in generalActions.ScreenShotLocation)
+                                {
+                                    result = $"{s}{Environment.NewLine}";
+                                }
+                            }
+                            else
+                            {
+                                result = e.Message;
                             }
                         }
-                        else
-                        {
-                            result = e.Message;
-                        }
-
                     }
+
                     theReturned.Add(new BatchCommandList()
                     {
                         SleepInterval = c.SleepInterval,

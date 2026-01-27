@@ -62,11 +62,16 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _nodeEXE = Settings.Settings.NodeExe;
             _appiumNpm = Settings.Settings.AppiumNpm;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm,
-                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init");
+                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init", 
+                debugMode: true);
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");
                 _errOut += $"{ee}{Environment.NewLine}";
+            };
+            _ts.DebugLog += (ss, ee) =>
+            {
+                TestContext.WriteLine($"DEBUG: {ee}");
             };
             //_ts.Initialize(_aut);
         }
@@ -147,7 +152,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         {
             string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
             string testFile = "c:\\test\\AddSimpleTest.json";
-
+            bool didPass = true;
             try
             {
                 string TestFile = Settings.Settings.JsonLoadFrom;
@@ -166,9 +171,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             catch (Exception e)
             {
                 TestContext.WriteLine($"ERROR: {e.Message}");
-                Assert.Fail(e.Message);
+                didPass = false;
             }
             KillAppByName(aut);
+            if (!didPass) Assert.Fail();
         }
     }
 }
