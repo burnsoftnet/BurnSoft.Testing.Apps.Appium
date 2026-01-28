@@ -268,6 +268,10 @@ namespace BurnSoft.Testing.Apps.Appium
                 if (!appiumServer.StartDriverConnection(options)) throw new Exception("Error Starting Connection!");
                 DesktopSession = appiumServer.driver;
                 //AppSession = DesktopSession;
+                //if (DesktopSession.CurrentWindowHandle != DesktopSession.WindowHandles.Last())
+                //{
+                //    DesktopSession.SwitchTo().Window(DesktopSession.WindowHandles.Last());
+                //}
             }
             catch (Exception e)
             {
