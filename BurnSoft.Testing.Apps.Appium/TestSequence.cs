@@ -2,6 +2,7 @@
 using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using static BurnSoft.Testing.Apps.Appium.GeneralActions;
 
@@ -27,6 +28,10 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The break on fail
         /// </summary>
         private bool BreakOnFail;
+        /// <summary>
+        /// The did break
+        /// </summary>
+        private bool _didBreak;
         #region "Exception Error Handling"        
         /// <summary>
         /// The class location
@@ -188,6 +193,8 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = @"";
             try
             {
+                _didBreak = false;
+                bool startSkip = false;
                 generalActions.ErrorCatcher += (ss, ee) =>
                 {
                     SendError($"GeneralActions {ee}");
@@ -208,126 +215,131 @@ namespace BurnSoft.Testing.Apps.Appium
                     string foundValue = "";
                     try
                     {
-                        if (generalActions.DesktopSession == null) throw new Exception("Error occured and the Driver is not active!");
-                        if (c.SendKeys != null) sendkeys = c.SendKeys;
-                        string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
-                        if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
-                        if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
-
-                        switch (c.Actions)
+                        if (!startSkip)
                         {
-                            case MyAction.ReadValue:
-                                foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                                msg += $"{msg}. Found value {foundValue}";
-                                if (!didpass) didpass = true;
-                                break;
-                            case MyAction.ReadAndCompare:
-                                foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                            if (generalActions.DesktopSession == null) throw new Exception("Error occured and the Driver is not active!");
+                            if (c.SendKeys != null) sendkeys = c.SendKeys;
+                            string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
+                            if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
+                            if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
 
-                                if (foundValue.Equals(c.ExpectedReturnedValue))
-                                {
+                            switch (c.Actions)
+                            {
+                                case MyAction.ReadValue:
+                                    foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                    msg += $"{msg}. Found value {foundValue}";
                                     if (!didpass) didpass = true;
-                                    msg += $"{msg}. Found value {foundValue}, and expected {c.ExpectedReturnedValue}";
-                                }
-                                else
-                                {
-                                    msg += $"{msg}. Found value {foundValue}, but expected {c.ExpectedReturnedValue}";
-                                }
-                                break;
-                            case MyAction.Sleep:
-                                Thread.Sleep(c.SleepInterval);
-                                msg += $"Was able to Sleep for {c.SleepInterval} ms.";
-                                if (!didpass) didpass = true;
-                                break;
-                            case MyAction.ClickOnElementAndTabOver:
-                                didpass = generalActions.PerformTabSelect(c.ElementName, c.TabCount, out errOut, c.CommandAction);
-                                string actionMsg = didpass ? "Was" : "Was Not";
-                                msg += $"{actionMsg} to click on {c.ElementName} and tab over {c.TabCount} to select element at tab.";
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                                break;
-                            case MyAction.GetValueFromPreviousTestAndCompareByTestName:
-                                string ExpectedReturnedValue = generalActions.GetStringFromStep(theReturned, c.TestNameLookUp, out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                                foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                    break;
+                                case MyAction.ReadAndCompare:
+                                    foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
 
-                                if (foundValue.Equals(ExpectedReturnedValue))
-                                {
+                                    if (foundValue.Equals(c.ExpectedReturnedValue))
+                                    {
+                                        if (!didpass) didpass = true;
+                                        msg += $"{msg}. Found value {foundValue}, and expected {c.ExpectedReturnedValue}";
+                                    }
+                                    else
+                                    {
+                                        msg += $"{msg}. Found value {foundValue}, but expected {c.ExpectedReturnedValue}";
+                                    }
+                                    break;
+                                case MyAction.Sleep:
+                                    Thread.Sleep(c.SleepInterval);
+                                    msg += $"Was able to Sleep for {c.SleepInterval} ms.";
                                     if (!didpass) didpass = true;
-                                    msg += $"{msg}. Found value {foundValue}, and expected {ExpectedReturnedValue}";
-                                }
-                                else
-                                {
-                                    msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValue}";
-                                }
-                                break;
-                            case MyAction.GetValueFromPreviousTestAndCompareByTestNumber:
-                                string ExpectedReturnedValueNum = generalActions.GetStringFromStep(theReturned, c.TestNumber.ToString(), out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                                foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                    break;
+                                case MyAction.ClickOnElementAndTabOver:
+                                    didpass = generalActions.PerformTabSelect(c.ElementName, c.TabCount, out errOut, c.CommandAction);
+                                    string actionMsg = didpass ? "Was" : "Was Not";
+                                    msg += $"{actionMsg} to click on {c.ElementName} and tab over {c.TabCount} to select element at tab.";
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                    break;
+                                case MyAction.GetValueFromPreviousTestAndCompareByTestName:
+                                    string ExpectedReturnedValue = generalActions.GetStringFromStep(theReturned, c.TestNameLookUp, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                    foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
 
-                                if (foundValue.Equals(ExpectedReturnedValueNum))
-                                {
+                                    if (foundValue.Equals(ExpectedReturnedValue))
+                                    {
+                                        if (!didpass) didpass = true;
+                                        msg += $"{msg}. Found value {foundValue}, and expected {ExpectedReturnedValue}";
+                                    }
+                                    else
+                                    {
+                                        msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValue}";
+                                    }
+                                    break;
+                                case MyAction.GetValueFromPreviousTestAndCompareByTestNumber:
+                                    string ExpectedReturnedValueNum = generalActions.GetStringFromStep(theReturned, c.TestNumber.ToString(), out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+                                    foundValue = generalActions.PerformAction(c.ElementName, out errOut, c.CommandAction);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
+
+                                    if (foundValue.Equals(ExpectedReturnedValueNum))
+                                    {
+                                        if (!didpass) didpass = true;
+                                        msg += $"{msg}. Found value {foundValue}, and expected {ExpectedReturnedValueNum}";
+                                    }
+                                    else
+                                    {
+                                        msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValueNum}";
+                                    }
+                                    break;
+                                case MyAction.KeyDown:
+                                    didpass = ClickOnControlSendKeyDown(c.ElementName, c.RepeatXTimes, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
+                                    msg += $"{msg} {c.RepeatXTimes} times.";
+                                    break;
+                                case MyAction.KeyUp:
+                                    didpass = ClickOnControlSendKeyUp(c.ElementName, c.RepeatXTimes, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
+                                    msg += $"{msg} {c.RepeatXTimes} times.";
+                                    break;
+                                case MyAction.DeleteFile:
+                                    didpass = generalActions.PerformAction(MyAction.DeleteFile, c.FilePath, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to Delete file {c.FilePath}{Environment.NewLine}{errOut}");
+                                    msg += $"Was Able to Delete File {c.FilePath}";
+                                    break;
+                                case MyAction.FailIfFileExists:
+                                    didpass = generalActions.PerformAction(MyAction.FailIfFileExists, c.FilePath, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"File {c.FilePath} exists{Environment.NewLine}{errOut}");
+                                    msg += $"File {c.FilePath} did not exist!";
+                                    break;
+                                case MyAction.PassIfFileExists:
+                                    didpass = generalActions.PerformAction(MyAction.PassIfFileExists, c.FilePath, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"File {c.FilePath} did not exists{Environment.NewLine}{errOut}");
+                                    msg += $"File {c.FilePath} exist!";
+                                    break;
+
+                                default:
+                                    if (!generalActions.PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
+                                        throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
                                     if (!didpass) didpass = true;
-                                    msg += $"{msg}. Found value {foundValue}, and expected {ExpectedReturnedValueNum}";
-                                }
-                                else
-                                {
-                                    msg += $"{msg}. Found value {foundValue}, but expected {ExpectedReturnedValueNum}";
-                                }
-                                break;
-                            case MyAction.KeyDown:
-                                didpass = ClickOnControlSendKeyDown(c.ElementName, c.RepeatXTimes, out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
-                                msg += $"{msg} {c.RepeatXTimes} times.";
-                                break;
-                            case MyAction.KeyUp:
-                                didpass = ClickOnControlSendKeyUp(c.ElementName, c.RepeatXTimes, out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to {msg} {c.RepeatXTimes} times{Environment.NewLine}{errOut}");
-                                msg += $"{msg} {c.RepeatXTimes} times.";
-                                break;
-                            case MyAction.DeleteFile:
-                                didpass = generalActions.PerformAction(MyAction.DeleteFile, c.FilePath, out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"Was Not able to Delete file {c.FilePath}{Environment.NewLine}{errOut}");
-                                msg += $"Was Able to Delete File {c.FilePath}";
-                                break;
-                            case MyAction.FailIfFileExists:
-                                didpass = generalActions.PerformAction(MyAction.FailIfFileExists, c.FilePath, out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"File {c.FilePath} exists{Environment.NewLine}{errOut}");
-                                msg += $"File {c.FilePath} did not exist!";
-                                break;
-                            case MyAction.PassIfFileExists:
-                                didpass = generalActions.PerformAction(MyAction.PassIfFileExists, c.FilePath, out errOut);
-                                if (errOut.Length > 0)
-                                    throw new Exception($"File {c.FilePath} did not exists{Environment.NewLine}{errOut}");
-                                msg += $"File {c.FilePath} exist!";
-                                break;
-
-                            default:
-                                if (!generalActions.PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
-                                    throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
-                                if (!didpass) didpass = true;
-                                break;
+                                    break;
+                            }
+                            result = $"Was able to {msg}{Environment.NewLine}";
                         }
-                        result = $"Was able to {msg}{Environment.NewLine}";
+                        
 
                     }
                     catch (Exception e)
                     {
+                        _didBreak = true;
                         didpass = false;
                         if (generalActions.ScreenShotLocation != null)
                         {
@@ -344,21 +356,43 @@ namespace BurnSoft.Testing.Apps.Appium
                                 result = e.Message;
                             }
                         }
+                        else
+                        {
+                            result = e.Message;
+                        }
+                    }
+                    if (_didBreak && BreakOnFail)
+                    {
+                        startSkip = true;
+                        theReturned.Add(new BatchCommandList()
+                        {
+                            SleepInterval = c.SleepInterval,
+                            Actions = c.Actions,
+                            ElementName = c.ElementName,
+                            SendKeys = c.SendKeys,
+                            PassedFailed = didpass,
+                            ReturnedValue = (result.Length == 0 ? "SKIPPED DUE TO FAILED TEST." : result),
+                            TestName = c.TestName,
+                            ReturnedFoundValue = "DID NOT TEST",
+                            TestNumber = testNumber
+                        });
+                    } else
+                    {
+                        theReturned.Add(new BatchCommandList()
+                        {
+                            SleepInterval = c.SleepInterval,
+                            Actions = c.Actions,
+                            ElementName = c.ElementName,
+                            SendKeys = c.SendKeys,
+                            PassedFailed = didpass,
+                            ReturnedValue = result,
+                            TestName = c.TestName,
+                            ReturnedFoundValue = foundValue,
+                            TestNumber = testNumber
+                        });
                     }
 
-                    theReturned.Add(new BatchCommandList()
-                    {
-                        SleepInterval = c.SleepInterval,
-                        Actions = c.Actions,
-                        ElementName = c.ElementName,
-                        SendKeys = c.SendKeys,
-                        PassedFailed = didpass,
-                        ReturnedValue = result,
-                        TestName = c.TestName,
-                        ReturnedFoundValue = foundValue,
-                        TestNumber = testNumber
-                    });
-                    testNumber++;
+                        testNumber++;
                 }
             }
             catch (Exception e)

@@ -63,7 +63,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _appiumNpm = Settings.Settings.AppiumNpm;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm,
                 settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init", 
-                debugMode: true);
+                debugMode: true, breakOnFail: false);
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");
@@ -157,7 +157,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             {
                 string TestFile = Settings.Settings.JsonLoadFrom;
                                 List<BatchCommandList> value = _ts.Run(aut, testFile);
-                if (_errOut.Length > 0) throw new Exception(_errOut);
+                //if (_errOut.Length > 0) throw new Exception(_errOut);
                 _savedRunReport = value;
                 int testNumber = 1;
                 foreach (BatchCommandList v in value)
@@ -167,6 +167,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     TestContext.WriteLine(v.ReturnedValue);
                     testNumber++;
                 }
+                //if (_errOut.Length > 0) throw new Exception(_errOut);
+                didPass = _errOut.Length == 0;
             }
             catch (Exception e)
             {
