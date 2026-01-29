@@ -31,6 +31,12 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 
 ## Release Log
 
+### v3.1.2.**
+
+* Added Break on Fail Setting Option on the TestSequence Class, which when set will skip all the tests after the fail test.
+* Added GetWindowFocus Action option in GeneralActions to allow you to add a step to the test sequence to handle a popup window/after splash screen on the application
+*
+
 ### v3.1.2.48
 
 * Updated to use .net framework 4.8.1
