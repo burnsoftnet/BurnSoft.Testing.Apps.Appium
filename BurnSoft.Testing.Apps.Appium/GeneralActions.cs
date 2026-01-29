@@ -406,7 +406,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The pass if file exists
             /// </summary>
-            PassIfFileExists
+            PassIfFileExists,
+            /// <summary>
+            /// The get focus new window
+            /// </summary>
+            GetFocusNewWindow
         }
         #endregion
         #region "Appinum Actions"
@@ -718,6 +722,12 @@ namespace BurnSoft.Testing.Apps.Appium
                             break;
                         case MyAction.Sleep:
                             Thread.Sleep(Convert.ToInt32(value));
+                            break;
+                        case MyAction.GetFocusNewWindow:
+                            if (DesktopSession.CurrentWindowHandle != DesktopSession.WindowHandles.Last())
+                            {
+                                DesktopSession.SwitchTo().Window(DesktopSession.WindowHandles.Last());
+                            }
                             break;
                     }
 
