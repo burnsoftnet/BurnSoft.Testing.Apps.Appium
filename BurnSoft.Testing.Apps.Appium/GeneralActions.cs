@@ -15,6 +15,7 @@ using System.Net;
 using System.Net.Configuration;
 using System.Threading;
 using static BurnSoft.Testing.Apps.Appium.GeneralActions;
+using static System.Collections.Specialized.BitVector32;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -724,10 +725,7 @@ namespace BurnSoft.Testing.Apps.Appium
                             Thread.Sleep(Convert.ToInt32(value));
                             break;
                         case MyAction.GetFocusNewWindow:
-                            if (DesktopSession.CurrentWindowHandle != DesktopSession.WindowHandles.Last())
-                            {
-                                DesktopSession.SwitchTo().Window(DesktopSession.WindowHandles.Last());
-                            }
+                            FocusOnNewWindow(out errOut);
                             break;
                     }
 
@@ -740,6 +738,45 @@ namespace BurnSoft.Testing.Apps.Appium
                 errOut = $"ACTION: {action} - {ErrorMessage("PerformAction", e)}";
                 AddError(errOut);
                 ScreenShotIt();
+            }
+            return bAns;
+        }
+
+        /// <summary>
+        /// Focuses the on new window.
+        /// </summary>
+        public bool FocusOnNewWindow(out string errOut)
+        {
+            bool bAns = false;
+            errOut = "";
+            try
+            {
+                //var parentWindowHandle = DesktopSession.CurrentWindowHandle;
+                //IReadOnlyCollection<string> allWindowHandles = DesktopSession.WindowHandles;
+                //string childWindowHandle = allWindowHandles.FirstOrDefault(handle => handle != parentWindowHandle);
+
+                //// Switch the driver's focus to the new (child) window
+                //if (!string.IsNullOrEmpty(childWindowHandle))
+                //{
+                //    DesktopSession.SwitchTo().Window(childWindowHandle);
+                //    // Now you can interact with elements in the child window
+                //    // session.FindElementByName("OK").Click(); 
+                //}
+                //DesktopSession.SwitchTo().Window(parentWindowHandle);
+
+                //DesktopSession.SwitchTo().Window(DesktopSession.WindowHandles.First());
+
+                if (DesktopSession.CurrentWindowHandle != DesktopSession.WindowHandles.First())
+                {
+                    DesktopSession.SwitchTo().Window(DesktopSession.WindowHandles.First());
+                }
+                bAns = true;
+            }
+            catch (Exception e)
+            {
+                errOut = ErrorMessage("FocusOnNewWindow", e);
+                SendError(errOut);
+                
             }
             return bAns;
         }

@@ -1,4 +1,5 @@
-﻿using BurnSoft.Testing.Apps.Appium.NUnitTests.helpers;
+﻿using BurnSoft.Testing.Apps.Appium.helpers;
+using BurnSoft.Testing.Apps.Appium.NUnitTests.helpers;
 using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
@@ -143,6 +144,31 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             }
         }
 
+        private void MGCAdjustment(string newfile)
+        {
+            string testFile = "c:\\test\\AddSimpleTest.json";
+            List<BatchCommandList> org = JsonHandling.ConvertJsonToBatchCommand(testFile, out _errOut);
+            List<BatchCommandList> newList = new List<BatchCommandList>();
+            newList.Add(new BatchCommandList()
+            {
+                TestName = "Sleep to Allow app to load",
+                Actions = GeneralActions.MyAction.Sleep,
+                CommandAction = GeneralActions.AppAction.Nothing,
+                ElementName = "",
+                SleepInterval = 10000,
+            });
+
+            newList.Add(new BatchCommandList()
+            {
+                TestName = "Focus on New window",
+                Actions = GeneralActions.MyAction.GetFocusNewWindow,
+                CommandAction = GeneralActions.AppAction.Nothing,
+                ElementName = ""
+            });
+            newList.AddRange(org);
+            JsonHandling.ConvertTestSequenceToJsonFile(newList, newfile, out _errOut);
+        }
+
         /// <summary>
         /// Defines the test method RunTest.
         /// </summary>
@@ -151,7 +177,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         public void RunTestMGC()
         {
             string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
-            string testFile = "c:\\test\\AddSimpleTest.json";
+            //string testFile = "c:\\test\\AddSimpleTest.json";
+            string testFile = "c:\\test\\AddSimpleTestNew.json";
+            MGCAdjustment(testFile);
             bool didPass = true;
             try
             {

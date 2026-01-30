@@ -206,6 +206,7 @@ namespace BurnSoft.Testing.Apps.Appium
                 };
 
                 generalActions.Initialize(appUnderTest);
+                Thread.Sleep(5000);
                 int testNumber = 1;
                 foreach (BatchCommandList c in cmd)
                 {
@@ -325,7 +326,12 @@ namespace BurnSoft.Testing.Apps.Appium
                                         throw new Exception($"File {c.FilePath} did not exists{Environment.NewLine}{errOut}");
                                     msg += $"File {c.FilePath} exist!";
                                     break;
-
+                                case MyAction.GetFocusNewWindow:
+                                    if (!generalActions.FocusOnNewWindow(out errOut))
+                                        throw new Exception($"Unable to Get Focus on Window. {errOut}");
+                                    didpass = true;
+                                    msg += "Was able to get foccus on window.";
+                                    break;
                                 default:
                                     if (!generalActions.PerformAction(c.ElementName, sendkeys, c.Actions, out errOut, c.CommandAction))
                                         throw new Exception($"Was Not able to {msg}{Environment.NewLine}{errOut}");
