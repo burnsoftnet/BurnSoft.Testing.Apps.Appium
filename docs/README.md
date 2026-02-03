@@ -1,5 +1,7 @@
 # BurnSoft.Testing.Apps.Appium
 
+For other requirements you can check out the [Developer Notes](DeveloperNotes.md).
+
 ## BurnSoft.Testing.Apps.Appium
 
 [AppiumHelper](./burnsoft.testing.apps.appium.appiumhelper.md)
@@ -15,6 +17,8 @@
 [PrintLists](./burnsoft.testing.apps.appium.helpers.printlists.md)
 
 [Reporting](./burnsoft.testing.apps.appium.helpers.reporting.md)
+
+[TestSequenceBuilder](./burnsoft.testing.apps.appium.helpers.testsequencebuilder.md)
 
 ## BurnSoft.Testing.Apps.Appium.Types
 

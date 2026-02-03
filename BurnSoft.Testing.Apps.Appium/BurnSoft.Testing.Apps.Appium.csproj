@@ -104,6 +104,7 @@
     <Compile Include="helpers\JsonHandling.cs" />
     <Compile Include="helpers\PrintLists.cs" />
     <Compile Include="helpers\Reporting.cs" />
+    <Compile Include="helpers\TestSequenceBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSequence.cs" />
     <Compile Include="Types\BatchCommandList.cs" />

@@ -40,6 +40,6 @@ This section is misc developer notes.  Things that might be needed for the proje
 
 ## xmldoc2md
 
-'''cmd
+```cmd
 xmldoc2md BurnSoft.Testing.Apps.Appium.dll --output docs --github-pages --back-button --index-page-name README
-'''
+```
