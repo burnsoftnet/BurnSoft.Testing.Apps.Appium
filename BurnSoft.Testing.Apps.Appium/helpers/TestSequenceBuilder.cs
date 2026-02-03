@@ -82,9 +82,35 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
             GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
         {
             List<BatchCommandList> cmd = new List<BatchCommandList>();
-            //cmd.AddRange(Sleep500());
             string actionMs = verify ? "Verify" : "Send Text";
             GeneralActions.MyAction action = verify ? GeneralActions.MyAction.Nothing : GeneralActions.MyAction.SendKeys;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                SendKeys = value
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Clears the and send text to the control.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="verify">if set to <c>true</c> [verify].</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> ClearAndSendText(string testName, string element, string value, bool verify = false,
+            GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = verify ? "Verify" : "Clear And Send Text";
+            GeneralActions.MyAction action = verify ? GeneralActions.MyAction.Nothing : GeneralActions.MyAction.ClearAndSendKeys;
 
             cmd.Add(new BatchCommandList()
             {
