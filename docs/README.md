@@ -18,6 +18,8 @@ For other requirements you can check out the [Developer Notes](DeveloperNotes.md
 
 [Reporting](./burnsoft.testing.apps.appium.helpers.reporting.md)
 
+[SystemHelpers](./burnsoft.testing.apps.appium.helpers.systemhelpers.md)
+
 [TestSequenceBuilder](./burnsoft.testing.apps.appium.helpers.testsequencebuilder.md)
 
 ## BurnSoft.Testing.Apps.Appium.Types

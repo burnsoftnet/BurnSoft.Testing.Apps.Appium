@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BurnSoft.Testing.Apps.Appium.helpers;
+using System;
 using System.IO;
 
 
@@ -28,7 +29,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Settings
         /// <summary>
         /// The node executable
         /// </summary>
-        public static string NodeExe = FindExePath("node.exe");
+        public static string NodeExe = SystemHelpers.FindExePath("node.exe");
         /// <summary>
         /// The user data path
         /// </summary>
@@ -63,40 +64,5 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Settings
         /// The pass file
         /// </summary>
         public static string PassFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\pass.txt");
-
-        /// <summary>
-        /// Locates the full path of an executable file by searching the environment's PATH.
-        /// </summary>
-        /// <param name="exeName">The name of the executable file (e.g., "cmd.exe").</param>
-        /// <returns>The fully qualified path to the file, or null if not found.</returns>
-        public static string FindExePath(string exeName)
-        {
-            // Expand environment variables in the provided name
-            exeName = Environment.ExpandEnvironmentVariables(exeName);
-
-            // If the file exists at the current location, return its full path immediately
-            if (File.Exists(exeName))
-            {
-                return Path.GetFullPath(exeName);
-            }
-
-            // Check if the provided name has a directory specified
-            if (Path.GetDirectoryName(exeName) == String.Empty)
-            {
-                // If not, search the directories listed in the PATH environment variable
-                var values = Environment.GetEnvironmentVariable("PATH");
-                foreach (var path in values.Split(Path.PathSeparator))
-                {
-                    var fullPath = Path.Combine(path.Trim(), exeName);
-                    if (File.Exists(fullPath))
-                    {
-                        return fullPath;
-                    }
-                }
-            }
-
-            // Executable not found in current directory or PATH
-            return null;
-        }
     }
 }
