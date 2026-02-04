@@ -344,6 +344,22 @@ My action.
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
 `true` if XXXX, `false` otherwise.
 
+### **FocusOnNewWindow(String&)**
+
+Focuses the on new window.
+
+```csharp
+public bool FocusOnNewWindow(String& errOut)
+```
+
+#### Parameters
+
+`errOut` [String&](https://docs.microsoft.com/en-us/dotnet/api/system.string&)<br>
+
+#### Returns
+
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+
 ### **PerformAction(String, String&, AppAction)**
 
 Performs the action.

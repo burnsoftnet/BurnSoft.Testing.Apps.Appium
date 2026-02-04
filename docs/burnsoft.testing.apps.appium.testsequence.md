@@ -42,12 +42,12 @@ public TestSequence(bool debugMode)
 `debugMode` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
 if set to `true` [debug mode].
 
-### **TestSequence(String, String, Boolean)**
+### **TestSequence(String, String, Boolean, Boolean)**
 
 Initializes a new instance of the [TestSequence](./burnsoft.testing.apps.appium.testsequence) class.
 
 ```csharp
-public TestSequence(string nodeExecutable, string appiumMainJs, bool debugMode)
+public TestSequence(string nodeExecutable, string appiumMainJs, bool debugMode, bool breakOnFail)
 ```
 
 #### Parameters
@@ -61,12 +61,15 @@ The appium main js.
 `debugMode` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
 if set to `true` [debug mode].
 
-### **TestSequence(String, String, Boolean, String, Boolean, String)**
+`breakOnFail` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+Stop the tests if a step fails
+
+### **TestSequence(String, String, Boolean, String, Boolean, String, Boolean)**
 
 Initializes a new instance of the [TestSequence](./burnsoft.testing.apps.appium.testsequence) class.
 
 ```csharp
-public TestSequence(string nodeExecutable, string appiumMainJs, bool debugMode, string settingsScreenShotLocation, bool doSleep, string testName)
+public TestSequence(string nodeExecutable, string appiumMainJs, bool debugMode, string settingsScreenShotLocation, bool doSleep, string testName, bool breakOnFail)
 ```
 
 #### Parameters
@@ -88,6 +91,9 @@ if set to `true` [do sleep].
 
 `testName` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
 Name of the test.
+
+`breakOnFail` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+Stop the tests if a step fails
 
 ## Methods
 

@@ -1,4 +1,5 @@
-﻿using BurnSoft.Testing.Apps.Appium.NUnitTests.helpers;
+﻿using BurnSoft.Testing.Apps.Appium.helpers;
+using BurnSoft.Testing.Apps.Appium.NUnitTests.helpers;
 using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
@@ -62,10 +63,16 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _nodeEXE = Settings.Settings.NodeExe;
             _appiumNpm = Settings.Settings.AppiumNpm;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm,
-                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init");
+                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init", 
+                debugMode: true, breakOnFail: true);
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");
+                _errOut += $"{ee}{Environment.NewLine}";
+            };
+            _ts.DebugLog += (ss, ee) =>
+            {
+                TestContext.WriteLine($"DEBUG: {ee}");
             };
             //_ts.Initialize(_aut);
         }
@@ -135,6 +142,69 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 Assert.Fail(e.Message);
             }
+        }
+
+        private void MGCAdjustment(string newfile)
+        {
+            string testFile = "c:\\test\\AddSimpleTest.json";
+            List<BatchCommandList> org = JsonHandling.ConvertJsonToBatchCommand(testFile, out _errOut);
+            List<BatchCommandList> newList = new List<BatchCommandList>();
+            newList.Add(new BatchCommandList()
+            {
+                TestName = "Sleep to Allow app to load",
+                Actions = GeneralActions.MyAction.Sleep,
+                CommandAction = GeneralActions.AppAction.Nothing,
+                ElementName = "",
+                SleepInterval = 10000,
+            });
+
+            newList.Add(new BatchCommandList()
+            {
+                TestName = "Focus on New window",
+                Actions = GeneralActions.MyAction.GetFocusNewWindow,
+                CommandAction = GeneralActions.AppAction.Nothing,
+                ElementName = ""
+            });
+            newList.AddRange(org);
+            JsonHandling.ConvertTestSequenceToJsonFile(newList, newfile, out _errOut);
+        }
+
+        /// <summary>
+        /// Defines the test method RunTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
+        [Test, Category("Test Sequence Test - File"), Order(1)]
+        public void RunTestMGC()
+        {
+            string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
+            //string testFile = "c:\\test\\AddSimpleTest.json";
+            string testFile = "c:\\test\\AddSimpleTestNew.json";
+            MGCAdjustment(testFile);
+            bool didPass = true;
+            try
+            {
+                string TestFile = Settings.Settings.JsonLoadFrom;
+                                List<BatchCommandList> value = _ts.Run(aut, testFile);
+                //if (_errOut.Length > 0) throw new Exception(_errOut);
+                _savedRunReport = value;
+                int testNumber = 1;
+                foreach (BatchCommandList v in value)
+                {
+                    string passfailed = v.PassedFailed ? "PASSED" : "FAILED";
+                    TestContext.WriteLine($"{testNumber}.) {passfailed} - {v.TestName}");
+                    TestContext.WriteLine(v.ReturnedValue);
+                    testNumber++;
+                }
+                //if (_errOut.Length > 0) throw new Exception(_errOut);
+                didPass = _errOut.Length == 0;
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine($"ERROR: {e.Message}");
+                didPass = false;
+            }
+            KillAppByName(aut);
+            if (!didPass) Assert.Fail();
         }
     }
 }

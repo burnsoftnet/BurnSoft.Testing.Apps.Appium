@@ -25,6 +25,13 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.helpers
             List<BatchCommandList> cmd = new List<BatchCommandList>();
             cmd.Add(new BatchCommandList()
             {
+                TestName = "Focus on New window",
+                Actions = GeneralActions.MyAction.GetFocusNewWindow,
+                CommandAction = GeneralActions.AppAction.Nothing,
+                ElementName = ""
+            });
+            cmd.Add(new BatchCommandList()
+            {
                 TestName = "Click On Tab",
                 Actions = GeneralActions.MyAction.Click,
                 CommandAction = GeneralActions.AppAction.FindElementByName,
