@@ -63,7 +63,8 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _nodeEXE = Settings.Settings.NodeExe;
             _appiumNpm = Settings.Settings.AppiumNpm;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm, 
-                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init");
+                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init",
+                debugMode: Settings.Settings.Debug, breakOnFail: Settings.Settings.BreakOnFail);
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");

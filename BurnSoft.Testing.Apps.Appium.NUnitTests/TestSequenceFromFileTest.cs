@@ -1,5 +1,4 @@
 ﻿using BurnSoft.Testing.Apps.Appium.helpers;
-using BurnSoft.Testing.Apps.Appium.NUnitTests.helpers;
 using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
@@ -64,7 +63,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _appiumNpm = Settings.Settings.AppiumNpm;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm,
                 settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init", 
-                debugMode: true, breakOnFail: true);
+                debugMode: Settings.Settings.Debug, breakOnFail: Settings.Settings.BreakOnFail);
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");
@@ -143,7 +142,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail(e.Message);
             }
         }
-
+        /// <summary>
+        /// MGCs the adjustment.
+        /// </summary>
+        /// <param name="newfile">The newfile.</param>
         private void MGCAdjustment(string newfile)
         {
             string testFile = "c:\\test\\AddSimpleTest.json";

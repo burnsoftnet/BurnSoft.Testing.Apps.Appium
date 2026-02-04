@@ -1,21 +1,14 @@
 ﻿using BurnSoft.Testing.Apps.Appium.Types;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.Enums;
-using OpenQA.Selenium.Appium.Service;
-//using OpenQA.Selenium.Remote;
-//using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Configuration;
 using System.Threading;
-using static BurnSoft.Testing.Apps.Appium.GeneralActions;
-using static System.Collections.Specialized.BitVector32;
+
 
 namespace BurnSoft.Testing.Apps.Appium
 {

@@ -1,9 +1,6 @@
 ﻿using BurnSoft.Testing.Apps.Appium.NUnitTests.Mappings;
-using BurnSoft.Testing.Apps.Appium.NUnitTests.Settings;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.Windows.Enums;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -11,20 +8,42 @@ using System.Threading;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
 {
+    /// <summary>
+    /// Class AppiumHelperTest.
+    /// </summary>
     public class AppiumHelperTest
     {
+        /// <summary>
+        /// The node executable
+        /// </summary>
         private string _nodeEXE;
+        /// <summary>
+        /// The appium NPM
+        /// </summary>
         private string _appiumNpm;
+        /// <summary>
+        /// The appium executable
+        /// </summary>
         private string _appiumEXE;
+        /// <summary>
+        /// The aut
+        /// </summary>
         private string _aut;
+        /// <summary>
+        /// The appium server
+        /// </summary>
         private AppiumHelper appiumServer;
-
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             _aut = Settings.Settings.ApplicationUnderTest;
         }
-
+        /// <summary>
+        /// Called when [time setup].
+        /// </summary>
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -33,14 +52,19 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _appiumEXE = Settings.Settings.AppiumServerExe;
             appiumServer = new AppiumHelper(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
         }
-
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
         [OneTimeTearDown]
         public void Close()
         {
             appiumServer.StopAppiumServer();
             KillAppByName(_aut);
         }
-
+        /// <summary>
+        /// Kills the name of the application by.
+        /// </summary>
+        /// <param name="appName">Name of the application.</param>
         public void KillAppByName(string appName)
         {
             // The process name is typically the executable name without the .exe extension
@@ -64,7 +88,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
-
+        /// <summary>
+        /// Defines the test method StartAppiumTest.
+        /// </summary>
         [Test, Category("AppiumHelper Function Test"), Order(1)]
         public void StartAppiumTest()
         {
@@ -81,7 +107,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
             }
         }
-
+        /// <summary>
+        /// Defines the test method StartApplicationUnderTest.
+        /// </summary>
         [Test, Category("AppiumHelper Function Test"), Order(2)]
         public void StartApplicationUnderTest()
         {
@@ -93,7 +121,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             if (!appiumServer.StartDriverConnection(options)) 
                 Assert.Fail();
         }
-
+        /// <summary>
+        /// Defines the test method ManualButtonClickTest.
+        /// </summary>
         [Test, Category("AppiumHelper Function Test"), Order(3)]
         public void ManualButtonClickTest()
         {
@@ -107,8 +137,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             var driver = appiumServer.driver;
 
             var element = driver.FindElement(MobileBy.Name(TestAppMap.AutomationIds.ClickTestButton));
-            //var element = driver.FindElement(By.Name(TestAppMap.DisplayName.ClickTestButton));
-            //var element = driver.FindElement("Name", TestAppMap.AutomationIds.ClickTestButton);
             element.Click();
             Thread.Sleep(60);
         }

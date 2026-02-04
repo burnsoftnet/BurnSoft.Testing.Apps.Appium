@@ -2,7 +2,6 @@
 using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using static BurnSoft.Testing.Apps.Appium.GeneralActions;
 
