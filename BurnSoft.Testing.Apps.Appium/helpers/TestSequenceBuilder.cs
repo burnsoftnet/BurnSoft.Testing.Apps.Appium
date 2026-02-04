@@ -124,6 +124,299 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
         }
 
         /// <summary>
+        /// Clicks the on element and tab over.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="tabCount">The tab count.</param>
+        /// <param name="verify">if set to <c>true</c> [verify].</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> ClickOnElementAndTabOver(string testName, string element, int tabCount, bool verify = false,
+            GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = verify ? "Verify" : $"Click on {element} and tab over {tabCount} times";
+            GeneralActions.MyAction action = verify ? GeneralActions.MyAction.Nothing : GeneralActions.MyAction.ClickOnElementAndTabOver;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                TabCount = tabCount
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Gets the name of the value from previous test and compare by test.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="fromTestName">Name of from test.</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> GetValueFromPreviousTestAndCompareByTestName(string testName, string element, 
+            string fromTestName, GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Get value from {fromTestName} and Compare value in control {element}";
+            GeneralActions.MyAction action = GeneralActions.MyAction.GetValueFromPreviousTestAndCompareByTestName;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                TestNameLookUp = fromTestName
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Gets the value from previous test and compare by test number.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="fromTestNumber">From test number.</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> GetValueFromPreviousTestAndCompareByTestNumber(string testName, string element, 
+            int fromTestNumber, GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Get value from test step {fromTestNumber} and Compare value in control {element}";
+            GeneralActions.MyAction action = GeneralActions.MyAction.GetValueFromPreviousTestAndCompareByTestNumber;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                TestNumber = fromTestNumber
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Sends the key down to control.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="repeatXTimes">The repeat x times.</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> SendKeyDownToControl(string testName, string element,
+            int repeatXTimes, GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Send Key Down to control {element} {repeatXTimes} times.";
+            GeneralActions.MyAction action = GeneralActions.MyAction.KeyDown;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                RepeatXTimes = repeatXTimes
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Sends the key up to control.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="repeatXTimes">The repeat x times.</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> SendKeyUpToControl(string testName, string element,
+            int repeatXTimes, GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Send Key Up to control {element} {repeatXTimes} times.";
+            GeneralActions.MyAction action = GeneralActions.MyAction.KeyUp;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                RepeatXTimes = repeatXTimes
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Sends the enter key to control.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="repeatXTimes">The repeat x times.</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> SendEnterKeyToControl(string testName, string element,
+            int repeatXTimes, GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Send Enter Key to control {element} {repeatXTimes} times.";
+            GeneralActions.MyAction action = GeneralActions.MyAction.KeyEnter;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                RepeatXTimes = repeatXTimes
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Deletes the file.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="fileNameAndPath">The file name and path.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> DeleteFile(string testName, string fileNameAndPath)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Delete File {fileNameAndPath}";
+            GeneralActions.MyAction action = GeneralActions.MyAction.DeleteFile;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                FilePath = fileNameAndPath
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Fails if file exists.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="fileNameAndPath">The file name and path.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> FailIfFileExists(string testName, string fileNameAndPath)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Checking to see if File {fileNameAndPath} doesn't exists.";
+            GeneralActions.MyAction action = GeneralActions.MyAction.FailIfFileExists;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                FilePath = fileNameAndPath
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Passes if file exists.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="fileNameAndPath">The file name and path.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> PassIfFileExists(string testName, string fileNameAndPath)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Checking to see if File {fileNameAndPath} does exists.";
+            GeneralActions.MyAction action = GeneralActions.MyAction.PassIfFileExists;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                FilePath = fileNameAndPath
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Gets the focus on window.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="fileNameAndPath">The file name and path.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> GetFocusOnWindow(string testName, string fileNameAndPath)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = $"Get Focus on Window.";
+            GeneralActions.MyAction action = GeneralActions.MyAction.GetFocusNewWindow;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                FilePath = fileNameAndPath
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Reads the value.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="verify">if set to <c>true</c> [verify].</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> ReadValue(string testName, string element, bool verify = false,
+            GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = verify ? "Verify" : "Read Value";
+            GeneralActions.MyAction action = verify ? GeneralActions.MyAction.Nothing : GeneralActions.MyAction.ReadValue;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Reads the value and compare.
+        /// </summary>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="element">The element.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="verify">if set to <c>true</c> [verify].</param>
+        /// <param name="commandAction">The command action.</param>
+        /// <returns>List&lt;BatchCommandList&gt;.</returns>
+        public static List<BatchCommandList> ReadValueAndCompare(string testName, string element, string value, bool verify = false,
+            GeneralActions.AppAction commandAction = GeneralActions.AppAction.FindElementById)
+        {
+            List<BatchCommandList> cmd = new List<BatchCommandList>();
+            string actionMs = verify ? "Verify" : $"Read Value And compare to {value}";
+            GeneralActions.MyAction action = verify ? GeneralActions.MyAction.Nothing : GeneralActions.MyAction.ReadAndCompare;
+
+            cmd.Add(new BatchCommandList()
+            {
+                Actions = action,
+                TestName = $"{actionMs} {testName}",
+                ElementName = element,
+                CommandAction = commandAction,
+                ExpectedReturnedValue = value
+            });
+            return cmd;
+        }
+
+        /// <summary>
         /// Sleep for 500ms this instance.
         /// </summary>
         /// <returns>List&lt;BatchCommandList&gt;.</returns>
