@@ -1,5 +1,23 @@
 [
   {
+    "TestName": "Focus on New window",
+    "CommandAction": 10,
+    "Actions": 17,
+    "ElementName": "",
+    "SendKeys": null,
+    "PassedFailed": false,
+    "ReturnedValue": null,
+    "ExpectedReturnedValue": null,
+    "ReturnedFoundValue": null,
+    "ReturnedValueBlankOk": false,
+    "SleepInterval": 0,
+    "TabCount": 0,
+    "TestNumber": 0,
+    "TestNameLookUp": null,
+    "RepeatXTimes": 0,
+    "FilePath": null
+  },
+  {
     "TestName": "Click On Tab",
     "CommandAction": 1,
     "Actions": 1,

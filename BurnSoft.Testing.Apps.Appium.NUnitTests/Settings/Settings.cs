@@ -21,7 +21,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Settings
         /// <summary>
         /// The debug
         /// </summary>
-        public static bool Debug = false;
+        public static bool Debug = true;
         /// <summary>
         /// The application under test
         /// </summary>

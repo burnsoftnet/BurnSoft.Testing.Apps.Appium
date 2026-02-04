@@ -761,6 +761,8 @@ namespace BurnSoft.Testing.Apps.Appium
 
                 if (DesktopSession.CurrentWindowHandle != DesktopSession.WindowHandles.First())
                 {
+                    SendDebug($"Setting Focus: org {DesktopSession.CurrentWindowHandle} " +
+                        $"new {DesktopSession.WindowHandles.First()}");
                     DesktopSession.SwitchTo().Window(DesktopSession.WindowHandles.First());
                 }
                 bAns = true;

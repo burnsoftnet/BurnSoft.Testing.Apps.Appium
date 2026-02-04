@@ -150,7 +150,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             try
             {
                 string TestFile = Settings.Settings.JsonLoadFrom;
-                                List<BatchCommandList> value = _ts.Run(aut, testFile);
+                List<BatchCommandList> value = _ts.Run(aut, testFile);
                 int testNumber = 1;
                 foreach (BatchCommandList v in value)
                 {
