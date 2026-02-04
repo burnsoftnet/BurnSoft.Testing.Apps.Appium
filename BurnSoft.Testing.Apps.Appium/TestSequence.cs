@@ -28,6 +28,10 @@ namespace BurnSoft.Testing.Apps.Appium
         /// </summary>
         private bool BreakOnFail;
         /// <summary>
+        /// The kill application after test
+        /// </summary>
+        private bool KillAppAfterTest;
+        /// <summary>
         /// The did break
         /// </summary>
         private bool _didBreak;
@@ -127,6 +131,7 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = true;
             DebugMode = debugMode;
             BreakOnFail = breakOnFail;
+            KillAppAfterTest = true;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSequence"/> class.
@@ -138,10 +143,11 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="doSleep">if set to <c>true</c> [do sleep].</param>
         /// <param name="testName">Name of the test.</param>
         /// <param name="breakOnFail">Stop the tests if a step fails</param>
+        /// <param name="killAppAfterTest">kill the application after the test</param>
         public TestSequence(string nodeExecutable, string appiumMainJs,
             bool debugMode = false, string settingsScreenShotLocation = "", 
             bool doSleep = true, string testName = "GenericTestSequence", 
-            bool breakOnFail = false)
+            bool breakOnFail = false, bool killAppAfterTest = true)
         {
             generalActions = new GeneralActions(nodeExecutable: nodeExecutable,
                 appiumMainJs: appiumMainJs, debugMode: debugMode);
@@ -150,6 +156,7 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
             BreakOnFail = breakOnFail;
+            KillAppAfterTest = killAppAfterTest;
         }
         /// <summary>
         /// Dumps the initialize debug settings.
@@ -417,6 +424,12 @@ namespace BurnSoft.Testing.Apps.Appium
                 errOut = e.Message;
                 SendError(ErrorMessage("Run", e));
             }
+            if (KillAppAfterTest)
+            {
+                SystemHelpers.KillAppByName(appUnderTest, out var tempError);
+                if (tempError.Length > 0) SendError(tempError);
+            }
+                
 
             return theReturned;
         }

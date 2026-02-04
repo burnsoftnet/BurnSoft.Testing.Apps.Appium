@@ -3,7 +3,6 @@ using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
@@ -35,10 +34,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// The aut
         /// </summary>
         private string _aut;
-        /// <summary>
-        /// The saved run report
-        /// </summary>
-        private List<BatchCommandList> _savedRunReport;
 
         /// <summary>
         /// Setups this instance.
@@ -73,7 +68,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             {
                 TestContext.WriteLine($"DEBUG: {ee}");
             };
-            //_ts.Initialize(_aut);
         }
 
         /// <summary>
@@ -83,35 +77,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         public void Dispose()
         {
             _ts.Dispose();
-            KillAppByName(_aut);
-        }
-
-        /// <summary>
-        /// Kills the name of the application by.
-        /// </summary>
-        /// <param name="appName">Name of the application.</param>
-        public void KillAppByName(string appName)
-        {
-            // The process name is typically the executable name without the .exe extension
-            // For "notepad.exe", the process name is "notepad"
-            appName = Path.GetFileName(appName);
-            string processName = Path.GetFileNameWithoutExtension(appName);
-
-            Process[] processes = Process.GetProcessesByName(processName);
-
-            foreach (Process proc in processes)
-            {
-                try
-                {
-                    proc.Kill();
-                    // Optional: wait for the process to exit to ensure it's fully terminated
-                    proc.WaitForExit();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Could not kill process {proc.Id}: {ex.Message}");
-                }
-            }
         }
 
         /// <summary>
@@ -126,7 +91,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 string TestFile = Settings.Settings.JsonLoadFrom;
                 List<BatchCommandList> value = _ts.Run(_aut, TestFile);
                 if (_errOut.Length > 0) throw new Exception(_errOut);
-                _savedRunReport = value;
                 int testNumber = 1;
                 foreach (BatchCommandList v in value)
                 {
@@ -187,8 +151,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             {
                 string TestFile = Settings.Settings.JsonLoadFrom;
                                 List<BatchCommandList> value = _ts.Run(aut, testFile);
-                //if (_errOut.Length > 0) throw new Exception(_errOut);
-                _savedRunReport = value;
                 int testNumber = 1;
                 foreach (BatchCommandList v in value)
                 {
@@ -197,7 +159,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     TestContext.WriteLine(v.ReturnedValue);
                     testNumber++;
                 }
-                //if (_errOut.Length > 0) throw new Exception(_errOut);
                 didPass = _errOut.Length == 0;
             }
             catch (Exception e)
@@ -205,7 +166,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 didPass = false;
             }
-            KillAppByName(aut);
             if (!didPass) Assert.Fail();
         }
     }
