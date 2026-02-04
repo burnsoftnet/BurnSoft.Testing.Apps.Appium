@@ -151,7 +151,17 @@ namespace BurnSoft.Testing.Apps.Appium
             DebugMode = debugMode;
             BreakOnFail = breakOnFail;
         }
-
+        /// <summary>
+        /// Dumps the initialize debug settings.
+        /// </summary>
+        private void DumpInitDebug()
+        {
+            SendDebug($"Setting Test name to {generalActions.TestName}");
+            SendDebug($"Setting Screen location to {generalActions.SettingsScreenShotLocation}");
+            SendDebug($"DoSleep is set to {generalActions.DoSleep}");
+            SendDebug($"Debug Mode is set to {DebugMode}");
+            SendDebug($"Break On Fail is set to {BreakOnFail}");
+        }
         /// <summary>
         /// Runs the specified application under test using the json command file
         /// </summary>
@@ -192,6 +202,7 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = @"";
             try
             {
+                DumpInitDebug();
                 _didBreak = false;
                 bool startSkip = false;
                 generalActions.ErrorCatcher += (ss, ee) =>
@@ -222,6 +233,7 @@ namespace BurnSoft.Testing.Apps.Appium
                             string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
                             if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
                             if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
+                            SendDebug(msg);
 
                             switch (c.Actions)
                             {
