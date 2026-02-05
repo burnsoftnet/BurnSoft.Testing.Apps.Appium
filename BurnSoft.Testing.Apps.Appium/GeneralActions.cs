@@ -404,7 +404,11 @@ namespace BurnSoft.Testing.Apps.Appium
             /// <summary>
             /// The get focus new window
             /// </summary>
-            GetFocusNewWindow
+            GetFocusNewWindow,
+            /// <summary>
+            /// The dump page source to file
+            /// </summary>
+            DumpPageSourceToFile
         }
         #endregion
         #region "Appinum Actions"
@@ -443,6 +447,7 @@ namespace BurnSoft.Testing.Apps.Appium
                     return DesktopSession.FindElement(by: MobileBy.Name(automationId));
             }
         }
+
         /// <summary>
         /// Tries the element.
         /// </summary>

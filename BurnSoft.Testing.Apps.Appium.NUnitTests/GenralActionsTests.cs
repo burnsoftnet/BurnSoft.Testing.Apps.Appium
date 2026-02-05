@@ -1,5 +1,6 @@
 using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -154,7 +155,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             {
                 TestContext.WriteLine($"ERROR: {e.Message}");
             }
-            //Assert.IsTrue(value);
         }
 
         /// <summary>
@@ -190,7 +190,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 Assert.Fail(e.Message);
             }
-            //Assert.IsTrue(value);
         }
 
         /// <summary>
@@ -226,7 +225,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 Assert.Fail(e.Message);
             }
-            //Assert.IsTrue(value);
         }
         /// <summary>
         /// Defines the test method PerformActionCLickElementTest.
@@ -247,7 +245,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 Assert.Fail(e.Message);
             }
-            //Assert.IsTrue(value);
         }
         /// <summary>
         /// Defines the test method PerformActionVerifyElementTest.
@@ -268,7 +265,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 TestContext.WriteLine($"ERROR: {e.Message}");
                 Assert.Fail(e.Message);
             }
-            //Assert.IsTrue(value);
         }
         /// <summary>
         /// Defines the test method PerformActionSendTextElementTest.
@@ -470,5 +466,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
             }
         }
+
+        
     }
 }
