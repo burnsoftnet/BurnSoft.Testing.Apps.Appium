@@ -2,7 +2,6 @@
 using BurnSoft.Testing.Apps.Appium.Types;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using static BurnSoft.Testing.Apps.Appium.GeneralActions;
 
@@ -28,6 +27,10 @@ namespace BurnSoft.Testing.Apps.Appium
         /// The break on fail
         /// </summary>
         private bool BreakOnFail;
+        /// <summary>
+        /// The kill application after test
+        /// </summary>
+        private bool KillAppAfterTest;
         /// <summary>
         /// The did break
         /// </summary>
@@ -128,6 +131,7 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = true;
             DebugMode = debugMode;
             BreakOnFail = breakOnFail;
+            KillAppAfterTest = true;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSequence"/> class.
@@ -139,10 +143,11 @@ namespace BurnSoft.Testing.Apps.Appium
         /// <param name="doSleep">if set to <c>true</c> [do sleep].</param>
         /// <param name="testName">Name of the test.</param>
         /// <param name="breakOnFail">Stop the tests if a step fails</param>
+        /// <param name="killAppAfterTest">kill the application after the test</param>
         public TestSequence(string nodeExecutable, string appiumMainJs,
             bool debugMode = false, string settingsScreenShotLocation = "", 
             bool doSleep = true, string testName = "GenericTestSequence", 
-            bool breakOnFail = false)
+            bool breakOnFail = false, bool killAppAfterTest = true)
         {
             generalActions = new GeneralActions(nodeExecutable: nodeExecutable,
                 appiumMainJs: appiumMainJs, debugMode: debugMode);
@@ -151,8 +156,19 @@ namespace BurnSoft.Testing.Apps.Appium
             generalActions.DoSleep = doSleep;
             DebugMode = debugMode;
             BreakOnFail = breakOnFail;
+            KillAppAfterTest = killAppAfterTest;
         }
-
+        /// <summary>
+        /// Dumps the initialize debug settings.
+        /// </summary>
+        private void DumpInitDebug()
+        {
+            SendDebug($"Setting Test name to {generalActions.TestName}");
+            SendDebug($"Setting Screen location to {generalActions.SettingsScreenShotLocation}");
+            SendDebug($"DoSleep is set to {generalActions.DoSleep}");
+            SendDebug($"Debug Mode is set to {DebugMode}");
+            SendDebug($"Break On Fail is set to {BreakOnFail}");
+        }
         /// <summary>
         /// Runs the specified application under test using the json command file
         /// </summary>
@@ -193,6 +209,7 @@ namespace BurnSoft.Testing.Apps.Appium
             errOut = @"";
             try
             {
+                DumpInitDebug();
                 _didBreak = false;
                 bool startSkip = false;
                 generalActions.ErrorCatcher += (ss, ee) =>
@@ -223,6 +240,7 @@ namespace BurnSoft.Testing.Apps.Appium
                             string msg = $"{c.Actions} on {c.ElementName} using {c.CommandAction}";
                             if (sendkeys.Length > 0) msg = $"{c.Actions} {sendkeys} to {c.ElementName} using {c.CommandAction}";
                             if (c.Actions.Equals(MyAction.Nothing)) msg = msg.Replace("Nothing", "Verify Exists");
+                            SendDebug(msg);
 
                             switch (c.Actions)
                             {
@@ -406,6 +424,12 @@ namespace BurnSoft.Testing.Apps.Appium
                 errOut = e.Message;
                 SendError(ErrorMessage("Run", e));
             }
+            if (KillAppAfterTest)
+            {
+                SystemHelpers.KillAppByName(appUnderTest, out var tempError);
+                if (tempError.Length > 0) SendError(tempError);
+            }
+                
 
             return theReturned;
         }

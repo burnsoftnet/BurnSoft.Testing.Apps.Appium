@@ -4,7 +4,6 @@ using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
@@ -63,12 +62,12 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _nodeEXE = Settings.Settings.NodeExe;
             _appiumNpm = Settings.Settings.AppiumNpm;
             _ts = new TestSequence(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm, 
-                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init");
+                settingsScreenShotLocation: fullExceptionPath, testName: "UnitTest-Init",
+                debugMode: Settings.Settings.Debug, breakOnFail: Settings.Settings.BreakOnFail);
             _ts.ErrorCatcher += (ss, ee) =>
             {
                 TestContext.WriteLine($"ERROR: {ee}");
             };
-            //_ts.Initialize(_aut);
         }
 
         /// <summary>
@@ -78,35 +77,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         public void Dispose()
         {
             _ts.Dispose();
-            KillAppByName(_aut);
-        }
-
-        /// <summary>
-        /// Kills the name of the application by.
-        /// </summary>
-        /// <param name="appName">Name of the application.</param>
-        public void KillAppByName(string appName)
-        {
-            // The process name is typically the executable name without the .exe extension
-            // For "notepad.exe", the process name is "notepad"
-            appName = Path.GetFileName(appName);
-            string processName = Path.GetFileNameWithoutExtension(appName);
-
-            Process[] processes = Process.GetProcessesByName(processName);
-
-            foreach (Process proc in processes)
-            {
-                try
-                {
-                    proc.Kill();
-                    // Optional: wait for the process to exit to ensure it's fully terminated
-                    proc.WaitForExit();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Could not kill process {proc.Id}: {ex.Message}");
-                }
-            }
         }
 
         /// <summary>
@@ -129,7 +99,6 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     TestContext.WriteLine(v.ReturnedValue);
                     testNumber++;
                 }
-                //Assert.IsTrue(_ga.AllTestsPassed(value));
             }
             catch (Exception e)
             {

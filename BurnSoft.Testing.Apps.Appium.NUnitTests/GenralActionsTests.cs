@@ -1,5 +1,3 @@
-using BurnSoft.Testing.Apps.Appium.helpers;
-using BurnSoft.Testing.Apps.Appium.NUnitTests.helpers;
 using BurnSoft.Testing.Apps.Appium.Types;
 using NUnit.Framework;
 using System;
@@ -29,11 +27,29 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// The automation identifier
         /// </summary>
         private string _automationIdButton;
+        /// <summary>
+        /// The automation identifier label
+        /// </summary>
         private string _automationIdLabel;
+        /// <summary>
+        /// The automation identifier textbox
+        /// </summary>
         private string _automationIdTextbox;
+        /// <summary>
+        /// The node executable
+        /// </summary>
         private string _nodeEXE;
+        /// <summary>
+        /// The appium NPM
+        /// </summary>
         private string _appiumNpm;
+        /// <summary>
+        /// The appium executable
+        /// </summary>
         private string _appiumEXE;
+        /// <summary>
+        /// The aut ( application under test )
+        /// </summary>
         private string _aut;
         private List<BatchCommandList> _savedRunReport;
         /// <summary>
@@ -56,6 +72,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             }
         }
 
+        /// <summary>
+        /// Called when [time setup].
+        /// </summary>
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -67,9 +86,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _nodeEXE = Settings.Settings.NodeExe;
             _appiumNpm = Settings.Settings.AppiumNpm;
             _appiumEXE = Settings.Settings.AppiumServerExe;
-            _ga = new GeneralActions(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm);
+            _ga = new GeneralActions(nodeExecutable: _nodeEXE, appiumMainJs: _appiumNpm, 
+                debugMode: Settings.Settings.Debug);
             _ga.TestName = "UnitTest-Init";
-            //_ga.ApplicationPath = "C:\\Source\\Repos\\BurnSoft.Testing.Apps.Appium\\SampleUITestApp\\bin\\Debug\\SampleUITestApp.exe";
             _ga.SettingsScreenShotLocation = fullExceptionPath;
             _ga.DoSleep = true;
             _ga.ErrorCatcher += (ss, ee) =>
@@ -79,6 +98,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _ga.Initialize(_aut);
         }
 
+        /// <summary>
+        /// Disposes this instance.
+        /// </summary>
         [OneTimeTearDown]
         public void Dispose()
         {
@@ -86,6 +108,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             KillAppByName(_aut);
         }
 
+        /// <summary>
+        /// Kills the name of the application by.
+        /// </summary>
+        /// <param name="appName">Name of the application.</param>
         public void KillAppByName(string appName)
         {
             // The process name is typically the executable name without the .exe extension
@@ -109,7 +135,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
-
+        /// <summary>
+        /// Defines the test method PerformActionDoubleCLickElementTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [Test, Category("General Function Test"), Order(3)]
         public void PerformActionDoubleCLickElementTest()
         {
@@ -304,7 +333,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
-
+        /// <summary>
+        /// Defines the test method DropDownBoxSendKeysTest.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [Test, Category("General Function Test"), Order(7)]
         public void DropDownBoxSendKeysTest()
         {
@@ -344,7 +376,10 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
-
+        /// <summary>
+        /// Defines the test method DropDownBoxSendArrowKeys.
+        /// </summary>
+        /// <exception cref="System.Exception"></exception>
         [Test, Category("General Function Test"), Order(8)]
         public void DropDownBoxSendArrowKeys()
         {
@@ -399,7 +434,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 }
             }
         }
-
+        /// <summary>
+        /// Defines the test method DeleteFileTest.
+        /// </summary>
         [Test, Category("General Function Test"), Order(9)]
         public void DeleteFileTest()
         {
@@ -409,7 +446,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
             }
         }
-
+        /// <summary>
+        /// Defines the test method FailFileTest.
+        /// </summary>
         [Test, Category("General Function Test"), Order(10)]
         public void FailFileTest()
         {
@@ -419,7 +458,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
             }
         }
-
+        /// <summary>
+        /// Defines the test method PassFileTest.
+        /// </summary>
         [Test, Category("General Function Test"), Order(11)]
         public void PassFileTest()
         {

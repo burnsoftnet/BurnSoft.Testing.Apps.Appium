@@ -64,12 +64,12 @@ if set to `true` [debug mode].
 `breakOnFail` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
 Stop the tests if a step fails
 
-### **TestSequence(String, String, Boolean, String, Boolean, String, Boolean)**
+### **TestSequence(String, String, Boolean, String, Boolean, String, Boolean, Boolean)**
 
 Initializes a new instance of the [TestSequence](./burnsoft.testing.apps.appium.testsequence) class.
 
 ```csharp
-public TestSequence(string nodeExecutable, string appiumMainJs, bool debugMode, string settingsScreenShotLocation, bool doSleep, string testName, bool breakOnFail)
+public TestSequence(string nodeExecutable, string appiumMainJs, bool debugMode, string settingsScreenShotLocation, bool doSleep, string testName, bool breakOnFail, bool killAppAfterTest)
 ```
 
 #### Parameters
@@ -94,6 +94,9 @@ Name of the test.
 
 `breakOnFail` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
 Stop the tests if a step fails
+
+`killAppAfterTest` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+kill the application after the test
 
 ## Methods
 

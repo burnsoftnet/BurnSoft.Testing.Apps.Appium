@@ -37,6 +37,8 @@ Details about the [API Dcoumentation](docs/README.md) are available to view, als
 * Added GetWindowFocus Action option in GeneralActions to allow you to add a step to the test sequence to handle a popup window/after splash screen on the application
 * Added a New Class Called TestSequenceBuilder Which will helpl simplify the command building for the Sequence and all you have to do is add the new range to your build process and pass the needed parameters
 * Updated API Documentation
+* Added new SystemHelper Class to help with system processes, etc.
+* Added Paramater to TestSequence Init to have the option to kill the process after the test run.  by Default this is set to true.
 
 ### v3.1.2.48
 

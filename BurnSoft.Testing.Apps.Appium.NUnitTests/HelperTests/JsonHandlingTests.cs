@@ -6,13 +6,31 @@ using System.Collections.Generic;
 
 namespace BurnSoft.Testing.Apps.Appium.NUnitTests
 {
+    /// <summary>
+    /// Class JsonHandlingTests.
+    /// </summary>
     public class JsonHandlingTests
     {
+        /// <summary>
+        /// The test sequence
+        /// </summary>
         private List<BatchCommandList> _testSequence;
+        /// <summary>
+        /// The error out
+        /// </summary>
         private string _errOut;
+        /// <summary>
+        /// The save to
+        /// </summary>
         private string _saveTo;
+        /// <summary>
+        /// The load from
+        /// </summary>
         private string _loadFrom;
 
+        /// <summary>
+        /// Setups this instance.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -21,7 +39,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             _saveTo = Settings.Settings.JsonSaveTo;
             _loadFrom = Settings.Settings.JsonLoadFrom;
         }
-
+        /// <summary>
+        /// Defines the test method ConvertTestSequenceToJsonTest.
+        /// </summary>
         [Test, Category("BatchCommand JSON Tests")]
         public void ConvertTestSequenceToJsonTest()
         {
@@ -40,7 +60,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Console.WriteLine($"JSON: {json}");
             }
         }
-
+        /// <summary>
+        /// Defines the test method ConvertTestSequenceToJsonFileTest.
+        /// </summary>
         [Test, Category("BatchCommand JSON Tests")]
         public void ConvertTestSequenceToJsonFileTest()
         {
@@ -56,7 +78,9 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                 Assert.Fail();
             }
         }
-
+        /// <summary>
+        /// Defines the test method ConvertJsonToBatchCommandTest.
+        /// </summary>
         [Test, Category("BatchCommand JSON Tests")]
         public void ConvertJsonToBatchCommandTest()
         {
