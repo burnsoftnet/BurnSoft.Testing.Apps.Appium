@@ -299,7 +299,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
         }
 
         /// <summary>
-        /// Dumps the page source to file.
+        /// Dumps the page source to file for the applicaiton under test.
         /// </summary>
         /// <param name="testName">Name of the test.</param>
         /// <param name="fileNameAndPath">The file name and path.</param>
@@ -307,7 +307,7 @@ namespace BurnSoft.Testing.Apps.Appium.helpers
         public static List<BatchCommandList> DumpPageSourceToFile(string testName, string fileNameAndPath)
         {
             List<BatchCommandList> cmd = new List<BatchCommandList>();
-            string actionMs = $"Delete File {fileNameAndPath}";
+            string actionMs = $"Dump Appium XML Data for AUT to {fileNameAndPath}";
             GeneralActions.MyAction action = GeneralActions.MyAction.DumpPageSourceToFile;
 
             cmd.Add(new BatchCommandList()

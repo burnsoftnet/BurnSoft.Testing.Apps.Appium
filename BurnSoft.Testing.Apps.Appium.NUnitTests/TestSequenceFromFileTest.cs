@@ -115,22 +115,23 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
             string testFile = "c:\\test\\AddSimpleTest.json";
             List<BatchCommandList> org = JsonHandling.ConvertJsonToBatchCommand(testFile, out _errOut);
             List<BatchCommandList> newList = new List<BatchCommandList>();
-            newList.Add(new BatchCommandList()
-            {
-                TestName = "Sleep to Allow app to load",
-                Actions = GeneralActions.MyAction.Sleep,
-                CommandAction = GeneralActions.AppAction.Nothing,
-                ElementName = "",
-                SleepInterval = 10000,
-            });
+            newList.AddRange(TestSequenceBuilder.DumpPageSourceToFile("Dump Main XML", "c:\\test\\MGCDump\\mainDump.xml"));
+            //newList.Add(new BatchCommandList()
+            //{
+            //    TestName = "Sleep to Allow app to load",
+            //    Actions = GeneralActions.MyAction.Sleep,
+            //    CommandAction = GeneralActions.AppAction.Nothing,
+            //    ElementName = "",
+            //    SleepInterval = 10000,
+            //});
 
-            newList.Add(new BatchCommandList()
-            {
-                TestName = "Focus on New window",
-                Actions = GeneralActions.MyAction.GetFocusNewWindow,
-                CommandAction = GeneralActions.AppAction.Nothing,
-                ElementName = ""
-            });
+            //newList.Add(new BatchCommandList()
+            //{
+            //    TestName = "Focus on New window",
+            //    Actions = GeneralActions.MyAction.GetFocusNewWindow,
+            //    CommandAction = GeneralActions.AppAction.Nothing,
+            //    ElementName = ""
+            //});
             newList.AddRange(org);
             JsonHandling.ConvertTestSequenceToJsonFile(newList, newfile, out _errOut);
         }
