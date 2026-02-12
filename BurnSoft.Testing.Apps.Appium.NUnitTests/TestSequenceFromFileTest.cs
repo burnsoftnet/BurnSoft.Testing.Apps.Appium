@@ -144,7 +144,20 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         public void RunTestMGC()
         {
             string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
-            string testFile = "c:\\test\\AddSimpleTest.json";
+            int useTestFile = 1;
+            string testFile = "";
+            switch (useTestFile)
+            {
+                case 1:
+                    testFile = Settings.Settings.MGCTestFile;
+                    break;
+                case 2:
+                    testFile = Settings.Settings.MGCTestFileShort;
+                    break;
+                case 3:
+                    testFile = Settings.Settings.MGCTestFileNew;
+                    break;
+            }
             //string testFile = "c:\\test\\AddSimpleTestNew.json";
             //MGCAdjustment(testFile);
             bool didPass = true;
