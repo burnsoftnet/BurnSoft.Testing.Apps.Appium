@@ -156,10 +156,11 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     testFile = Settings.Settings.MGCTestFileShort;
                     break;
                 case 3:
+                    testFile = Settings.Settings.MGCTestFileShort;
+                    MGCAdjustment(testFile, Settings.Settings.MGCTestFileNew);
                     testFile = Settings.Settings.MGCTestFileNew;
                     break;
             }
-            //MGCAdjustment(testFile, Settings.Settings.MGCTestFileNew);
             bool didPass = true;
             try
             {
