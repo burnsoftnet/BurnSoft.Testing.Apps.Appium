@@ -109,13 +109,14 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// <summary>
         /// MGCs the adjustment.
         /// </summary>
+        /// <param name="testFile">The original test file.</param>
         /// <param name="newfile">The newfile.</param>
-        private void MGCAdjustment(string newfile)
+        private void MGCAdjustment(string testFile, string newfile)
         {
-            string testFile = "c:\\test\\AddSimpleTest.json";
             List<BatchCommandList> org = JsonHandling.ConvertJsonToBatchCommand(testFile, out _errOut);
             List<BatchCommandList> newList = new List<BatchCommandList>();
-            newList.AddRange(TestSequenceBuilder.DumpPageSourceToFile("Dump Main XML", "c:\\test\\MGCDump\\mainDump.xml"));
+            string DumpLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\mgc\\mainDump.xml");
+            newList.AddRange(TestSequenceBuilder.DumpPageSourceToFile("Dump Main XML", DumpLocation));
             //newList.Add(new BatchCommandList()
             //{
             //    TestName = "Sleep to Allow app to load",
@@ -158,8 +159,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
                     testFile = Settings.Settings.MGCTestFileNew;
                     break;
             }
-            //string testFile = "c:\\test\\AddSimpleTestNew.json";
-            //MGCAdjustment(testFile);
+            //MGCAdjustment(testFile, Settings.Settings.MGCTestFileNew);
             bool didPass = true;
             try
             {
