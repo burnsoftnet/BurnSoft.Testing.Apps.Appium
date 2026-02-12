@@ -145,7 +145,7 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         public void RunTestMGC()
         {
             string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
-            int useTestFile = 1;
+            int useTestFile = 2;
             string testFile = "";
             switch (useTestFile)
             {
