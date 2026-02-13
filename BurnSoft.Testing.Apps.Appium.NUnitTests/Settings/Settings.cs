@@ -64,5 +64,17 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests.Settings
         /// The pass file
         /// </summary>
         public static string PassFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\pass.txt");
+        /// <summary>
+        /// The MGC test file
+        /// </summary>
+        public static string MGCTestFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\mgc\\AddSimpleTest.json");
+        /// <summary>
+        /// The MGC test file short
+        /// </summary>
+        public static string MGCTestFileShort = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\mgc\\AddSimpleTest_short.json");
+        /// <summary>
+        /// The MGC test file new
+        /// </summary>
+        public static string MGCTestFileNew = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\mgc\\AddSimpleTestNew.json");
     }
 }

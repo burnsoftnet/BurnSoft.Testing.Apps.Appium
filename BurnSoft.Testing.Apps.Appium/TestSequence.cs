@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using static BurnSoft.Testing.Apps.Appium.GeneralActions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BurnSoft.Testing.Apps.Appium
 {
@@ -223,7 +224,8 @@ namespace BurnSoft.Testing.Apps.Appium
                 };
 
                 generalActions.Initialize(appUnderTest);
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
+                //SendDebug("PAGE SOURCE DUMP: " + generalActions.DesktopSession.PageSource);
                 int testNumber = 1;
                 foreach (BatchCommandList c in cmd)
                 {
@@ -343,6 +345,13 @@ namespace BurnSoft.Testing.Apps.Appium
                                     if (errOut.Length > 0)
                                         throw new Exception($"File {c.FilePath} did not exists{Environment.NewLine}{errOut}");
                                     msg += $"File {c.FilePath} exist!";
+                                    break;
+                                case MyAction.DumpPageSourceToFile:
+                                    var pageData = generalActions.DesktopSession.PageSource;
+                                    didpass = XmlHandling.SaveXmlToFile(pageData, c.FilePath, out errOut);
+                                    if (errOut.Length > 0)
+                                        throw new Exception($"Was Not able to Save Page Source Dump to file {c.FilePath}{Environment.NewLine}{errOut}");
+                                    msg += $"Was Able to Dump Page Source File {c.FilePath}";
                                     break;
                                 case MyAction.GetFocusNewWindow:
                                     if (!generalActions.FocusOnNewWindow(out errOut))

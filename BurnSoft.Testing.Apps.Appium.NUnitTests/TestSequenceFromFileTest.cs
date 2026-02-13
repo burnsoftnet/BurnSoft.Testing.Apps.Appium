@@ -109,28 +109,30 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         /// <summary>
         /// MGCs the adjustment.
         /// </summary>
+        /// <param name="testFile">The original test file.</param>
         /// <param name="newfile">The newfile.</param>
-        private void MGCAdjustment(string newfile)
+        private void MGCAdjustment(string testFile, string newfile)
         {
-            string testFile = "c:\\test\\AddSimpleTest.json";
             List<BatchCommandList> org = JsonHandling.ConvertJsonToBatchCommand(testFile, out _errOut);
             List<BatchCommandList> newList = new List<BatchCommandList>();
-            newList.Add(new BatchCommandList()
-            {
-                TestName = "Sleep to Allow app to load",
-                Actions = GeneralActions.MyAction.Sleep,
-                CommandAction = GeneralActions.AppAction.Nothing,
-                ElementName = "",
-                SleepInterval = 10000,
-            });
+            string DumpLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data\\mgc\\mainDump.xml");
+            newList.AddRange(TestSequenceBuilder.DumpPageSourceToFile("Dump Main XML", DumpLocation));
+            //newList.Add(new BatchCommandList()
+            //{
+            //    TestName = "Sleep to Allow app to load",
+            //    Actions = GeneralActions.MyAction.Sleep,
+            //    CommandAction = GeneralActions.AppAction.Nothing,
+            //    ElementName = "",
+            //    SleepInterval = 10000,
+            //});
 
-            newList.Add(new BatchCommandList()
-            {
-                TestName = "Focus on New window",
-                Actions = GeneralActions.MyAction.GetFocusNewWindow,
-                CommandAction = GeneralActions.AppAction.Nothing,
-                ElementName = ""
-            });
+            //newList.Add(new BatchCommandList()
+            //{
+            //    TestName = "Focus on New window",
+            //    Actions = GeneralActions.MyAction.GetFocusNewWindow,
+            //    CommandAction = GeneralActions.AppAction.Nothing,
+            //    ElementName = ""
+            //});
             newList.AddRange(org);
             JsonHandling.ConvertTestSequenceToJsonFile(newList, newfile, out _errOut);
         }
@@ -143,9 +145,22 @@ namespace BurnSoft.Testing.Apps.Appium.NUnitTests
         public void RunTestMGC()
         {
             string aut = "C:\\Source\\Repos\\MyGunCollection\\BSMyGunCollection\\bin\\Debug\\BSMyGunCollection.exe";
-            //string testFile = "c:\\test\\AddSimpleTest.json";
-            string testFile = "c:\\test\\AddSimpleTestNew.json";
-            MGCAdjustment(testFile);
+            int useTestFile = 2;
+            string testFile = "";
+            switch (useTestFile)
+            {
+                case 1:
+                    testFile = Settings.Settings.MGCTestFile;
+                    break;
+                case 2:
+                    testFile = Settings.Settings.MGCTestFileShort;
+                    break;
+                case 3:
+                    testFile = Settings.Settings.MGCTestFileShort;
+                    MGCAdjustment(testFile, Settings.Settings.MGCTestFileNew);
+                    testFile = Settings.Settings.MGCTestFileNew;
+                    break;
+            }
             bool didPass = true;
             try
             {
